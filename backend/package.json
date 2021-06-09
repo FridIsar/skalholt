@@ -1,15 +1,41 @@
 {
-  "name": "backend",
+  "name": "skalholt",
   "version": "1.0.0",
-  "description": "",
+  "description": "Skalhólt project backend architecture",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon ./src/app.js",
+    "lint": "eslint ./src --fix",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test-watch": "node --experimental-vm-modules node_modules/.bin/jest --watch"
   },
-  "keywords": [],
+    "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "psql": "^0.0.1"
+    "bcrypt": "^5.0.1",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.11.1",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.2",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "pg": "^8.6.0",
+    "xss": "^1.0.9"
+  },
+  "devDependencies": {
+    "@jest/globals": "^27.0.3",
+    "concurrently": "^6.2.0",
+    "eslint": "^7.28.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "form-data": "^4.0.0",
+    "jest": "^27.0.4",
+    "jest-progress-bar-reporter": "^1.0.21",
+    "jest-slow-test-reporter": "^1.0.0",
+    "node-fetch": "^2.6.1",
+    "nodemon": "^2.0.7"
   }
 }
