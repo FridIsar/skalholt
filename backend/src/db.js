@@ -1,1 +1,1 @@
-// TODO: Database connections and definitions
+// TODO: Database stuff
