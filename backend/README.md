@@ -10,3 +10,9 @@
 * `/src/validation`, validator functions
 * `/src/app.js`, core express router
 * `/src/db.js`, database functions
+
+## To run the development project:
+
+* Create a local postgre database with `createdb`
+* Add the necessary environment variables in `.env` see: `.env.example`
+* Run `npm run dev` while in the `skalholt/backend` directory

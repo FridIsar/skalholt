@@ -1,0 +1,36 @@
+{
+  "years": {
+    "years": {
+      "href": "/year",
+      "methods": [
+        "GET"
+      ]
+    },
+    "year": {
+      "href": "/year/{id}",
+      "methods": [
+        "GET"
+      ]
+    },
+    "svg": {
+      "href": "/year/{id}.svg",
+      "methods": [
+        "GET"
+      ]
+    }
+  },
+  "buildings": {
+    "buildings": {
+      "href": "/year/{id}/buildings",
+      "methods": [
+        "GET"
+      ]
+    },
+    "building": {
+      "href": "/year/{id}/building/{number}",
+      "methods": [
+        "GET"
+      ]
+    }
+  }
+}
