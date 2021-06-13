@@ -2,19 +2,24 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 import express from 'express';
-import multer from 'multer';
 
-import { requireAuthentication, requireAdmin, addUserIfAuthenticated } from '../auth/passport.js';
+import { requireAdmin } from '../auth/passport.js';
 import { catchErrors } from '../utils/catchErrors.js';
 import { readFile } from '../utils/fileSystem.js';
 
 import {
-  listUser,
   listUsers,
+  listUser,
   updateUser,
 } from './users.js';
 
-// TODO: import rest of the routes, file handling for POST and PATCH routes
+import {
+  adminValidator,
+  validateResourceExists,
+} from '../validation/validators.js';
+import { validationCheck } from '../validation/helpers.js';
+
+// TODO: import routes, file handling for POST and PATCH routes
 
 export const router = express.Router();
 
@@ -29,3 +34,27 @@ router.get('/', async (req, res) => {
 });
 
 // TODO: define routes
+
+router.get(
+  '/users',
+  requireAdmin,
+  validationCheck,
+  listUsers,
+);
+
+router.get(
+  '/users/:id',
+  requireAdmin,
+  validateResourceExists(listUser),
+  validationCheck,
+  returnResource,
+);
+
+router.patch(
+  '/users/:id',
+  requireAdmin,
+  validateResourceExists(listUser),
+  adminValidator,
+  validationCheck,
+  catchErrors(updateUser),
+);

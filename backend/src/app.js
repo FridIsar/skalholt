@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 
 import { router as apiRouter } from './api/index.js';
-import { router as authRouter} from './auth/api.js';
+import { router as authRouter } from './auth/api.js';
 import passport from './auth/passport.js';
 import { cors } from './utils/cors.js';
 

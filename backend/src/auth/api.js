@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import { jwtOptions, requireAuthentication, tokenOptions } from './passport.js';
 import {
-  createUser, findById, findByUsername, updateUser,
+  createUser, findById, findByUsername, updateUser, // eslint-disable-line
 } from './users.js';
 
 import { catchErrors } from '../utils/catchErrors.js';
@@ -13,22 +13,12 @@ import {
   emailValidator,
   passwordValidator,
   usernameAndPaswordValidValidator,
-  usernameDoesNotExistValidator,
+  usernameDoesNotExistValidator, // eslint-disable-line
   usernameValidator,
 } from '../validation/validators.js';
 import { validationCheck } from '../validation/helpers.js';
 
 export const router = express.Router();
-
-async function registerRoute(req, res) {
-  const { username, email, password = '' } = req.body;
-
-  const result = await createUser(username, email, password);
-
-  delete result.password;
-
-  return res.status(201).json(result);
-}
 
 async function loginRoute(req, res) {
   const { username } = req.body;
@@ -84,15 +74,26 @@ async function updateCurrentUserRoute(req, res) {
   return res.status(200).json(result);
 }
 
-router.post(
-  '/users/register',
-  usernameValidator,
-  emailValidator,
-  passwordValidator,
-  usernameDoesNotExistValidator,
-  validationCheck,
-  catchErrors(registerRoute),
-);
+// Registration routes, do not necessarily want these enabled
+//
+//
+// async function registerRoute(req, res) {
+//   const { username, email, password = '' } = req.body;
+//   const result = await createUser(username, email, password);
+//   delete result.password;
+//
+//   return res.status(201).json(result);
+// }
+//
+// router.post(
+//   '/users/register',
+//   usernameValidator,
+//   emailValidator,
+//   passwordValidator,
+//   usernameDoesNotExistValidator,
+//   validationCheck,
+//   catchErrors(registerRoute),
+// );
 
 router.post(
   '/users/login',

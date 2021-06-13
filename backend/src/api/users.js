@@ -20,7 +20,7 @@ export async function listUser(userId) {
   return user;
 }
 
-export async function listUsers() {
+export async function listUsers(_req, res) {
   const users = await singleQuery(
     `
       SELECT
@@ -35,7 +35,7 @@ export async function listUsers() {
     return null;
   }
 
-  return users;
+  return res.json(users);
 }
 
 export async function updateUser(req, res) {

@@ -3,5 +3,5 @@ DROP TABLE IF EXISTS building_periods;
 DROP TABLE IF EXISTS building_points;
 DROP TABLE IF EXISTS finds;
 DROP TABLE IF EXISTS rooms;
-DROP TABLE IF EXISTS buildings;
+DROP TABLE IF EXISTS buildings;;
 DROP TABLE IF EXISTS year_periods;

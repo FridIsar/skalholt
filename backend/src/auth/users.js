@@ -10,7 +10,7 @@ import { isString, isInt } from '../utils/typeChecking.js';
 dotenv.config();
 
 const {
-  BCRYPT_ROUNDS: bcryptRounds = 1,
+  BCRYPT_ROUNDS: bcryptRounds = 12,
 } = process.env;
 
 export async function createUser(username, email, password) {

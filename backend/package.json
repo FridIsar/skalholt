@@ -9,7 +9,7 @@
     "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "test-watch": "node --experimental-vm-modules node_modules/.bin/jest --watch"
   },
-    "keywords": [],
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {

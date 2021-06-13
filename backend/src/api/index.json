@@ -32,5 +32,33 @@
         "GET"
       ]
     }
+  },
+  "users": {
+    "users": {
+      "href": "/users",
+      "methods": [
+        "GET"
+      ]
+    },
+    "user": {
+      "href": "/users/{id}",
+      "methods": [
+        "GET",
+        "PATCH"
+      ]
+    },
+    "login": {
+      "href": "/users/login",
+      "methods": [
+        "POST"
+      ]
+    },
+    "me": {
+      "href": "/users/me",
+      "methods": [
+        "GET",
+        "PATCH"
+      ]
+    }
   }
 }
