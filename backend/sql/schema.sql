@@ -2,27 +2,27 @@ CREATE TABLE year_periods (
   id SERIAL PRIMARY KEY,
   start_date INTEGER NOT NULL,
   end_date INTEGER NOT NULL,
-  svg VARCHAR(255)
+  svg VARCHAR(256)
 );
 
 CREATE TABLE buildings (
   id SERIAL PRIMARY KEY,
   phase VARCHAR(128) NOT NULL,
   attribution VARCHAR(128),
-  description VARCHAR(258)
+  description VARCHAR(256)
 );
 
 CREATE TABLE rooms (
   id SERIAL PRIMARY KEY,
   "number" INTEGER NOT NULL,
-  description VARCHAR(258),
+  description VARCHAR(256),
   building_id INTEGER NOT NULL,
   CONSTRAINT FK_rooms_building FOREIGN KEY (building_id) REFERENCES buildings (id) ON DELETE CASCADE
 );
 
 CREATE TABLE finds (
   id SERIAL PRIMARY KEY,
-  description VARCHAR(258),
+  description VARCHAR(256),
   building_id INTEGER NOT NULL,
   CONSTRAINT FK_finds_building FOREIGN KEY (building_id) REFERENCES buildings (id) ON DELETE CASCADE
 );

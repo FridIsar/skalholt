@@ -1,5 +1,6 @@
 -- Test admin account
 -- Password needs to be adjusted according to bcrypt cycles
+-- Password is 1234567890
 
 INSERT INTO
   users (username, email, password, admin)
