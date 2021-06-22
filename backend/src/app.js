@@ -5,8 +5,10 @@ import { router as apiRouter } from './api/index.js';
 import { router as authRouter } from './auth/api.js';
 import passport from './auth/passport.js';
 import { cors } from './utils/cors.js';
+import requireEnv from './utils/requireEnv.js';
 
 dotenv.config();
+requireEnv(['DATABASE_URL', 'JWT_SECRET']);
 
 const {
   PORT: port = 3000,

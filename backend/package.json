@@ -2,12 +2,12 @@
   "name": "skalholt",
   "version": "1.0.0",
   "description": "Skalhólt project backend architecture",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "start": "node ./src/app.js",
     "dev": "nodemon ./src/app.js",
     "lint": "eslint ./src --fix",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest",
-    "test-watch": "node --experimental-vm-modules node_modules/.bin/jest --watch"
+    "setup": "node ./src/setup.js"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +23,7 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "pg": "^8.6.0",
+    "pg-format": "^1.0.4",
     "xss": "^1.0.9"
   },
   "devDependencies": {
