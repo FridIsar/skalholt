@@ -6,7 +6,6 @@ export function validationCheck(req, res, next) {
   if (!validation.isEmpty()) {
     const notFoundError = validation.errors.find((error) => error.msg === 'not found');
     const serverError = validation.errors.find((error) => error.msg === 'server error');
-
     const loginError = validation.errors.find((error) => error.msg === 'username or password incorrect');
 
     let status = 400;

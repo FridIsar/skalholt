@@ -8,15 +8,9 @@ CREATE TABLE buildings (
   id SERIAL PRIMARY KEY,
   path VARCHAR(8192),
   description VARCHAR(512),
+  english VARCHAR(64),
+  icelandic VARCHAR(64),
   svg_uri VARCHAR(128)
-);
-
-CREATE TABLE building_attributions (
-  building INTEGER,
-  language VARCHAR(2) NOT NULL,
-  attribution VARCHAR(64) NOT NULL,
-  PRIMARY KEY (building, language),
-  CONSTRAINT FK_buildingAttribution_building FOREIGN KEY (building) REFERENCES buildings (id) ON DELETE CASCADE
 );
 
 CREATE TABLE building_years (

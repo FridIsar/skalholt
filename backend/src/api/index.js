@@ -20,6 +20,15 @@ import {
 import { validationCheck } from '../validation/helpers.js';
 
 // TODO: import routes, file handling for POST and PATCH routes
+import {
+  listYears,
+  listYear,
+} from './years.js';
+
+import {
+  listBuildings,
+  listBuilding,
+} from './buildings.js';
 
 export const router = express.Router();
 
@@ -34,6 +43,29 @@ router.get('/', async (req, res) => {
 });
 
 // TODO: define routes
+router.get(
+  '/years',
+  validationCheck,
+  catchErrors(listYears),
+);
+
+router.get(
+  '/years/:yearId',
+  validationCheck,
+  catchErrors(listYear),
+);
+
+router.get(
+  '/years/:yearId/buildings',
+  validationCheck,
+  catchErrors(listBuildings),
+);
+
+router.get(
+  '/years/:yearId/buildings/:buildingId',
+  validationCheck,
+  catchErrors(listBuilding),
+);
 
 router.get(
   '/users',

@@ -2,7 +2,7 @@
 import csv from 'csv-parser';
 import fs from 'fs';
 
-import { query } from './db.js';
+import { query, singleQuery } from './db.js';
 
 const YEARS_SVG_ROUTE = '/years/';
 
@@ -38,7 +38,7 @@ async function importYear(year) {
 }
 
 async function importBuildingYear(year, building) {
-  const yearId = await query(
+  const yearId = await singleQuery(
     'SELECT id FROM years WHERE year = $1', [year],
   );
 
@@ -49,7 +49,7 @@ async function importBuildingYear(year, building) {
     VALUES
       ($1, $2)`;
 
-  const values = [yearId.rows[0].id, building];
+  const values = [yearId.id, building];
 
   query(q, values);
 }
@@ -63,55 +63,34 @@ async function importBuildingYears(start, end, id) {
   }
 }
 
-async function importBuildingAttribution(lang, attribution, id) {
-  const q = `
-  INSERT INTO
-    building_attributions
-    (building, language, attribution)
-  VALUES
-    ($1, $2, $3)`;
-
-  const values = [
-    id,
-    lang,
-    attribution,
-  ];
-
-  query(q, values);
-}
-
-async function importBuildingAttributions(building, currentBuilding) {
-  if (building.en) await importBuildingAttribution('en', building.en, currentBuilding);
-  if (building.is) await importBuildingAttribution('is', building.is, currentBuilding);
-}
-
 async function importBuilding(building) {
-  const getLast = await query(
+  const getLast = await singleQuery(
     'SELECT max(id) FROM buildings',
   );
 
-  const lastBuilding = getLast.rows[0].max;
+  const lastBuilding = getLast.max;
 
   const currentBuilding = lastBuilding ? lastBuilding + 1 : 1;
 
   const q = `
     INSERT INTO
       buildings
-      (path, description, svg_uri)
+      (path, description, english, icelandic, svg_uri)
     VALUES
-      ($1, $2, $3)`;
+      ($1, $2, $3, $4, $5)`;
 
   const svgRoute = `${YEARS_SVG_ROUTE}${building.start}/buildings/${currentBuilding}.svg`;
 
   const values = [
     building.path || null,
     building.description || null,
+    building.en || null,
+    building.is || null,
     svgRoute,
   ];
 
   await query(q, values);
   await importBuildingYears(building.start, building.end, currentBuilding);
-  await importBuildingAttributions(building, currentBuilding);
 }
 
 export async function importData() {
