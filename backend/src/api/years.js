@@ -1,3 +1,8 @@
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+import { isInt } from '../utils/typeChecking.js';
+import { exists } from '../utils/fileSystem.js';
 import {
   query,
   singleQuery,
@@ -18,9 +23,7 @@ export async function listYears(_req, res) {
   return res.json(years.rows);
 }
 
-export async function listYear(req, res) {
-  const { yearId: id } = req.params;
-
+async function yearDetails(id) {
   const year = await singleQuery(
     `SELECT
       id,
@@ -37,5 +40,24 @@ export async function listYear(req, res) {
     return null;
   }
 
-  return res.json(year);
+  return year;
+}
+
+export async function listYear(req, res) {
+  const { yearId: id } = req.params;
+
+  if (isInt(id)) {
+    const data = await yearDetails(id);
+    return res.json(data);
+  }
+
+  const path = dirname(fileURLToPath(import.meta.url));
+  const svgExists = await exists(join(path, `../../data/svg/years/${id}`));
+
+  if (svgExists) {
+    res.setHeader('Content-Type', 'image/svg+xml');
+    return res.sendFile(join(path, `../../data/svg/years/${id}`));
+  }
+
+  return null;
 }
