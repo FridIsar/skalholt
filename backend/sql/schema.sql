@@ -1,13 +1,13 @@
 CREATE TABLE years (
-  id SERIAL PRIMARY KEY,
-  year INTEGER NOT NULL,
+  year INTEGER PRIMARY KEY,
   svg_uri VARCHAR(128)
 );
 
 CREATE TABLE buildings (
   id SERIAL PRIMARY KEY,
+  phase VARCHAR(8) NOT NULL UNIQUE,
   path VARCHAR(8192),
-  description VARCHAR(512),
+  description VARCHAR(4096),
   english VARCHAR(64),
   icelandic VARCHAR(64),
   svg_uri VARCHAR(128)
@@ -16,7 +16,7 @@ CREATE TABLE buildings (
 CREATE TABLE building_years (
   year INTEGER NOT NULL,
   building INTEGER NOT NULL,
-  CONSTRAINT FK_buildingYears_year FOREIGN KEY (year) REFERENCES years (id) ON DELETE CASCADE,
+  CONSTRAINT FK_buildingYears_year FOREIGN KEY (year) REFERENCES years (year) ON DELETE CASCADE,
   CONSTRAINT FK_buildingYears_building FOREIGN KEY (building) REFERENCES buildings (id) ON DELETE CASCADE
 );
 

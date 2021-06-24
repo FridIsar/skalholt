@@ -6,7 +6,8 @@ import {
   stat as fsStat,
   readdir as fsReadDir,
 } from 'fs/promises'; // eslint-disable-line import/no-unresolved
-import { constants } from 'fs';
+import fs from 'fs';
+import csv from 'csv-parser';
 
 export async function stat(file) {
   let result = null;
@@ -21,7 +22,7 @@ export async function stat(file) {
 export async function exists(file) {
   let ok = true;
   try {
-    await access(file, constants.F_OK);
+    await access(file, fs.constants.F_OK);
   } catch (e) {
     ok = false;
   }
@@ -31,7 +32,7 @@ export async function exists(file) {
 export async function isReadable(dir) {
   let readable = true;
   try {
-    await access(dir, constants.R_OK);
+    await access(dir, fs.constants.R_OK);
   } catch (e) {
     readable = false;
   }
@@ -68,7 +69,7 @@ export async function writeFile(
 export async function isWriteable(dir) {
   let writeable = true;
   try {
-    await access(dir, constants.W_OK);
+    await access(dir, fs.constants.W_OK);
   } catch (e) {
     writeable = false;
   }
@@ -91,4 +92,19 @@ export async function readDir(dir) {
     // unused
   }
   return results;
+}
+
+export async function readStream(file) {
+  const data = [];
+  return new Promise((resolve, reject) => {
+    fs.createReadStream(file)
+      .pipe(csv())
+      .on('error', (error) => {
+        reject(error);
+      })
+      .on('data', (item) => data.push(item))
+      .on('end', () => {
+        resolve(data);
+      });
+  });
 }
