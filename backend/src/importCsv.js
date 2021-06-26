@@ -9,7 +9,7 @@ async function importYear(year) {
   const q = `
     INSERT INTO
       years
-      (year, svg_uri)
+      (id, svg_uri)
     VALUES
       ($1, $2)`;
 

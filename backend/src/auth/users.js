@@ -4,10 +4,10 @@ import dotenv from 'dotenv';
 
 import { conditionalUpdate, query } from '../db.js';
 import { isString, isInt } from '../utils/typeChecking.js';
-
-// TODO: logging, variable bcrypt cycles from the environment
+import { logger } from '../utils/logger.js';
 
 dotenv.config();
+// Default to 12 instead of forcing env
 
 const {
   BCRYPT_ROUNDS: bcryptRounds = 12,
@@ -47,9 +47,9 @@ export async function findByUsername(username) {
     if (result.rowCount === 1) {
       return result.rows[0];
     }
-  } catch (e) {
-    // TODO: log error
-    console.error(e);
+  } catch (err) {
+    logger.error('Unable to find user by username', username);
+    console.error(err);
     return null;
   }
 
@@ -65,9 +65,9 @@ export async function findByEmail(email) {
     if (result.rowCount === 1) {
       return result.rows[0];
     }
-  } catch (e) {
-    // TODO: log error
-    console.error(e);
+  } catch (err) {
+    logger.error('Unable to find user by email', email);
+    console.error(err);
     return null;
   }
 
@@ -83,8 +83,9 @@ export async function findById(id) {
     if (result.rowCount === 1) {
       return result.rows[0];
     }
-  } catch (e) {
-    console.error('Unable to query user by id');
+  } catch (err) {
+    logger.error('Unable to find user by id', id);
+    console.error(err);
   }
 
   return null;

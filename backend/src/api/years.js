@@ -13,7 +13,7 @@ import {
 export async function listYears(_req, res) {
   const years = await query(
     `SELECT
-      year
+      id AS year
     FROM
       years
     ORDER BY year ASC`,
@@ -26,12 +26,12 @@ export async function listYears(_req, res) {
 async function yearDetails(id) {
   const year = await singleQuery(
     `SELECT
-      year,
+      id AS year,
       svg_uri
     FROM
       years
     WHERE
-      year = $1`,
+      id = $1`,
     [id],
   );
 

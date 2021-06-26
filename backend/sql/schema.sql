@@ -1,5 +1,5 @@
 CREATE TABLE years (
-  year INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY,
   svg_uri VARCHAR(128)
 );
 
@@ -16,7 +16,7 @@ CREATE TABLE buildings (
 CREATE TABLE building_years (
   year INTEGER NOT NULL,
   building INTEGER NOT NULL,
-  CONSTRAINT FK_buildingYears_year FOREIGN KEY (year) REFERENCES years (year) ON DELETE CASCADE,
+  CONSTRAINT FK_buildingYears_year FOREIGN KEY (year) REFERENCES years (id) ON DELETE CASCADE,
   CONSTRAINT FK_buildingYears_building FOREIGN KEY (building) REFERENCES buildings (id) ON DELETE CASCADE
 );
 

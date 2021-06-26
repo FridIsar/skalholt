@@ -1,5 +1,7 @@
 import { validationResult } from 'express-validator';
 
+import { logger } from '../utils/logger.js';
+
 export function validationCheck(req, res, next) {
   const validation = validationResult(req);
 
@@ -35,11 +37,12 @@ export function resourceExists(fn) {
       req.resource = resource;
       return Promise.resolve();
     })
-    .catch((error) => {
-      if (error.message === 'not found') {
-        return Promise.reject(error);
+    .catch((err) => {
+      if (err.message === 'not found') {
+        return Promise.reject(err);
       }
 
+      logger.warn('Middleware error:', err);
       return Promise.reject(new Error('server error'));
     });
 }

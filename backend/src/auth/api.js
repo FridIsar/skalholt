@@ -5,7 +5,6 @@ import { jwtOptions, requireAuthentication, tokenOptions } from './passport.js';
 import {
   createUser, findById, findByUsername, updateUser, // eslint-disable-line
 } from './users.js';
-
 import { catchErrors } from '../utils/catchErrors.js';
 import {
   atLeastOneBodyValueValidator,
@@ -17,6 +16,7 @@ import {
   usernameValidator,
 } from '../validation/validators.js';
 import { validationCheck } from '../validation/helpers.js';
+import { logger } from '../utils/logger.js';
 
 export const router = express.Router();
 
@@ -26,6 +26,7 @@ async function loginRoute(req, res) {
   const user = await findByUsername(username);
 
   if (!user) {
+    logger.error('User not found:', username);
     return res.status(500).json({});
   }
 
@@ -60,6 +61,7 @@ async function updateCurrentUserRoute(req, res) {
   const user = await findById(id);
 
   if (!user) {
+    logger.error('Unable to update user:', id);
     return res.status(500).json(null);
   }
 

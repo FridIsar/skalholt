@@ -1,4 +1,5 @@
 import { singleQuery } from '../db.js';
+import { logger } from '../utils/logger.js';
 
 export async function listUser(userId) {
   const user = await singleQuery(
@@ -57,8 +58,8 @@ export async function updateUser(req, res) {
       [admin, userId],
     );
     return res.status(200).json(updatedUser);
-  } catch (e) {
-    // TODO: error logging
+  } catch (err) {
+    logger.error('Unable to update user', err);
   }
 
   return res.status(500).json(null);
