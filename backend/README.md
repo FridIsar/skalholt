@@ -1,6 +1,6 @@
 # Skalhólt web-portal backend
 
-## To run the development project:
+## To run the backend:
 ```
 createdb skalholt
 # Update .env, see .env.environment
