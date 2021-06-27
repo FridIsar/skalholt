@@ -94,6 +94,12 @@ export async function readDir(dir) {
   return results;
 }
 
+export async function removeDir(dir) {
+  fs.rm(dir, { recursive: true }, (err) => {
+    console.error(err);
+  });
+}
+
 export async function readStream(file) {
   const data = [];
   return new Promise((resolve, reject) => {

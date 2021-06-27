@@ -6,6 +6,7 @@ import express from 'express';
 import { requireAdmin } from '../auth/passport.js';
 import { catchErrors } from '../utils/catchErrors.js';
 import { readFile } from '../utils/fileSystem.js';
+import withMulter from '../utils/withMulter.js';
 
 import {
   listUsers,
@@ -16,13 +17,18 @@ import {
 import {
   adminValidator,
   validateResourceExists,
+  yearValidators,
+  yearIdValidator,
+  atLeastOneBodyValueValidator,
 } from '../validation/validators.js';
 import { validationCheck } from '../validation/helpers.js';
 
-// TODO: import routes, file handling for POST and PATCH routes
 import {
   listYears,
   listYear,
+  createYear,
+  updateYear,
+  deleteYear,
 } from './years.js';
 
 import {
@@ -42,17 +48,43 @@ router.get('/', async (req, res) => {
   res.json(JSON.parse(indexJson));
 });
 
-// TODO: define routes
 router.get(
   '/years',
   validationCheck,
   catchErrors(listYears),
 );
 
+router.post(
+  '/years/',
+  requireAdmin,
+  withMulter,
+  yearValidators,
+  validationCheck,
+  catchErrors(createYear),
+);
+
 router.get(
   '/years/:yearId',
   validationCheck,
   catchErrors(listYear),
+);
+
+router.patch(
+  '/years/:yearId',
+  requireAdmin,
+  withMulter,
+  atLeastOneBodyValueValidator(['year', 'image']),
+  yearValidators,
+  validationCheck,
+  catchErrors(updateYear),
+);
+
+router.delete(
+  '/years/:yearId',
+  requireAdmin,
+  yearIdValidator,
+  validationCheck,
+  catchErrors(deleteYear),
 );
 
 router.get(

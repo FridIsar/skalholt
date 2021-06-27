@@ -1,23 +1,20 @@
 CREATE TABLE years (
-  id INTEGER PRIMARY KEY,
-  svg_uri VARCHAR(128)
+  year INTEGER PRIMARY KEY,
+  image VARCHAR(128)
 );
 
 CREATE TABLE buildings (
   id SERIAL PRIMARY KEY,
   phase VARCHAR(8) NOT NULL UNIQUE,
+  start_year SMALLINT NOT NULL,
+  end_year SMALLINT NOT NULL,
   path VARCHAR(8192),
   description VARCHAR(4096),
   english VARCHAR(64),
   icelandic VARCHAR(64),
-  svg_uri VARCHAR(128)
-);
-
-CREATE TABLE building_years (
-  year INTEGER NOT NULL,
-  building INTEGER NOT NULL,
-  CONSTRAINT FK_buildingYears_year FOREIGN KEY (year) REFERENCES years (id) ON DELETE CASCADE,
-  CONSTRAINT FK_buildingYears_building FOREIGN KEY (building) REFERENCES buildings (id) ON DELETE CASCADE
+  image VARCHAR(128),
+  CONSTRAINT FK_buildingYears_start FOREIGN KEY (start_year) REFERENCES years (year) ON DELETE CASCADE,
+  CONSTRAINT FK_buildingYears_end FOREIGN KEY (end_year) REFERENCES years (year) ON DELETE CASCADE
 );
 
 CREATE TABLE rooms (

@@ -10,18 +10,11 @@ export async function listBuildings(req, res) {
 
   const buildings = await query(
     `SELECT
-      id, path, english AS en, icelandic AS is
+      id, path, start_year AS start, end_year AS end, english AS en, icelandic AS is
     FROM
       buildings
     WHERE
-      id IN (
-        SELECT
-          building_years.building
-        FROM
-          building_years
-        WHERE
-          building_years.year = $1
-      )`,
+      $1 >= start_year AND $1 < end_year;`,
     [id],
   );
 
@@ -37,21 +30,13 @@ export async function listBuilding(req, res) {
 
   const building = await singleQuery(
     `SELECT
-      id, description, english AS en, icelandic AS is, svg_uri
+      id, description, english AS en, icelandic AS is, image
     FROM
       buildings
     WHERE
       id = $1
     AND
-      id IN (
-        SELECT
-          building_years.building
-        FROM
-          building_years
-        WHERE
-          building_years.year = $2
-      )
-    `,
+      $2 >= start_year AND $2 < end_year;`,
     [buildingNumber, yearId],
   );
 

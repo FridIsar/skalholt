@@ -3,17 +3,20 @@
     "years": {
       "href": "/years",
       "methods": [
-        "GET"
+        "GET",
+        "POST"
       ]
     },
     "year": {
-      "href": "/years/{id}",
+      "href": "/years/{year}",
       "methods": [
-        "GET"
+        "GET",
+        "PATCH",
+        "DELETE"
       ]
     },
     "svg": {
-      "href": "/years/{id}.svg",
+      "href": "/years/{year}.svg",
       "methods": [
         "GET"
       ]
@@ -21,19 +24,19 @@
   },
   "buildings": {
     "buildings": {
-      "href": "/years/{id}/buildings",
+      "href": "/years/{year}/buildings",
       "methods": [
         "GET"
       ]
     },
     "building": {
-      "href": "/years/{id}/buildings/{number}",
+      "href": "/years/{year}/buildings/{id}",
       "methods": [
         "GET"
       ]
     },
     "svg": {
-      "href": "/years/{id}/buildings/{number}.svg",
+      "href": "/years/{year}/buildings/{id}.svg",
       "methods": [
         "GET"
       ]

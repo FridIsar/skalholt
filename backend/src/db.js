@@ -6,6 +6,7 @@ import xss from 'xss';
 import { logger } from './utils/logger.js';
 import configureSvg from './utils/configureSvg.js';
 import requireEnv from './utils/requireEnv.js';
+import { yearToNextDecade, yearToPreviousDecade } from './utils/decadeHelpers.js';
 
 dotenv.config();
 requireEnv(['DATABASE_URL']);
@@ -26,8 +27,8 @@ pool.on('error', (err) => {
 /**
  * Year
  * @typedef {Object} Year
- * @property {number} id - The number of the year
- * @property {string | null} svg_uri Route for the background svg if defined
+ * @property {number} year - The number of the year
+ * @property {string | null} image - Route for the background svg if defined
  */
 
 /**
@@ -35,11 +36,21 @@ pool.on('error', (err) => {
  * @typedef {Object} Building
  * @property {number} id - ID of the building
  * @property {string} phase - Phase reference of the building
+ * @property {number} start_year - Year that the building starts appearing
+ * @property {number} end_year - Year that the building stops appearing
  * @property {string | null} path - Path to draw relative to the year background if defined
  * @property {string | null} description - Description text of the building if defined
  * @property {string | null} english - English building attribution if defined
  * @property {string | null} icelandic - Icelandic building attribution if defined
- * @property {string | null} svg_uri - Route for the building background if defined
+ * @property {string | null} image - Route for the building background if defined
+ */
+
+/**
+ * Find
+ * @typedef {Object} Find
+ * @property {number} id - ID of the find
+ * @property {number} building - ID of the building that the find belongs to
+ * @property {string | null} description - Description text of the find if defined
  */
 
 export async function query(_query, values = []) {
@@ -73,7 +84,7 @@ export async function end() {
   await pool.end();
 }
 
-export async function conditionalUpdate(table, id, fields, values) {
+export async function conditionalUpdate(table, key, id, fields, values) {
   const filteredFields = fields.filter((i) => typeof i === 'string');
   const filteredValues = values
     .filter((i) => typeof i === 'string'
@@ -88,14 +99,13 @@ export async function conditionalUpdate(table, id, fields, values) {
     throw new Error('fields and values must be of equal length');
   }
 
-  // id is field = 1
   const updates = filteredFields.map((field, i) => `${field} = $${i + 2}`);
 
   const q = `
     UPDATE ${table}
       SET ${updates.join(', ')}
     WHERE
-      id = $1
+      ${key} = $1
     RETURNING *
     `;
 
@@ -109,23 +119,21 @@ export async function conditionalUpdate(table, id, fields, values) {
 }
 
 export async function insertYear({
-  id,
+  year,
   svg,
 }) {
-  const miniSvg = await configureSvg(svg, id, '/years/');
-
   const q = `
     INSERT INTO
       years
-      (id, svg_uri)
+      (year, image)
     VALUES
       ($1, $2)
     RETURNING
-      id AS year, svg_uri
+      year, image
   ;`;
   const values = [
-    xss(id),
-    miniSvg ? xss(miniSvg) : null,
+    xss(year),
+    svg ? xss(svg) : null,
   ];
 
   try {
@@ -145,38 +153,16 @@ async function buildingSvg(id, svg, start) {
     `UPDATE
       buildings
     SET
-      svg_uri = $1
+      image = $1
     WHERE
       id = $2`, [miniSvg, id],
   );
 }
 
-async function importBuildingYear(year, building) {
-  const q = `
-    INSERT INTO
-      building_years
-      (year, building)
-    VALUES
-      ($1, $2)`;
-
-  const values = [year, building];
-
-  query(q, values);
-}
-
-async function insertBuildingYears(start, e, id) {
-  const startDate = (Math.ceil((parseInt(start, 10)) / 10) * 10);
-  const endDate = (Math.ceil(((parseInt(e, 10)) - 10) / 10) * 10);
-
-  for (let i = startDate; i < endDate; i += 10) {
-    await importBuildingYear(i, id);
-  }
-}
-
 export async function insertBuilding({
-  start,
-  e,
   phase,
+  startYear,
+  endYear,
   path,
   description,
   english,
@@ -186,14 +172,37 @@ export async function insertBuilding({
   const q = `
     INSERT INTO
       buildings
-      (phase, path, description, english, icelandic, svg_uri)
+      (
+        phase,
+        start_year,
+        end_year,
+        path,
+        description,
+        english,
+        icelandic,
+        image
+      )
     VALUES
-      ($1, $2, $3, $4, $5, $6)
+      (
+        $1,
+        $2,
+        $3,
+        $4,
+        $5,
+        $6,
+        $7,
+        $8
+      )
     RETURNING
-      id, english, icelandic
+      id, start_year AS start, end_year AS end, english AS en, icelandic AS is
     ;`;
+
+  const start = yearToPreviousDecade(startYear);
+
   const values = [
     xss(phase),
+    xss(start),
+    xss(yearToNextDecade(endYear)),
     path ? xss(path) : null,
     description ? xss(description) : null,
     english ? xss(english) : null,
@@ -205,7 +214,6 @@ export async function insertBuilding({
     const result = await query(q, values);
 
     const { id } = result.rows[0];
-    await insertBuildingYears(start, e, id);
     await buildingSvg(id, svg, start);
 
     return result.rows[0];

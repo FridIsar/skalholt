@@ -1,9 +1,19 @@
 import path from 'path';
+import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { optimize } from 'svgo';
 
-import { writeFile, readFile, exists } from './fileSystem.js';
+import { writeFile, readFile, removeDir } from './fileSystem.js';
 import { logger } from './logger.js';
+
+import requireEnv from './requireEnv.js';
+
+dotenv.config();
+requireEnv(['MULTER_TEMP_DIR']);
+
+const {
+  MULTER_TEMP_DIR: multerDir = './temp',
+} = process.env;
 
 const config = {
   plugins: [
@@ -45,19 +55,17 @@ const config = {
 };
 
 export default async function configureSvg(svg, id, type) {
-  const currPath = path.dirname(fileURLToPath(import.meta.url));
-  let tempPath = `../../temp/${svg}`;
-  const svgExists = await exists(path.join(currPath, tempPath));
-
-  if (svgExists) {
+  if (svg) {
     try {
-      tempPath = path.join(currPath, tempPath);
-
-      const data = await readFile(tempPath);
-      const result = optimize(data, { path: tempPath, ...config });
+      const data = await readFile(svg);
+      const result = optimize(data, { path: svg, ...config });
 
       const newPath = type.includes('/years') ? `../../data/svg/years/${id}.svg` : `../../data/svg/buildings/${id}.svg`;
+
+      const currPath = path.dirname(fileURLToPath(import.meta.url));
       await writeFile(path.join(currPath, newPath), result.data);
+
+      removeDir(multerDir);
 
       return `${type}${id}.svg`;
     } catch (err) {

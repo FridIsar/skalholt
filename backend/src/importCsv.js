@@ -1,6 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import { query } from './db.js';
 import { readStream } from './utils/fileSystem.js';
+import { yearToPreviousDecade, yearToNextDecade } from './utils/decadeHelpers.js';
 
 const YEARS_SVG_ROUTE = '/years/';
 let currentBuilding = 1;
@@ -9,7 +10,7 @@ async function importYear(year) {
   const q = `
     INSERT INTO
       years
-      (id, svg_uri)
+      (year, image)
     VALUES
       ($1, $2)`;
 
@@ -21,40 +22,38 @@ async function importYear(year) {
   await query(q, values);
 }
 
-async function importBuildingYear(year, building) {
-  const q = `
-    INSERT INTO
-      building_years
-      (year, building)
-    VALUES
-      ($1, $2)`;
-
-  const values = [year, building];
-
-  query(q, values);
-}
-
-async function importBuildingYears(start, end) {
-  const startDate = (Math.ceil((parseInt(start, 10)) / 10) * 10);
-  const endDate = (Math.ceil(((parseInt(end, 10)) - 10) / 10) * 10);
-
-  for (let i = startDate; i < endDate; i += 10) {
-    await importBuildingYear(i, currentBuilding);
-  }
-}
-
 async function importBuilding(building) {
   const q = `
     INSERT INTO
       buildings
-      (phase, path, description, english, icelandic, svg_uri)
+      (
+        phase,
+        start_year,
+        end_year,
+        path,
+        description,
+        english,
+        icelandic,
+        image
+      )
     VALUES
-      ($1, $2, $3, $4, $5, $6)`;
+      (
+        $1,
+        $2,
+        $3,
+        $4,
+        $5,
+        $6,
+        $7,
+        $8
+      )`;
 
   const svgRoute = `${YEARS_SVG_ROUTE}${building.start}/buildings/${currentBuilding}.svg`;
 
   const values = [
     building.phase,
+    yearToPreviousDecade(building.start),
+    yearToNextDecade(building.end),
     building.path || null,
     building.description || null,
     building.en || null,
@@ -63,7 +62,6 @@ async function importBuilding(building) {
   ];
 
   await query(q, values);
-  await importBuildingYears(building.start, building.end);
 
   currentBuilding += 1;
 }

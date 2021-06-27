@@ -3,6 +3,7 @@ import { body, param } from 'express-validator';
 import { resourceExists } from './helpers.js';
 import { comparePasswords, findByEmail, findByUsername } from '../auth/users.js';
 import { LoginError } from '../errors.js';
+import { logger } from '../utils/logger.js';
 
 export function validateResourceExists(fetchResource) {
   return [
@@ -83,7 +84,7 @@ export const usernameAndPaswordValidValidator = body('username')
 
       valid = await comparePasswords(password, user.password);
     } catch (e) {
-      // TODO: log failed logins
+      logger.info(`Invalid login attempt for ${username}`);
     }
 
     if (!valid) {
@@ -136,3 +137,84 @@ export function atLeastOneBodyValueValidator(fields) {
       return Promise.resolve();
     });
 }
+
+export const idValidator = body('id')
+  .isInt({ min: 1 })
+  .withMessage('id must be an integer larger than 0');
+
+export const yearValidator = body('year')
+  .isInt({ min: 1670 })
+  .withMessage('year must be an integer of at least 1670');
+
+export const yearIdValidator = param('yearId')
+  .isInt({ min: 1670 })
+  .withMessage('yearId must be an integer of at least 1670');
+
+export const buildingIdValidator = param('buildingId')
+  .isInt({ min: 1 })
+  .withMessage('buildingId must be an integer larger than 0');
+
+function validateSvgMimetype(mimetype) {
+  return mimetype.toLowerCase() === 'image/svg+xml';
+}
+
+export const imageOptionalValidator = body('image')
+  .optional()
+  .custom(async (image, { req = {} }) => {
+    const { file: { path, mimetype } = {} } = req;
+
+    if (!path && !mimetype && req.method === 'PATCH') {
+      return Promise.resolve();
+    }
+
+    if (!path && !mimetype) {
+      return Promise.reject(new Error('image is required'));
+    }
+
+    if (!validateSvgMimetype(mimetype)) {
+      const error = `Mimetype ${mimetype} is not allowed. Only svg files are accepted`;
+      return Promise.reject(new Error(error));
+    }
+
+    return Promise.resolve();
+  });
+
+export const phaseValidator = body('phase')
+  .if(isPatchingAllowAsOptional)
+  .isLength({ min: 3, max: 8 })
+  .withMessage('phase is required, max 8 characters');
+
+export const pathValidator = body('path')
+  .if(isPatchingAllowAsOptional)
+  .isLength({ min: 1, max: 8192 })
+  .withMessage('path is required, max 8192 characters');
+
+export const descriptionOptionalValidator = body('description')
+  .optional()
+  .isString({ min: 0 })
+  .withMessage('description must be a string');
+
+export const icelandicOptionalValidator = body('icelandic')
+  .optional()
+  .isString({ min: 0 })
+  .withMessage('icelandic attribution must be a string');
+
+export const englishOptionalValidator = body('english')
+  .optional()
+  .isString({ min: 0 })
+  .withMessage('english attribution must be a string');
+
+export const yearValidators = [
+  yearValidator,
+  imageOptionalValidator,
+];
+
+export const buildingValidators = [
+  phaseValidator,
+  yearIdValidator,
+  pathValidator,
+  descriptionOptionalValidator,
+  englishOptionalValidator,
+  icelandicOptionalValidator,
+  imageOptionalValidator,
+];
