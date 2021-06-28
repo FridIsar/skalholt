@@ -35,7 +35,7 @@ async function buildingDetails(id, year) {
 
   const building = await singleQuery(
     `SELECT
-      id, description, english AS en, icelandic AS is, image
+      *
     FROM
       buildings
     WHERE
