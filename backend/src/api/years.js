@@ -2,13 +2,11 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import xss from 'xss';
 
-import { isInt } from '../utils/typeChecking.js';
 import { exists } from '../utils/fileSystem.js';
 import { logger } from '../utils/logger.js';
 import configureSvg from '../utils/configureSvg.js';
 import {
   query,
-  singleQuery,
   deleteQuery,
   conditionalUpdate,
   insertYear,
@@ -17,7 +15,8 @@ import {
 export async function listYears(_req, res) {
   const years = await query(
     `SELECT
-      year
+      year,
+      image
     FROM
       years
     ORDER BY year ASC`,
@@ -27,32 +26,8 @@ export async function listYears(_req, res) {
   return res.json(years.rows);
 }
 
-async function yearDetails(id) {
-  const year = await singleQuery(
-    `SELECT
-      year,
-      image
-    FROM
-      years
-    WHERE
-      year = $1`,
-    [id],
-  );
-
-  if (!year) {
-    return null;
-  }
-
-  return year;
-}
-
 export async function listYear(req, res) {
   const { yearId: id } = req.params;
-
-  if (isInt(id)) {
-    const data = await yearDetails(id);
-    if (data) return res.json(data);
-  }
 
   const path = dirname(fileURLToPath(import.meta.url));
   const svgExists = await exists(join(path, `../../data/svg/years/${id}`));
@@ -69,10 +44,9 @@ export async function createYear(req, res) {
   const {
     year,
   } = req.body;
+  const { file: { path: imagePath } = {} } = req;
 
   let svg = null;
-
-  const { file: { path: imagePath } = {} } = req;
 
   if (imagePath) {
     try {

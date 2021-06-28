@@ -65,8 +65,14 @@ export async function methodAndParse(method, path, data = null, token = null, im
 
   const result = await fetch(url, options);
 
+  let json = null;
+
+  if (!path.includes('.svg')) {
+    json = await result.json();
+  }
+
   return {
-    result: await result.json(),
+    result: json,
     status: result.status,
   };
 }
@@ -95,6 +101,22 @@ export async function loginAndReturnToken(data) {
   }
 
   return null;
+}
+
+export async function createRandomUserAndReturnWithToken() {
+  const rnd = randomValue();
+  const username = `user${rnd}`;
+  const email = `user${rnd}@example.org`;
+  const password = '1234567890';
+
+  const data = { username, password, email };
+  const { result } = await postAndParse('/users/register', data);
+  const token = await loginAndReturnToken({ username, password });
+
+  return {
+    user: result,
+    token,
+  };
 }
 
 export async function loginAsHardcodedAdminAndReturnToken() {

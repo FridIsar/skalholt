@@ -3,7 +3,10 @@ import jwt from 'jsonwebtoken';
 
 import { jwtOptions, requireAuthentication, tokenOptions } from './passport.js';
 import {
-  createUser, findById, findByUsername, updateUser, // eslint-disable-line
+  createUser,
+  findById,
+  findByUsername,
+  updateUser,
 } from './users.js';
 import { catchErrors } from '../utils/catchErrors.js';
 import {
@@ -12,7 +15,7 @@ import {
   emailValidator,
   passwordValidator,
   usernameAndPaswordValidValidator,
-  usernameDoesNotExistValidator, // eslint-disable-line
+  usernameDoesNotExistValidator,
   usernameValidator,
 } from '../validation/validators.js';
 import { validationCheck } from '../validation/helpers.js';
@@ -60,6 +63,8 @@ async function updateCurrentUserRoute(req, res) {
 
   const user = await findById(id);
 
+  console.log(user);
+
   if (!user) {
     logger.error('Unable to update user:', id);
     return res.status(500).json(null);
@@ -76,26 +81,23 @@ async function updateCurrentUserRoute(req, res) {
   return res.status(200).json(result);
 }
 
-// Registration routes, do not necessarily want these enabled
-//
-//
-// async function registerRoute(req, res) {
-//   const { username, email, password = '' } = req.body;
-//   const result = await createUser(username, email, password);
-//   delete result.password;
-//
-//   return res.status(201).json(result);
-// }
-//
-// router.post(
-//   '/users/register',
-//   usernameValidator,
-//   emailValidator,
-//   passwordValidator,
-//   usernameDoesNotExistValidator,
-//   validationCheck,
-//   catchErrors(registerRoute),
-// );
+async function registerRoute(req, res) {
+  const { username, email, password = '' } = req.body;
+  const result = await createUser(username, email, password);
+  delete result.password;
+
+  return res.status(201).json(result);
+}
+
+router.post(
+  '/users/register',
+  usernameValidator,
+  emailValidator,
+  passwordValidator,
+  usernameDoesNotExistValidator,
+  validationCheck,
+  catchErrors(registerRoute),
+);
 
 router.post(
   '/users/login',

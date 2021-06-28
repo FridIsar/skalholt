@@ -8,7 +8,7 @@ import requireEnv from './utils/requireEnv.js';
 dotenv.config();
 requireEnv(['DATABASE_URL']);
 
-async function main() {
+export async function setup() {
   try {
     const dropTables = await readFile('./sql/drop.sql');
     await query(dropTables);
@@ -43,6 +43,6 @@ async function main() {
   }
 }
 
-main().catch((err) => {
+setup().catch((err) => {
   console.error(err);
 });

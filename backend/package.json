@@ -8,7 +8,6 @@
     "dev": "nodemon ./src/app.js",
     "lint": "eslint ./src --fix",
     "test": "node --experimental-vm-modules node_modules/.bin/jest",
-    "test-watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
     "setup": "node ./src/setup.js"
   },
   "keywords": [],

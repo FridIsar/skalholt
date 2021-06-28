@@ -5,7 +5,7 @@ CREATE TABLE years (
 
 CREATE TABLE buildings (
   id SERIAL PRIMARY KEY,
-  phase VARCHAR(8) NOT NULL UNIQUE,
+  phase VARCHAR(32) NOT NULL UNIQUE,
   start_year SMALLINT NOT NULL,
   end_year SMALLINT NOT NULL,
   path VARCHAR(8192),

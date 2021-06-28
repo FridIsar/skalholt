@@ -60,7 +60,7 @@ export default async function configureSvg(svg, id, type) {
       const data = await readFile(svg);
       const result = optimize(data, { path: svg, ...config });
 
-      const newPath = type.includes('/years') ? `../../data/svg/years/${id}.svg` : `../../data/svg/buildings/${id}.svg`;
+      const newPath = type.includes('/buildings') ? `../../data/svg/buildings/${id}.svg` : `../../data/svg/years/${id}.svg`;
 
       const currPath = path.dirname(fileURLToPath(import.meta.url));
       await writeFile(path.join(currPath, newPath), result.data);

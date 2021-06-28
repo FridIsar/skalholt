@@ -181,11 +181,21 @@ export const imageOptionalValidator = body('image')
 
 export const phaseValidator = body('phase')
   .if(isPatchingAllowAsOptional)
-  .isLength({ min: 3, max: 8 })
-  .withMessage('phase is required, max 8 characters');
+  .isLength({ min: 3, max: 32 })
+  .withMessage('phase is required, max 32 characters');
 
-export const pathValidator = body('path')
+export const startValidator = body('start')
   .if(isPatchingAllowAsOptional)
+  .isInt({ min: 1670 })
+  .withMessage('start must be an integer of at least 1670');
+
+export const endValidator = body('end')
+  .if(isPatchingAllowAsOptional)
+  .isInt({ min: 1671 })
+  .withMessage('end must be an integer larger than 1670');
+
+export const pathOptionalValidator = body('path')
+  .optional()
   .isLength({ min: 1, max: 8192 })
   .withMessage('path is required, max 8192 characters');
 
@@ -194,12 +204,12 @@ export const descriptionOptionalValidator = body('description')
   .isString({ min: 0 })
   .withMessage('description must be a string');
 
-export const icelandicOptionalValidator = body('icelandic')
+export const icelandicOptionalValidator = body('is')
   .optional()
   .isString({ min: 0 })
   .withMessage('icelandic attribution must be a string');
 
-export const englishOptionalValidator = body('english')
+export const englishOptionalValidator = body('en')
   .optional()
   .isString({ min: 0 })
   .withMessage('english attribution must be a string');
@@ -210,9 +220,11 @@ export const yearValidators = [
 ];
 
 export const buildingValidators = [
-  phaseValidator,
   yearIdValidator,
-  pathValidator,
+  phaseValidator,
+  startValidator,
+  endValidator,
+  pathOptionalValidator,
   descriptionOptionalValidator,
   englishOptionalValidator,
   icelandicOptionalValidator,

@@ -1,4 +1,8 @@
-import { test, describe, expect } from '@jest/globals';
+import {
+  test,
+  describe,
+  expect,
+} from '@jest/globals';
 
 import { fetchAndParse } from './utils.js';
 
@@ -9,16 +13,14 @@ describe('years', () => {
     expect(result.length).toBeGreaterThanOrEqual(30);
   });
 
-  test('GET /years/1670 does exist', async () => {
-    const { result, status } = await fetchAndParse('/years/1670');
+  test('GET /years/1670.svg does exist', async () => {
+    const { status } = await fetchAndParse('/years/1670.svg');
 
     expect(status).toBe(200);
-    expect(result.year).toBe(1670);
-    expect(result.image).toBe('/years/1670.svg');
   });
 
-  test('GET /years/2010 does not exist', async () => {
-    const { status } = await fetchAndParse('/years/2010');
+  test('GET /years/9999.svg does not exist', async () => {
+    const { status } = await fetchAndParse('/years/9999.svg');
 
     expect(status).toBe(404);
   });

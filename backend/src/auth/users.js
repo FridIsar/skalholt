@@ -49,7 +49,6 @@ export async function findByUsername(username) {
     }
   } catch (err) {
     logger.error('Unable to find user by username', username);
-    console.error(err);
     return null;
   }
 
@@ -67,7 +66,6 @@ export async function findByEmail(email) {
     }
   } catch (err) {
     logger.error('Unable to find user by email', email);
-    console.error(err);
     return null;
   }
 
@@ -85,7 +83,6 @@ export async function findById(id) {
     }
   } catch (err) {
     logger.error('Unable to find user by id', id);
-    console.error(err);
   }
 
   return null;
@@ -112,7 +109,7 @@ export async function updateUser(id, password, email) {
     isString(email) ? xss(email) : null,
   ];
 
-  const result = await conditionalUpdate('users', id, fields, values);
+  const result = await conditionalUpdate('users', 'id', id, fields, values);
 
   if (!result) {
     return null;

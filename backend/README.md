@@ -25,9 +25,7 @@ In addition to the above there is a temporary folder `/temp` which is used to st
 
 ## Testing:
 
-The format of the project allows to quickly regenerate the database with `npm run setup` for the purpose of testing.
-
-It is possible to run tests while developing by using `npm run test -- --watch`
+The format of the project allows to quickly regenerate the database with `npm run setup` for the purpose of testing
 
 ## Logging:
 

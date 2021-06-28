@@ -10,12 +10,11 @@
     "year": {
       "href": "/years/{year}",
       "methods": [
-        "GET",
         "PATCH",
         "DELETE"
       ]
     },
-    "svg": {
+    "image": {
       "href": "/years/{year}.svg",
       "methods": [
         "GET"
@@ -35,7 +34,7 @@
         "GET"
       ]
     },
-    "svg": {
+    "image": {
       "href": "/years/{year}/buildings/{id}.svg",
       "methods": [
         "GET"
@@ -58,6 +57,12 @@
     },
     "login": {
       "href": "/users/login",
+      "methods": [
+        "POST"
+      ]
+    },
+    "register": {
+      "href": "/users/register",
       "methods": [
         "POST"
       ]
