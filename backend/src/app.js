@@ -1,11 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import cors from 'cors';
 
 import { router as apiRouter } from './api/index.js';
 import { router as authRouter } from './auth/api.js';
 import passport from './auth/passport.js';
-// import { cors } from './utils/cors.js';
 import requireEnv from './utils/requireEnv.js';
 
 dotenv.config();
@@ -34,8 +32,12 @@ app.use((req, res, next) => {
   return next();
 });
 
-// app.use(cors);
-app.use(cors());
+app.use((_req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  next();
+});
 app.use(authRouter);
 app.use(apiRouter);
 
