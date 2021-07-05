@@ -1,10 +1,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 import { router as apiRouter } from './api/index.js';
 import { router as authRouter } from './auth/api.js';
 import passport from './auth/passport.js';
-import { cors } from './utils/cors.js';
+// import { cors } from './utils/cors.js';
 import requireEnv from './utils/requireEnv.js';
 
 dotenv.config();
@@ -33,9 +34,10 @@ app.use((req, res, next) => {
   return next();
 });
 
+// app.use(cors);
+app.use(cors());
 app.use(authRouter);
 app.use(apiRouter);
-app.use(cors);
 
 app.use((req, res, next) => { // eslint-disable-line
   res.status(404).json({ error: 'Not found' });
