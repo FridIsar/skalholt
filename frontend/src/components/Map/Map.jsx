@@ -6,54 +6,39 @@ import React, { useEffect, useState } from 'react';
 const apiUrl = process.env.REACT_APP_API_URL;
 
 function makeJSON(buildings) {
-  const viewBox = '0 0 612.70581 419.48148';
-
+  const viewBox = "0 0 841.89 595.28";
+  //changing path to d
+  for(let i = 0; i < buildings.length; i++) {
+    buildings[i]['d'] = buildings[i]['path'];
+    delete buildings[i]['path'];
+  }
   const JSONmap = {"id":"map", "name":"map", "viewBox":viewBox, "layers":buildings};
-
-  console.log(JSONmap);
-
   return JSONmap;
 }
 
-export function Map({ year = -1 }) {
+export function Map({ year }) {
   const [current, setCurrent] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [json, setJson] = useState(null);
 
   const layerProps = {
-    onMouseEnter: ({ target }) => setCurrent(target.attributes.name.value.toLowerCase()),
+    onMouseEnter: ({ target }) => setCurrent(target.attributes.en.value),
     onMouseLeave: ({ target }) => setCurrent('None'),
   };
 
-  function onEnter(event) {
-    const object = event.target.innerText.toLowerCase();
-    setCurrent(object);
-    console.log("object");
-  }
-
-  function onLeave(event) {
-    setCurrent(null);
-    console.log("leave");
-  }
-
   useEffect(() => {
     async function fetchBuildings() {
-      console.log("in fetchbuildings")
       setLoading(true);
       setError(null);
 
       let json;
-
       const url = apiUrl+"years/"+year+"/buildings/";
-
       try {
         const result = await fetch(url);
-
         if (!result.ok) {
           throw new Error('result not ok');
         }
-
         json = await result.json();
       } catch (e) {
         setError('Cannot get buildings.');
@@ -63,13 +48,10 @@ export function Map({ year = -1 }) {
       }
 
       const JSONmap = makeJSON(json);
-
       setJson(JSONmap);
     }
     fetchBuildings();
   }, [year]);
-
-
 
   if (error) {
     return (
@@ -84,13 +66,15 @@ export function Map({ year = -1 }) {
   }
 
   return (
-      <div className={s.mapContainer}>
-        <div className={s.map}>
-          <div>
-            <VectorMap {...json} layerProps={layerProps} currentLayers={[current]} />
-          </div>
+
+    <div className={s.mapContainer}>
+      <div className={s.map}>
+        <div>
+          <VectorMap {...json} layerProps={layerProps} currentLayers={[current]} />
         </div>
-        <img alt='map details' src='https://notendur.hi.is/hkh32/skalholtTMP/1670%20map.svg' className={s.image}/>
       </div>
+      <img alt='map details' src={apiUrl+"years/"+year+".svg"} className={s.image}/>
+    </div>
+
   )
 }

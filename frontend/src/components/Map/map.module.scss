@@ -1,0 +1,18 @@
+.mapContainer {
+  width: 70%;
+  // height: 100vh;
+  position: relative;
+}
+
+.image {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -10;
+}
+
+.map {
+  // opacity: 0;
+  z-index: 10;
+}
