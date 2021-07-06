@@ -1,0 +1,18 @@
+$base-color: #94c6ff;
+
+.header {
+  align-items: flex-end;
+  background-color: $base-color;
+  border-bottom: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  height: 2em;
+
+  &__content {
+    font-size: 0.8em;
+    margin-bottom: 0.2em;
+    margin-left: 1em;
+    margin-top: 0.2em;
+    text-decoration: underline;
+  }
+}

@@ -1,10 +1,10 @@
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
 
-import { Index } from './pages/Index';
-import { Detailed } from './pages/Detailed';
-import { Login } from './pages/Login';
-import { NotFound } from './pages/NotFound';
+import { Index } from './pages/Index/Index';
+import { Detailed } from './pages/Detailed/Detailed';
+import { Login } from './pages/Login/Login';
+import { NotFound } from './pages/Notfound/NotFound';
 
 
 function App() {
