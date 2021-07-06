@@ -4,7 +4,6 @@ import pg from 'pg';
 import xss from 'xss';
 
 import { logger } from './utils/logger.js';
-import configureSvg from './utils/configureSvg.js';
 import requireEnv from './utils/requireEnv.js';
 import { yearToNextDecade, yearToPreviousDecade } from './utils/decadeHelpers.js';
 
@@ -36,12 +35,12 @@ pool.on('error', (err) => {
  * @typedef {Object} Building
  * @property {number} id - ID of the building
  * @property {string} phase - Phase reference of the building
- * @property {number} start_year - Year that the building starts appearing
- * @property {number} end_year - Year that the building stops appearing
+ * @property {number} start - Year that the building starts appearing
+ * @property {number} end - Year that the building stops appearing
  * @property {string | null} path - Path to draw relative to the year background if defined
  * @property {string | null} description - Description text of the building if defined
- * @property {string | null} english - English building attribution if defined
- * @property {string | null} icelandic - Icelandic building attribution if defined
+ * @property {string | null} en - English building attribution if defined
+ * @property {string | null} is - Icelandic building attribution if defined
  * @property {string | null} image - Route for the building background if defined
  */
 
@@ -111,8 +110,6 @@ export async function conditionalUpdate(table, key, id, fields, values) {
 
   const queryValues = [id].concat(filteredValues);
 
-  console.info('Conditional update', q, queryValues);
-
   const result = await query(q, queryValues);
 
   return result;
@@ -129,8 +126,7 @@ export async function insertYear({
     VALUES
       ($1, $2)
     RETURNING
-      year, image
-  ;`;
+      *`;
   const values = [
     xss(year),
     svg ? xss(svg) : null,
@@ -144,19 +140,6 @@ export async function insertYear({
   }
 
   return null;
-}
-
-async function buildingSvg(id, svg, start) {
-  const miniSvg = await configureSvg(svg, id, `/years/${start}/buildings/`);
-
-  await singleQuery(
-    `UPDATE
-      buildings
-    SET
-      image = $1
-    WHERE
-      id = $2`, [miniSvg, id],
-  );
 }
 
 export async function insertBuilding({
@@ -194,28 +177,32 @@ export async function insertBuilding({
         $8
       )
     RETURNING
-      id, start_year AS start, end_year AS end, english AS en, icelandic AS is
-    ;`;
+      id,
+      phase,
+      start_year AS start,
+      end_year AS end,
+      path,
+      description,
+      english AS en,
+      icelandic AS is,
+      image`;
 
-  const start = yearToPreviousDecade(startYear);
+  const shiftStart = yearToPreviousDecade(startYear);
+  const shiftEnd = yearToNextDecade(endYear);
 
   const values = [
     xss(phase),
-    xss(start),
-    xss(yearToNextDecade(endYear)),
+    xss(shiftStart),
+    xss(shiftEnd),
     path ? xss(path) : null,
     description ? xss(description) : null,
     english ? xss(english) : null,
     icelandic ? xss(icelandic) : null,
-    null,
+    svg ? xss(svg) : null,
   ];
 
   try {
     const result = await query(q, values);
-
-    const { id } = result.rows[0];
-    await buildingSvg(id, svg, start);
-
     return result.rows[0];
   } catch (err) {
     logger.error('Error inserting building', err);

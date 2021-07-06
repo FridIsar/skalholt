@@ -1,19 +1,17 @@
 import passport from 'passport';
+import dotenv from 'dotenv';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 
-import {
-  findById,
-} from './users.js';
+import { findById } from './users.js';
+import requireEnv from '../utils/requireEnv.js';
+
+dotenv.config();
+requireEnv(['JWT_SECRET', 'TOKEN_LIFETIME']);
 
 const {
   JWT_SECRET: jwtSecret,
   TOKEN_LIFETIME: tokenLifetime = 3600,
 } = process.env;
-
-if (!jwtSecret) {
-  console.error('Missing environment values');
-  process.exit(1);
-}
 
 async function strat(data, next) {
   const user = await findById(data.id);

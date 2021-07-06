@@ -19,7 +19,8 @@ import {
   validateResourceExists,
   yearValidators,
   yearIdValidator,
-  atLeastOneBodyValueValidator,
+  buildingValidators,
+  buildingIdValidator,
 } from '../validation/validators.js';
 import { validationCheck } from '../validation/helpers.js';
 
@@ -34,6 +35,9 @@ import {
 import {
   listBuildings,
   listBuilding,
+  createBuilding,
+  updateBuilding,
+  deleteBuilding,
 } from './buildings.js';
 
 export const router = express.Router();
@@ -73,7 +77,6 @@ router.patch(
   '/years/:yearId',
   requireAdmin,
   withMulter,
-  atLeastOneBodyValueValidator(['year', 'image']),
   yearValidators,
   validationCheck,
   catchErrors(updateYear),
@@ -93,10 +96,38 @@ router.get(
   catchErrors(listBuildings),
 );
 
+router.post(
+  '/years/:yearId/buildings/',
+  requireAdmin,
+  withMulter,
+  buildingValidators,
+  validationCheck,
+  catchErrors(createBuilding),
+);
+
 router.get(
   '/years/:yearId/buildings/:buildingId',
   validationCheck,
   catchErrors(listBuilding),
+);
+
+router.patch(
+  '/years/:yearId/buildings/:buildingId',
+  requireAdmin,
+  withMulter,
+  buildingIdValidator,
+  buildingValidators,
+  validationCheck,
+  catchErrors(updateBuilding),
+);
+
+router.delete(
+  '/years/:yearId/buildings/:buildingId',
+  requireAdmin,
+  yearIdValidator,
+  buildingIdValidator,
+  validationCheck,
+  catchErrors(deleteBuilding),
 );
 
 router.get(

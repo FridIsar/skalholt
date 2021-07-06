@@ -54,6 +54,14 @@ export async function readFile(file, encoding = 'utf8') {
   return content.toString(encoding);
 }
 
+export async function deleteFiles(files) {
+  for (const file of files) {
+    fs.unlink((file), (err) => {
+      if (err) throw err;
+    });
+  }
+}
+
 export async function createDir(dir) {
   await mkdir(dir, { recursive: true });
 }

@@ -1,24 +1,24 @@
-/* eslint-disable no-underscore-dangle */
 import { test, describe, expect } from '@jest/globals';
 
 import {
   deleteAndParse,
   loginAsHardcodedAdminAndReturnToken,
+  createRandomUserAndReturnWithToken,
   patchAndParse,
   postAndParse,
   getRandomInt,
 } from './utils.js';
 
 describe('years admin', () => {
-  test('POST /years/ requires admin', async () => {
-    const { status } = await postAndParse('/years/');
+  test('POST /years requires admin', async () => {
+    const { status } = await postAndParse('/years');
 
     expect(status).toBe(401);
   });
 
   const storedYear = getRandomInt(2000, 3000);
 
-  test('POST /years/ valid req data', async () => {
+  test('POST /years valid req data', async () => {
     const token = await loginAsHardcodedAdminAndReturnToken();
     expect(token).toBeTruthy();
 
@@ -27,20 +27,40 @@ describe('years admin', () => {
     const data = {
       year,
     };
-    const { result, status } = await postAndParse('/years/', data, token, './test.svg');
+    const { result, status } = await postAndParse('/years', data, token, './test.svg');
 
     expect(status).toBe(201);
     expect(result.year).toBe(year);
     expect(result.image).toBeTruthy();
   });
 
-  test('DELETE /years/:id/ requires admin', async () => {
+  test('POST /years requires admin, not user', async () => {
+    const { token } = await createRandomUserAndReturnWithToken();
+    expect(token).toBeTruthy();
+
+    const { result, status } = await postAndParse('/years', null, token);
+
+    expect(status).toBe(401);
+    expect(result.error).toBe('insufficient authorization');
+  });
+
+  test('DELETE /years/:yearId requires admin', async () => {
     const { status } = await deleteAndParse('/years/9999');
 
     expect(status).toBe(401);
   });
 
-  test('DELETE /years/:id success', async () => {
+  test('DELETE /years/:yearId requires admin, not user', async () => {
+    const { token } = await createRandomUserAndReturnWithToken();
+    expect(token).toBeTruthy();
+
+    const { result, status } = await deleteAndParse('/years/9999', null, token);
+
+    expect(status).toBe(401);
+    expect(result.error).toBe('insufficient authorization');
+  });
+
+  test('DELETE /years/:yearId success', async () => {
     const token = await loginAsHardcodedAdminAndReturnToken();
     expect(token).toBeTruthy();
 
@@ -48,7 +68,7 @@ describe('years admin', () => {
     const data = {
       year,
     };
-    const { result, status } = await postAndParse('/years/', data, token, './test.svg');
+    const { result, status } = await postAndParse('/years', data, token, './test.svg');
 
     expect(status).toBe(201);
     expect(result.year).toBe(year);
@@ -62,7 +82,7 @@ describe('years admin', () => {
     expect(deleteResult).toEqual({});
   });
 
-  test('PATCH /years/:id, invalid data', async () => {
+  test('PATCH /years/:yearId, invalid data', async () => {
     const token = await loginAsHardcodedAdminAndReturnToken();
     expect(token).toBeTruthy();
 
@@ -71,17 +91,17 @@ describe('years admin', () => {
     const { result, status } = await patchAndParse('/years/1670', data, token);
 
     expect(status).toBe(400);
-    expect(result.errors[0].msg).toBe('require at least one value of: year, image');
+    expect(result.errors[0].msg).toBe('year must be an integer of at least 1670');
   });
 
-  test('PATCH /years/:id, year', async () => {
+  test('PATCH /years/:yearId, year', async () => {
     const token = await loginAsHardcodedAdminAndReturnToken();
     expect(token).toBeTruthy();
 
     const year = getRandomInt(4000, 5000);
     const data = { year };
 
-    const { result, status } = await patchAndParse(`years/${storedYear}`, data, token);
+    const { result, status } = await patchAndParse(`/years/${storedYear}`, data, token);
 
     expect(status).toBe(200);
     expect(result.year).toBe(year);

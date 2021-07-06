@@ -1,16 +1,14 @@
-import { singleQuery } from '../db.js';
+import { query, singleQuery } from '../db.js';
 import { logger } from '../utils/logger.js';
 
 export async function listUser(userId) {
   const user = await singleQuery(
-    `
-      SELECT
-        id, username, email, admin
-      FROM
-        users
-      WHERE
-        id = $1
-    `,
+    `SELECT
+      id, username, email, admin
+    FROM
+      users
+    WHERE
+      id = $1`,
     [userId],
   );
 
@@ -22,21 +20,19 @@ export async function listUser(userId) {
 }
 
 export async function listUsers(_req, res) {
-  const users = await singleQuery(
-    `
-      SELECT
-        id, username, email, admin
-      FROM
-        users
-      ORDER BY id ASC
-    `,
+  const users = await query(
+    `SELECT
+      id, username, email, admin
+    FROM
+      users
+    ORDER BY id ASC`,
   );
 
   if (!users) {
     return null;
   }
 
-  return res.json(users);
+  return res.json(users.rows);
 }
 
 export async function updateUser(req, res) {
@@ -45,18 +41,17 @@ export async function updateUser(req, res) {
 
   try {
     const updatedUser = await singleQuery(
-      `
-        UPDATE
-          users
-        SET
-          admin = $1,
-        WHERE
-          id = $2
-        RETURNING
-          id, username, email, admin
-      `,
+      `UPDATE
+        users
+      SET
+        admin = $1
+      WHERE
+        id = $2
+      RETURNING
+        id, username, email, admin`,
       [admin, userId],
     );
+
     return res.status(200).json(updatedUser);
   } catch (err) {
     logger.error('Unable to update user', err);
