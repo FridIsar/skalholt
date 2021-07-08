@@ -63,8 +63,6 @@ async function updateCurrentUserRoute(req, res) {
 
   const user = await findById(id);
 
-  console.log(user);
-
   if (!user) {
     logger.error('Unable to update user:', id);
     return res.status(500).json(null);
