@@ -7,8 +7,12 @@ import { MapInteractable } from '../../components/MapInteractable/MapInteractabl
 export function Index() {
   return (
     <div className={s.page}>
-      <Header/>
-      <MapInteractable/>
+      <div className={s.page__header}>
+        <Header/>
+      </div>
+      <div className={s.page__content}>
+        <MapInteractable/>
+      </div>
     </div>
   )
 }

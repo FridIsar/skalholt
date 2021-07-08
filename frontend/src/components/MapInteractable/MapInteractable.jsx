@@ -1,6 +1,7 @@
 import s from './mapInteractable.module.scss';
 
 import { Map } from '../Map/Map';
+import { MapSidebar } from '../MapSidebar/MapSidebar';
 import { useEffect, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
@@ -72,6 +73,9 @@ export function MapInteractable() {
           onChange={onSliderChange}
           onChangeCommitted={onSliderChangeCommit}
         />
+      </div>
+      <div className={s.sidebar}>
+        <MapSidebar/>
       </div>
     </div>
   )

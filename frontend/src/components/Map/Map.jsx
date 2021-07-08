@@ -9,6 +9,8 @@ function makeJSON(buildings) {
   const viewBox = "0 0 841.89 595.28";
   //changing path to d
   for(let i = 0; i < buildings.length; i++) {
+    buildings[i]['name'] = buildings[i]['id'];
+
     buildings[i]['d'] = buildings[i]['path'];
     delete buildings[i]['path'];
   }
@@ -23,8 +25,8 @@ export function Map({ year }) {
   const [json, setJson] = useState(null);
 
   const layerProps = {
-    onMouseEnter: ({ target }) => setCurrent(target.attributes.en.value),
-    onMouseLeave: ({ target }) => setCurrent('None'),
+    // onFocus: ({ target }) => setCurrent(target.attributes.name.value), //console.log(target.attributes.id.value), //
+    onClick: ({ target }) => console.log("switch to "+ target.attributes.en.value),
   };
 
   useEffect(() => {
@@ -70,6 +72,7 @@ export function Map({ year }) {
     <div className={s.mapContainer}>
       <div className={s.map}>
         <div>
+          {console.log(current)}
           <VectorMap {...json} layerProps={layerProps} currentLayers={[current]} />
         </div>
       </div>
