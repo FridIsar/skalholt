@@ -35,7 +35,7 @@ async function buildingDetails(id, year) {
 
   const building = await singleQuery(
     `SELECT
-      *
+      id, id AS name, phase, start_year AS start, end_year AS end, path AS d, description, english AS en, icelandic AS is, image
     FROM
       buildings
     WHERE
@@ -76,7 +76,7 @@ export async function listBuildings(req, res) {
 
   const buildings = await query(
     `SELECT
-      id, path, start_year AS start, end_year AS end, english AS en, icelandic AS is
+      id, id AS name, path AS d, start_year AS start, end_year AS end, english AS en, icelandic AS is
     FROM
       buildings
     WHERE
