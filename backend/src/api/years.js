@@ -19,6 +19,8 @@ export async function listYears(_req, res) {
       image
     FROM
       years
+    WHERE
+      year < (SELECT MAX(year) FROM years)
     ORDER BY year ASC`,
     [],
   );
