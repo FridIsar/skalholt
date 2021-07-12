@@ -1,12 +1,17 @@
-$base-color: #94c6ff;
+$main-color: #279AF1;
+$secondary-color: #3D7068;
+$background-color: #D7D5D6;
 
 .header {
   align-items: flex-end;
-  background-color: $base-color;
+  background-color: $main-color;
   border-bottom: 1px solid black;
   display: flex;
   flex-direction: row;
   height: 2em;
+  width: 100vw;
+  position: fixed;
+  z-index: 10;
 
   &__content {
     font-size: 0.8em;

@@ -5,28 +5,26 @@ import React, { useEffect, useState } from 'react';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function makeJSON(buildings) {
+// make Json file from given list of Json files
+function makeJSON(layers) {
   const viewBox = "0 0 841.89 595.28";
-  //changing path to d
-  for(let i = 0; i < buildings.length; i++) {
-    buildings[i]['name'] = buildings[i]['id'];
-
-    buildings[i]['d'] = buildings[i]['path'];
-    delete buildings[i]['path'];
+  for(let i = 0; i < layers.length; i++) {
+    layers[i]['name'] = layers[i]['id'];
   }
-  const JSONmap = {"id":"map", "name":"map", "viewBox":viewBox, "layers":buildings};
+  const JSONmap = {"id":"map", "name":"map", "viewBox":viewBox, "layers":layers};
   return JSONmap;
 }
 
-export function Map({ year }) {
-  const [current, setCurrent] = useState(null);
+export function Map({ year, buildingId, setBuildingId, current, setCurrent, setLayers, oneBuilding }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [json, setJson] = useState(null);
+  const [imgUrl, setImgUrl] = useState(null);
 
   const layerProps = {
-    // onFocus: ({ target }) => setCurrent(target.attributes.name.value), //console.log(target.attributes.id.value), //
-    onClick: ({ target }) => console.log("switch to "+ target.attributes.en.value),
+    // onFocus: ({ target }) => console.log(target.attributes.id.value), //setCurrent(target.attributes.name.value), //
+    onClick: ({ target }) => setBuildingId(target.attributes.id.value),
+    // onClick: ({ target }) => console.log(target.attributes.name.value),
   };
 
   useEffect(() => {
@@ -51,9 +49,50 @@ export function Map({ year }) {
 
       const JSONmap = makeJSON(json);
       setJson(JSONmap);
+
+      // bList = buildingList
+      let bList = [];
+      for(let i = 0; i < JSONmap.layers.length; i++) {
+        bList.push({"id": JSONmap.layers[i].id, "engName": JSONmap.layers[i].en, "islName": JSONmap.layers[i].is})
+      }
+      setLayers(bList);
+      setImgUrl(apiUrl+"years/"+year+".svg")
     }
-    fetchBuildings();
-  }, [year]);
+
+    async function fetchArtifacts() {
+      setLoading(true);
+      setError(null);
+
+      let json;
+      const url = apiUrl+"years/"+year+"/buildings/"+buildingId+"/artifacts?";  // may change just a guess
+      try {
+        const result = await fetch(url);
+        if (!result.ok) {
+          throw new Error('result not ok');
+        }
+        json = await result.json();
+      } catch (e) {
+        setError('Cannot get building.');
+        return;
+      } finally {
+        setLoading(false);
+      }
+
+      const JSONmap = makeJSON(json);
+      setJson(JSONmap);
+
+      // aList = artifactList
+      let aList = [];
+      for(let i = 0; i < JSONmap.layers.length; i++) {
+        aList.push({"id": JSONmap.layers[i].id, "engName": JSONmap.layers[i].en, "islName": JSONmap.layers[i].is}) // not sure what info is needed
+      }
+      setLayers(aList);
+      setImgUrl(apiUrl+"years/"+year+"/buildings/"+buildingId+".svg")
+    }
+
+    {!oneBuilding && fetchBuildings()}
+    // {oneBuilding && fetchArtifacts()}
+  }, [year, buildingId]);
 
   if (error) {
     return (
@@ -72,11 +111,10 @@ export function Map({ year }) {
     <div className={s.mapContainer}>
       <div className={s.map}>
         <div>
-          {console.log(current)}
           <VectorMap {...json} layerProps={layerProps} currentLayers={[current]} />
         </div>
       </div>
-      <img alt='map details' src={apiUrl+"years/"+year+".svg"} className={s.image}/>
+      <img alt='map details' src={imgUrl} className={s.image}/>
     </div>
 
   )

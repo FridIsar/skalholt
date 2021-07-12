@@ -1,5 +1,11 @@
+$main-color: #279AF1;
+$secondary-color: #3D7068;
+$background-color: #D7D5D6;
+
 .mapContainer {
-  width: 100%;
+  margin-left: 5em;
+  margin-top: 2em;
+  width: 50%;
   // height: 100vh;
   position: relative;
 }
@@ -19,11 +25,11 @@
 
 svg {
   path {
-    // fill: blue;
-    fill: transparent;
+    fill: $main-color;
+    // fill: transparent;
 
     &:hover {
-      fill: rgba(211, 151, 151, 0.83);
+      fill: $secondary-color;
     }
   }
 }
