@@ -16,7 +16,8 @@ export async function listYears(_req, res) {
   const years = await query(
     `SELECT
       year,
-      image
+      image,
+      description
     FROM
       years
     WHERE
