@@ -28,6 +28,33 @@ export async function listYear(req, res) {
   return res.status(404).json(null);
 }
 
+async function buildingFinds(building) {
+  // TODO: Join on other find types when data has been sorted !
+  let finds = [];
+
+  try {
+    const result = await query(
+      `SELECT
+        finds_writing.quant,
+        finds_writing.obj_type,
+        finds_writing.weight
+      FROM
+        finds_writing
+      WHERE
+        finds_writing.building = $1`,
+      [building],
+    );
+
+    if (result.rows && result.rows.length > 0) {
+      finds = result.rows;
+    }
+  } catch (err) {
+    logger.warn('Unable to query finds for building', building, err);
+  }
+
+  return finds;
+}
+
 async function buildingDetails(id, year) {
   if (!id) {
     return null;
@@ -48,6 +75,9 @@ async function buildingDetails(id, year) {
   if (!building) {
     return null;
   }
+
+  const finds = await buildingFinds(id);
+  building.finds = finds;
 
   return building;
 }

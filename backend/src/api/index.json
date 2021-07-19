@@ -25,13 +25,16 @@
     "buildings": {
       "href": "/years/{year}/buildings",
       "methods": [
-        "GET"
+        "GET",
+        "POST"
       ]
     },
     "building": {
       "href": "/years/{year}/buildings/{id}",
       "methods": [
-        "GET"
+        "GET",
+        "PATCH",
+        "DELETE"
       ]
     },
     "image": {

@@ -48,8 +48,8 @@ pool.on('error', (err) => {
  * Find
  * @typedef {Object} Find
  * @property {number} id - ID of the find
- * @property {number} building - ID of the building that the find belongs to
- * @property {string | null} description - Description text of the find if defined
+ * @property {number | null} quant - Quantity of the found item if defined
+ * @property {string | null} type - Description text of the find if defined
  */
 
 export async function query(_query, values = []) {

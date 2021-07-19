@@ -21,6 +21,8 @@ export async function listYears(_req, res) {
       years
     WHERE
       year < (SELECT MAX(year) FROM years)
+    AND
+      year >= 1670
     ORDER BY year ASC`,
     [],
   );
