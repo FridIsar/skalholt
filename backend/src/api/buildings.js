@@ -28,13 +28,13 @@ export async function listYear(req, res) {
   return res.status(404).json(null);
 }
 
-async function buildingFinds(building) {
-  // TODO: Join on other find types when data has been sorted !
+async function buildingWritingFinds(building) {
   let finds = [];
 
   try {
     const result = await query(
       `SELECT
+        finds_writing.id,
         finds_writing.quant,
         finds_writing.obj_type,
         finds_writing.weight
@@ -42,6 +42,32 @@ async function buildingFinds(building) {
         finds_writing
       WHERE
         finds_writing.building = $1`,
+      [building],
+    );
+
+    if (result.rows && result.rows.length > 0) {
+      finds = result.rows;
+    }
+  } catch (err) {
+    logger.warn('Unable to query finds for building', building, err);
+  }
+
+  return finds;
+}
+
+async function buildingKeyFinds(building) {
+  let finds = [];
+
+  try {
+    const result = await query(
+      `SELECT
+        finds_keys.id,
+        finds_keys.type AS obj_type,
+        finds_keys.weight
+      FROM
+        finds_keys
+      WHERE
+        finds_keys.building = $1`,
       [building],
     );
 
@@ -76,7 +102,12 @@ async function buildingDetails(id, year) {
     return null;
   }
 
-  const finds = await buildingFinds(id);
+  const finds = {};
+  finds.writing = await buildingWritingFinds(id);
+  finds.keys = await buildingKeyFinds(id);
+  // TODO: Tiles, currently the CSV is corrupted
+  finds.tiles = [];
+
   building.finds = finds;
 
   return building;

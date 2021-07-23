@@ -145,6 +145,122 @@ async function importWriting(implement) {
   await query(q, values);
 }
 
+async function importKeys(k) {
+  const q = `
+    INSERT INTO
+      finds_keys
+      (
+        finds_no,
+        find_id,
+        context,
+        key_no,
+        find_date,
+        photo,
+        completeness,
+        material,
+        condition,
+        length,
+        weight,
+        bow,
+        type,
+        shape_bow,
+        collar,
+        size_bow,
+        length_stem,
+        stem,
+        thickness_stem,
+        bit_teeth,
+        bit_shape,
+        id_1,
+        notes,
+        phase,
+        building,
+        start_year,
+        end_year,
+        real_date,
+        time_period,
+        attribution
+      )
+    VALUES
+      (
+        $1,
+        $2,
+        $3,
+        $4,
+        $5,
+        $6,
+        $7,
+        $8,
+        $9,
+        $10,
+        $11,
+        $12,
+        $13,
+        $14,
+        $15,
+        $16,
+        $17,
+        $18,
+        $19,
+        $20,
+        $21,
+        $22,
+        $23,
+        $24,
+        $25,
+        $26,
+        $27,
+        $28,
+        $29,
+        $30
+      )`;
+
+  const buildingId = await singleQuery(
+    `SELECT
+      id
+    FROM
+      buildings
+    WHERE
+      phase = $1`,
+    [k.phase],
+  );
+
+  const values = [
+    k.finds_no || null,
+    k.find_id || null,
+    k.context || null,
+    k.key_no || null,
+    k.find_date || null,
+    k.photo || null,
+    k.completeness || null,
+    k.material || null,
+    k.condition || null,
+    k.length || null,
+    k.weight || null,
+    k.bow || null,
+    k.type || null,
+    k.shape_bow || null,
+    k.collar || null,
+    k.size_bow || null,
+    k.length_stem || null,
+    k.stem || null,
+    k.thickness_stem || null,
+    k.bit_teeth || null,
+    k.bit_shape || null,
+    k.id_1 || null,
+    k.notes || null,
+    k.phase || null,
+    buildingId.id || null,
+    k.start_year || null,
+    k.end_year || null,
+    k.real_date || null,
+    k.time_period || null,
+    k.attribution || null,
+  ];
+
+  await query(q, values);
+}
+
 export async function importData() {
   // Years
   const years = await readStream('./data/csv/years.csv');
@@ -171,5 +287,13 @@ export async function importData() {
   for (let i = 0; i < writing.length; i += 1) {
     await importWriting(writing[i]);
     console.info(writing[i].obj_type);
+  }
+
+  const keyList = await readStream('./data/csv/keys.csv');
+
+  console.info('Importing keys');
+  for (let i = 0; i < keyList.length; i += 1) {
+    await importKeys(keyList[i]);
+    console.info(keyList[i].type);
   }
 }
