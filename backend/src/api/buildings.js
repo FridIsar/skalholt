@@ -13,73 +13,10 @@ import {
   conditionalUpdate,
   insertBuilding,
 } from '../db.js';
-
-export async function listYear(req, res) {
-  const { yearId: id } = req.params;
-
-  const path = dirname(fileURLToPath(import.meta.url));
-  const svgExists = await exists(join(path, `../../data/svg/years/${id}`));
-
-  if (svgExists) {
-    res.setHeader('Content-Type', 'image/svg+xml');
-    return res.sendFile(join(path, `../../data/svg/years/${id}`));
-  }
-
-  return res.status(404).json(null);
-}
-
-async function buildingWritingFinds(building) {
-  let finds = [];
-
-  try {
-    const result = await query(
-      `SELECT
-        finds_writing.id,
-        finds_writing.quant,
-        finds_writing.obj_type,
-        finds_writing.weight
-      FROM
-        finds_writing
-      WHERE
-        finds_writing.building = $1`,
-      [building],
-    );
-
-    if (result.rows && result.rows.length > 0) {
-      finds = result.rows;
-    }
-  } catch (err) {
-    logger.warn('Unable to query finds for building', building, err);
-  }
-
-  return finds;
-}
-
-async function buildingKeyFinds(building) {
-  let finds = [];
-
-  try {
-    const result = await query(
-      `SELECT
-        finds_keys.id,
-        finds_keys.type AS obj_type,
-        finds_keys.weight
-      FROM
-        finds_keys
-      WHERE
-        finds_keys.building = $1`,
-      [building],
-    );
-
-    if (result.rows && result.rows.length > 0) {
-      finds = result.rows;
-    }
-  } catch (err) {
-    logger.warn('Unable to query finds for building', building, err);
-  }
-
-  return finds;
-}
+import {
+  writingFinds,
+  keyFinds,
+} from './finds.js';
 
 async function buildingDetails(id, year) {
   if (!id) {
@@ -88,7 +25,7 @@ async function buildingDetails(id, year) {
 
   const building = await singleQuery(
     `SELECT
-      id, id AS name, phase, start_year AS start, end_year AS end, path AS d, description, english AS en, icelandic AS is, image
+      id, id AS name, phase, start_year AS start, end_year AS end, description, english AS en, icelandic AS is, image
     FROM
       buildings
     WHERE
@@ -103,9 +40,8 @@ async function buildingDetails(id, year) {
   }
 
   const finds = {};
-  finds.writing = await buildingWritingFinds(id);
-  finds.keys = await buildingKeyFinds(id);
-  // TODO: Tiles, currently the CSV is corrupted
+  finds.writing = await writingFinds(id);
+  finds.keys = await keyFinds(id);
   finds.tiles = [];
 
   building.finds = finds;
@@ -137,7 +73,7 @@ export async function listBuildings(req, res) {
 
   const buildings = await query(
     `SELECT
-      id, id AS name, path AS d, start_year AS start, end_year AS end, english AS en, icelandic AS is
+      id, id AS name, path AS d, phase, start_year AS start, end_year AS end, english AS en, icelandic AS is
     FROM
       buildings
     WHERE

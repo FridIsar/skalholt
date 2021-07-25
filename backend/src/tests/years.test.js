@@ -10,7 +10,7 @@ describe('years', () => {
   test('GET /years', async () => {
     const { result } = await fetchAndParse('/years');
 
-    expect(result.length).toBeGreaterThanOrEqual(30);
+    expect(result.length).toBeGreaterThanOrEqual(29);
   });
 
   test('GET /years/1670.svg does exist', async () => {

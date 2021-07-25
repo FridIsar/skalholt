@@ -96,3 +96,5 @@
 {"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-07-01 09:22:12"}
 {"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-07-01 09:59:16"}
 {"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-07-05 20:51:35"}
+{"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-07-25 13:09:21"}
+{"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-07-25 13:53:30"}

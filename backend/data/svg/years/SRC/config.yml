@@ -1,0 +1,14 @@
+
+plugins:
+ — removeStyleElement: true
+ — removeTitle: true
+ — removeDesc: true
+ — removeUselessDefs: true
+ — removeDimensions: true
+ — removeRasterImages: true
+ — collapseGroups: true
+ — cleanupIDs: true
+ — removeEmptyContainers: true
+ — removeEmptyAttrs: true
+ — cleanupAttrs: true
+ - { name: 'removeAttrs', params: { attrs: '(stroke|fill)' } }
