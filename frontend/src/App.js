@@ -6,6 +6,7 @@ import { Detailed } from './pages/Detailed/Detailed';
 import { Login } from './pages/Login/Login';
 import { NotFound } from './pages/Notfound/NotFound';
 import { Building } from './pages/Building/Building';
+import { About } from './pages/About/About';
 
 function App() {
   return (
@@ -13,9 +14,10 @@ function App() {
     // /finds/:id is a second route that needs its own switch or similar
     <Switch>
       <Route exact path="/" component={Index}/>
-      <Route path="/building/:idNyear" component={Building}/>
       <Route exact path="/admin" component={Login}/>
+      <Route exact path="/about" component={About}/>
       <Route exact path="/finds/:id" component={Detailed}/>
+      <Route path="/building/:idNyear" component={Building}/>
       <Route component={NotFound}/>
     </Switch>
   );

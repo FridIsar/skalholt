@@ -1,0 +1,21 @@
+$main-color: #279AF1;
+$secondary-color: #3D7068;
+$background-color: #D7D5D6;
+
+.page {
+  height: 100%;
+  width: 100%;
+
+  &__header {
+    margin-top: 0;
+  }
+
+  &__textNimage {
+    display: flex;
+    flex-direction: column;
+    padding-top: 50px;
+    align-items: center;
+
+  }
+
+}
