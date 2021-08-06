@@ -16,12 +16,14 @@ $background-color: #D7D5D6;
 .mapNDescContainer {
   max-width: 1000px;
   width: 100%;
+  height: 100vh;
   margin-left: 180px;
   margin-top: 2em;
 }
 
 .mapContainer {
   width: 100%;
+  height: 32vw;
 }
 
 .sidebar {
@@ -33,7 +35,7 @@ $background-color: #D7D5D6;
 }
 
 .description {
-  width: 95%;
+  width: 90%;
   margin-top: 0.5em;
   margin-left: 2em;
   margin-right: 2em;
@@ -42,6 +44,7 @@ $background-color: #D7D5D6;
   display: flex;
   flex-direction: column;
   padding: 0.5em;
+  align-self: flex-end;
 
   &__text {
     margin: 0;
@@ -50,5 +53,8 @@ $background-color: #D7D5D6;
   &__link {
     align-self: flex-end;
   }
+}
 
+.backToMap {
+  margin-top: 2.5em;
 }

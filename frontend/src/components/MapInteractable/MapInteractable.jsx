@@ -17,8 +17,11 @@ export function MapInteractable() {
   const [buildingList, setBuildingList] = useState([]);
   const [year, setYear] = useState(1670);
   const [allyears, setAllyears] = useState([]);
+  // for description box
+  const [descriptions, setDescriptions] = useState([]);
+  const [currDesc, setCurrDesc] = useState(null);
   // values for individual building interactability
-  const [artifactList, setArtifactList] = useState([]);
+  const [findsList, setFindsList] = useState([]);
   const [buildingId, setBuildingId] = useState(null);
   const [building, setBuilding] = useState(null);
   // slider values
@@ -39,13 +42,17 @@ export function MapInteractable() {
         return;
       } finally {
         setYear(json[0].year);
+        setCurrDesc(json[0].description);
       }
 
-      let yearsArray = []
+      let yearsArray = [];
+      let descArray = [];
       for(let i = 0; i < json.length; i++) {
         yearsArray.push(json[i].year);
+        descArray.push(json[i].description);
       }
       setAllyears(yearsArray);
+      setDescriptions(descArray);
     }
     fetchYears();
   }, []);
@@ -83,15 +90,20 @@ export function MapInteractable() {
 
   const onSliderChangeCommit = (event, newValue) => {
     setYear(newValue);
+    setCurrDesc(descriptions[allyears.indexOf(newValue)]);
+  }
+
+  const backToMap = () => {
+    setOneBuilding(!oneBuilding);
   }
 
   return (
     <div className={s.container}>
       <div className={s.sidebar}>
         {!oneBuilding &&
-          <MapSidebar list={buildingList} current={current} setCurrent={setCurrent}/>}
+          <MapSidebar list={buildingList} current={current} setCurrent={setCurrent} setOneBuilding={setOneBuilding} setBuildingId={setBuildingId}/>}
         {oneBuilding &&
-          <MapSidebar list={artifactList} current={current} setCurrent={setCurrent}/>}
+          <MapSidebar list={findsList} current={current} setCurrent={setCurrent} setOneBuilding={setOneBuilding} setBuildingId={setBuildingId}/>}
       </div>
       <div className={s.mapNDescContainer}>
         <div className={s.mapContainer}>
@@ -102,8 +114,9 @@ export function MapInteractable() {
               setBuildingId={setBuildingId}
               current={current}
               setCurrent={setCurrent}
-              setLayers={setBuildingList}
-              oneBuilding={oneBuilding} />}
+              setSidebar={setBuildingList}
+              oneBuilding={oneBuilding} />
+          }
           {oneBuilding &&
             <Map
             year={year}
@@ -111,8 +124,9 @@ export function MapInteractable() {
             setBuildingId={setBuildingId}
             current={current}
             setCurrent={setCurrent}
-            setLayers={setArtifactList}
-            oneBuilding={oneBuilding} />}
+            setSidebar={setFindsList}
+            oneBuilding={oneBuilding} />
+          }
           <div className={s.slider}>
             <Typography id="discrete-slider-custom" gutterBottom>
               {sliderValue}
@@ -133,12 +147,22 @@ export function MapInteractable() {
         </div>
         {oneBuilding &&
           <div className={s.description}>
-            <p className={s.description__text} >{(building.description).substring(0, 300)+"..."}</p>
+            <p className={s.description__text} >{(building?.description)?.substring(0, 300)+"..."}</p>
             <a className={s.description__link} href={apiUrl}>See more.</a>
             {/* make relative link to an artifact or room */}
           </div>
         }
+        {!oneBuilding &&
+          <div className={s.description}>
+            <p className={s.description__text} >{currDesc?.substring(0, 300)+"..."}</p>
+          </div>
+        }
       </div>
+      <div className={s.backToMap}>
+          {oneBuilding &&
+            <button className={s.backToMap__button} onClick={backToMap}>Back</button>
+          }
+        </div>
     </div>
   )
 }

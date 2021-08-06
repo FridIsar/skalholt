@@ -1,0 +1,20 @@
+.description {
+  width: 90%;
+  margin-top: 0.5em;
+  margin-left: 2em;
+  margin-right: 2em;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+  align-self: flex-end;
+
+  &__text {
+    margin: 0;
+  }
+
+  &__link {
+    align-self: flex-end;
+  }
+}

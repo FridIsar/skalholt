@@ -6,7 +6,7 @@ $background-color: #D7D5D6;
   margin-left: 5em;
   margin-top: 2em;
   width: 50%;
-  // height: 100vh;
+  height: 80%;
   position: relative;
 }
 
@@ -28,7 +28,11 @@ svg {
     fill: $main-color;
     // fill: transparent;
 
-    &:hover {
+    // &:hover {
+    //   fill: $secondary-color;
+    // }
+
+    &[aria-current='true'] {
       fill: $secondary-color;
     }
   }

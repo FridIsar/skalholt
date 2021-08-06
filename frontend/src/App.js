@@ -5,16 +5,17 @@ import { Index } from './pages/Index/Index';
 import { Detailed } from './pages/Detailed/Detailed';
 import { Login } from './pages/Login/Login';
 import { NotFound } from './pages/Notfound/NotFound';
-
+import { Building } from './pages/Building/Building';
 
 function App() {
   return (
     //possible layout
-    // /:id is a second route that needs its own switch or similar
+    // /finds/:id is a second route that needs its own switch or similar
     <Switch>
       <Route exact path="/" component={Index}/>
+      <Route path="/building/:idNyear" component={Building}/>
       <Route exact path="/admin" component={Login}/>
-      <Route exact path="/:id" component={Detailed}/>
+      <Route exact path="/finds/:id" component={Detailed}/>
       <Route component={NotFound}/>
     </Switch>
   );

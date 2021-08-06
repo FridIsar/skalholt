@@ -98,3 +98,5 @@
 {"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-07-05 20:51:35"}
 {"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-07-25 13:09:21"}
 {"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-07-25 13:53:30"}
+{"0":"1","level":"warn","message":"Unable to query finds for building","timestamp":"2021-07-30 14:38:43","length":176,"name":"error","severity":"ERROR","code":"42P01","position":"143","file":"d:\\pginstaller_13.auto\\postgres.windows-x64\\src\\backend\\parser\\parse_relation.c","line":"1379","routine":"parserOpenTable"}
+{"0":"1","level":"warn","message":"Unable to query finds for building","timestamp":"2021-07-30 14:38:43","length":173,"name":"error","severity":"ERROR","code":"42P01","position":"113","file":"d:\\pginstaller_13.auto\\postgres.windows-x64\\src\\backend\\parser\\parse_relation.c","line":"1379","routine":"parserOpenTable"}

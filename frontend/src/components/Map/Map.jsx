@@ -6,25 +6,39 @@ import React, { useEffect, useState } from 'react';
 const apiUrl = process.env.REACT_APP_API_URL;
 
 // make Json file from given list of Json files
-function makeJSON(layers) {
-  const viewBox = "0 0 841.89 595.28";
-  for(let i = 0; i < layers.length; i++) {
-    layers[i]['name'] = layers[i]['id'];
+function makeJSON(json, oneBuilding) {
+  if (!oneBuilding) {
+    const viewBox = "0 0 111.985 71.657";
+    for(let i = 0; i < json.length; i++) {
+      json[i]['name'] = json[i]['id'];
+    }
+    const JSONmap = {"id":"map", "name":"map", "viewBox":viewBox, "layers":json};
+    return JSONmap;
+  }
+  let layers = [];
+  const viewBox = "0 0 111.985 71.657"; // unknown using previous for now
+  for(let i = 0; i < json.finds.length; i++) {
+    for(let j = 0; j < json.finds[i]; j++) {
+      layers[i]['id'] = json.finds[i]['id'];
+      layers[i]['name'] = json.finds[i]['id'];
+      layers[i]['d'] = json.finds[i]['path']; // unknown
+      // can change if backend changes
+    }
   }
   const JSONmap = {"id":"map", "name":"map", "viewBox":viewBox, "layers":layers};
   return JSONmap;
 }
 
-export function Map({ year, buildingId, setBuildingId, current, setCurrent, setLayers, oneBuilding }) {
+export function Map({ year, buildingId, setBuildingId, current, setCurrent, setSidebar, oneBuilding }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [json, setJson] = useState(null);
   const [imgUrl, setImgUrl] = useState(null);
 
   const layerProps = {
-    // onFocus: ({ target }) => console.log(target.attributes.id.value), //setCurrent(target.attributes.name.value), //
     onClick: ({ target }) => setBuildingId(target.attributes.id.value),
-    // onClick: ({ target }) => console.log(target.attributes.name.value),
+    onMouseEnter: ({ target }) => setCurrent(target.attributes.id.value.toString()),
+    onMouseLeave: ({ target }) => setCurrent('None'),
   };
 
   useEffect(() => {
@@ -47,7 +61,7 @@ export function Map({ year, buildingId, setBuildingId, current, setCurrent, setL
         setLoading(false);
       }
 
-      const JSONmap = makeJSON(json);
+      const JSONmap = makeJSON(json, oneBuilding);
       setJson(JSONmap);
 
       // bList = buildingList
@@ -55,43 +69,54 @@ export function Map({ year, buildingId, setBuildingId, current, setCurrent, setL
       for(let i = 0; i < JSONmap.layers.length; i++) {
         bList.push({"id": JSONmap.layers[i].id, "engName": JSONmap.layers[i].en, "islName": JSONmap.layers[i].is})
       }
-      setLayers(bList);
+      setSidebar(bList);
       setImgUrl(apiUrl+"years/"+year+".svg")
     }
 
-    async function fetchArtifacts() {
+    async function fetchBuildingNFinds() {
       setLoading(true);
       setError(null);
 
       let json;
-      const url = apiUrl+"years/"+year+"/buildings/"+buildingId+"/artifacts?";  // may change just a guess
+      const url = apiUrl+"years/"+year+"/buildings/"+buildingId;
       try {
         const result = await fetch(url);
         if (!result.ok) {
           throw new Error('result not ok');
         }
         json = await result.json();
+
       } catch (e) {
-        setError('Cannot get building.');
+        setError('Cannot get building and finds.');
         return;
       } finally {
         setLoading(false);
       }
 
-      const JSONmap = makeJSON(json);
+      // Make some kind of Json from given finds to display over svg image
+      const JSONmap = makeJSON(json, oneBuilding);
       setJson(JSONmap);
 
-      // aList = artifactList
-      let aList = [];
-      for(let i = 0; i < JSONmap.layers.length; i++) {
-        aList.push({"id": JSONmap.layers[i].id, "engName": JSONmap.layers[i].en, "islName": JSONmap.layers[i].is}) // not sure what info is needed
+      // fList = findsList
+      let fList = [];
+      for(let i = 0; i < json.finds.length; i++) {
+        if(json.finds[i].length > 1) {
+          let findIds = [];
+          for(let j = 0; j < json.finds[i].length; j++) {
+            findIds.push(json.finds[i][j].id);
+          }
+          fList.push({"id": findIds, "engName": json.finds[i].value})
+
+        } else {
+          fList.push({"id": json.finds[i].id, "engName": json.finds[i].en, "islName": json.finds[i].is})
+        }
       }
-      setLayers(aList);
+      setSidebar(fList);
       setImgUrl(apiUrl+"years/"+year+"/buildings/"+buildingId+".svg")
     }
 
     {!oneBuilding && fetchBuildings()}
-    // {oneBuilding && fetchArtifacts()}
+    {oneBuilding && fetchBuildingNFinds()}
   }, [year, buildingId]);
 
   if (error) {
@@ -111,7 +136,7 @@ export function Map({ year, buildingId, setBuildingId, current, setCurrent, setL
     <div className={s.mapContainer}>
       <div className={s.map}>
         <div>
-          <VectorMap {...json} layerProps={layerProps} currentLayers={[current]} />
+          <VectorMap {...json} layerProps={layerProps} currentLayers={[parseInt(current)]} />
         </div>
       </div>
       <img alt='map details' src={imgUrl} className={s.image}/>
