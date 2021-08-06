@@ -1,7 +1,6 @@
 import s from './index.module.scss';
 
 import { Header } from '../../components/Header/Header'
-import { MapInteractable } from '../../components/MapInteractable/MapInteractable'
 import { WholeSite } from '../../containers/WholeSite/WholeSite';
 
 

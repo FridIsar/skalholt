@@ -1,11 +1,10 @@
 import s from './wholeSite.module.scss';
 
-import { Redirect, useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { Map2 } from '../../components/Map/Map2';
-import { MapSidebar } from '../../components/MapSidebar/MapSidebar';
+import { Map } from '../../components/Map/Map';
 import { Description } from '../../components/Description/Description';
-import { MapSidebar2 } from '../../components/MapSidebar/MapSidebar2';
+import { MapSidebar } from '../../components/MapSidebar/MapSidebar';
 import { MapSlider } from '../../components/MapSlider/MapSlider';
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -78,13 +77,13 @@ export function WholeSite() {
 
   return (
     <div className={s.container}>
-      <MapSidebar2 items={data}
+      <MapSidebar items={data}
         current={current}
         setCurrent={setCurrent}
         setOnClick={setSelectedBuilding}/>
       <div className={s.mapNDescContainer}>
         <div className={s.mapContainer}>
-          <Map2 data={data}
+          <Map data={data}
             background={backgroundImage}
             current={current}
             setCurrent={setCurrent}
@@ -93,7 +92,8 @@ export function WholeSite() {
             error={error}/>
           <MapSlider value={year}
             range={years}
-            setYear={setYear}/>
+            setYear={setYear}
+            setBackgroundImage={setBackgroundImage}/>
         </div>
         {/* TODO: make correct path to moreLink */}
         <Description description={years?.filter(y => y.year === year)[0].description}

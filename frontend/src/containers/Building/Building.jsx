@@ -1,4 +1,4 @@
-import s from './oneBuilding.module.scss';
+import s from './building.module.scss';
 
 import { Redirect, useParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ import { MapSidebar } from '../../components/MapSidebar/MapSidebar';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-export function OneBuilding() {
+export function Building() {
   // error state if any
   const [error, setError] = useState(null);
   // currently selected interactable
@@ -36,6 +36,7 @@ export function OneBuilding() {
         }
         json = await result.json();
       } catch (e) {
+        setError(e);
         return;
       } finally {
         setData(json);
@@ -47,7 +48,6 @@ export function OneBuilding() {
 
   useEffect(() => {
     // TODO: make redirect to find
-    // TODO: use the same method as in wholesite navigation using history!
     return <Redirect to="/"/>
   }, [selectedFind])
 
@@ -62,10 +62,8 @@ export function OneBuilding() {
         <a href={'/'}>Back to site map</a>
         <div className={s.mapContainer}>
           <Map data={data}
-            background={null}
             current={current}
             setCurrent={setCurrent}
-            setOnClick={setSelectedFind}
             loading={!data}
             error={error}/>
         </div>
