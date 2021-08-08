@@ -1,3 +1,10 @@
+CREATE TABLE logging (
+  logging_id BOOLEAN PRIMARY KEY DEFAULT TRUE,
+  curr_building_id INTEGER,
+  curr_file_id INTEGER,
+  CONSTRAINT logging_id CHECK (logging_id)
+);
+
 CREATE TABLE years (
   year INTEGER PRIMARY KEY,
   image VARCHAR(128),
@@ -87,4 +94,10 @@ CREATE TABLE users (
   email VARCHAR(256) NOT NULL UNIQUE,
   password VARCHAR(256) NOT NULL,
   admin BOOLEAN DEFAULT false
+);
+
+CREATE TABLE files (
+  id SERIAL PRIMARY KEY,
+  tag VARCHAR(32) NOT NULL UNIQUE,
+  href VARCHAR(64)
 );

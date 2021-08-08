@@ -6,7 +6,7 @@ import express from 'express';
 import { requireAdmin } from '../auth/passport.js';
 import { catchErrors } from '../utils/catchErrors.js';
 import { readFile } from '../utils/fileSystem.js';
-import withMulter from '../utils/withMulter.js';
+import { imageWithMulter, fileWithMulter } from '../utils/withMulter.js';
 
 import {
   listUsers,
@@ -21,6 +21,8 @@ import {
   yearIdValidator,
   buildingValidators,
   buildingIdValidator,
+  fileIdValidator,
+  fileValidators,
 } from '../validation/validators.js';
 import { validationCheck } from '../validation/helpers.js';
 
@@ -39,6 +41,14 @@ import {
   updateBuilding,
   deleteBuilding,
 } from './buildings.js';
+
+import {
+  listFiles,
+  getFile,
+  createFile,
+  removeFile,
+  updateFile,
+} from './files.js';
 
 export const router = express.Router();
 
@@ -61,7 +71,7 @@ router.get(
 router.post(
   '/years/',
   requireAdmin,
-  withMulter,
+  imageWithMulter,
   yearValidators,
   validationCheck,
   catchErrors(createYear),
@@ -76,7 +86,7 @@ router.get(
 router.patch(
   '/years/:yearId',
   requireAdmin,
-  withMulter,
+  imageWithMulter,
   yearValidators,
   validationCheck,
   catchErrors(updateYear),
@@ -99,7 +109,7 @@ router.get(
 router.post(
   '/years/:yearId/buildings/',
   requireAdmin,
-  withMulter,
+  imageWithMulter,
   buildingValidators,
   validationCheck,
   catchErrors(createBuilding),
@@ -114,7 +124,7 @@ router.get(
 router.patch(
   '/years/:yearId/buildings/:buildingId',
   requireAdmin,
-  withMulter,
+  imageWithMulter,
   buildingIdValidator,
   buildingValidators,
   validationCheck,
@@ -152,4 +162,43 @@ router.patch(
   adminValidator,
   validationCheck,
   catchErrors(updateUser),
+);
+
+router.get(
+  '/files',
+  validationCheck,
+  catchErrors(listFiles),
+);
+
+router.post(
+  '/files/',
+  // requireAdmin,
+  fileWithMulter,
+  fileValidators,
+  validationCheck,
+  catchErrors(createFile),
+);
+
+router.get(
+  '/files/:fileId',
+  validationCheck,
+  catchErrors(getFile),
+);
+
+router.patch(
+  '/files/:fileId',
+  // requireAdmin,
+  fileWithMulter,
+  fileIdValidator,
+  fileValidators,
+  validationCheck,
+  catchErrors(updateFile),
+);
+
+router.delete(
+  '/files/:fileId',
+  // requireAdmin,
+  fileIdValidator,
+  validationCheck,
+  catchErrors(removeFile),
 );

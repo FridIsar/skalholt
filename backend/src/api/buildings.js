@@ -101,15 +101,15 @@ export async function createBuilding(req, res) {
   const { file: { path: imagePath } = {} } = req;
 
   let svg = null;
+  const id = await singleQuery('SELECT curr_building_id FROM logging', []);
+  const newId = id.curr_building_id + 1;
 
   if (imagePath) {
     try {
       // This is not reliable if we allow multiple users to post buildings...
-      const id = await singleQuery('SELECT MAX(id) FROM buildings', []);
-
       const type = `/years/${startYear}/buildings/`;
 
-      const miniSvg = await configureSvg(imagePath, (id.max + 1), type);
+      const miniSvg = await configureSvg(imagePath, (newId + 1), type);
       if (!miniSvg) throw new Error('Failed to parse svg');
 
       svg = miniSvg;
@@ -130,6 +130,7 @@ export async function createBuilding(req, res) {
   });
 
   if (insertBuildingResult) {
+    await query('UPDATE logging SET curr_building_id = $1', [newId]);
     return res.status(201).json(insertBuildingResult);
   }
 

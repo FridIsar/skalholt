@@ -1,10 +1,13 @@
 /* eslint-disable no-await-in-loop */
 import { query, singleQuery } from './db.js';
-import { readStream } from './utils/fileSystem.js';
+import { readStream, readDir } from './utils/fileSystem.js';
 import { yearToPreviousDecade, yearToNextDecade } from './utils/decadeHelpers.js';
 
 const YEARS_SVG_ROUTE = '/years/';
+const FILES_ROUTE = '/files/';
+
 let currentBuilding = 1;
+let currentFile = 1;
 
 async function importYear(year) {
   const q = `
@@ -261,6 +264,30 @@ async function importKeys(k) {
   await query(q, values);
 }
 
+async function importFile(fileName) {
+  const q = `
+    INSERT INTO
+      files
+      (
+        tag,
+        href
+      )
+    VALUES
+      (
+        $1,
+        $2
+      )`;
+
+  const values = [
+    fileName,
+    `${FILES_ROUTE}${currentFile}`,
+  ];
+
+  await query(q, values);
+
+  currentFile += 1;
+}
+
 export async function importData() {
   // Years
   const years = await readStream('./data/csv/years.csv');
@@ -296,4 +323,19 @@ export async function importData() {
     await importKeys(keyList[i]);
     console.info(keyList[i].type);
   }
+
+  const fileNames = await readDir('./data/files');
+  for (let i = 0; i < fileNames.length; i += 1) {
+    await importFile(fileNames[i]);
+    console.info(fileNames[i]);
+  }
+
+  await query(
+    `INSERT INTO
+      logging(
+        curr_building_id,
+        curr_file_id)
+    VALUES($1, $2)`,
+    [currentBuilding - 1, currentFile - 1],
+  );
 }

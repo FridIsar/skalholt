@@ -10,7 +10,7 @@ const {
   MULTER_TEMP_DIR: multerDir = './temp',
 } = process.env;
 
-export default function withMulter(req, res, next) {
+export function imageWithMulter(req, res, next) {
   multer({ dest: multerDir })
     .single('image')(req, res, (err) => {
       if (err) {
@@ -18,6 +18,25 @@ export default function withMulter(req, res, next) {
           const errors = [{
             field: 'image',
             error: 'Unable to read image',
+          }];
+          return res.status(400).json({ errors });
+        }
+
+        return next(err);
+      }
+
+      return next();
+    });
+}
+
+export function fileWithMulter(req, res, next) {
+  multer({ dest: multerDir })
+    .single('file')(req, res, (err) => {
+      if (err) {
+        if (err.message === 'Unexpected field') {
+          const errors = [{
+            field: 'file',
+            error: 'Unable to read file',
           }];
           return res.status(400).json({ errors });
         }

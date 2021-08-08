@@ -7,6 +7,7 @@ import {
   patchAndParse,
   postAndParse,
   getRandomInt,
+  randomValue,
 } from './utils.js';
 
 describe('years admin', () => {
@@ -91,19 +92,19 @@ describe('years admin', () => {
     const { result, status } = await patchAndParse('/years/1670', data, token);
 
     expect(status).toBe(400);
-    expect(result.errors[0].msg).toBe('year must be an integer of at least 1670');
+    expect(result.error).toBe('Nothing to update');
   });
 
   test('PATCH /years/:yearId, year', async () => {
     const token = await loginAsHardcodedAdminAndReturnToken();
     expect(token).toBeTruthy();
 
-    const year = getRandomInt(4000, 5000);
-    const data = { year };
+    const description = randomValue();
+    const data = { description };
 
     const { result, status } = await patchAndParse(`/years/${storedYear}`, data, token);
 
     expect(status).toBe(200);
-    expect(result.year).toBe(year);
+    expect(result.description).toBe(description);
   });
 });

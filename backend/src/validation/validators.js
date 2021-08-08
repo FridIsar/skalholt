@@ -154,31 +154,6 @@ export const buildingIdValidator = param('buildingId')
   .isInt({ min: 1 })
   .withMessage('buildingId must be an integer larger than 0');
 
-function validateSvgMimetype(mimetype) {
-  return mimetype.toLowerCase() === 'image/svg+xml';
-}
-
-export const imageOptionalValidator = body('image')
-  .optional()
-  .custom(async (image, { req = {} }) => {
-    const { file: { path, mimetype } = {} } = req;
-
-    if (!path && !mimetype && req.method === 'PATCH') {
-      return Promise.resolve();
-    }
-
-    if (!path && !mimetype) {
-      return Promise.reject(new Error('image is required'));
-    }
-
-    if (!validateSvgMimetype(mimetype)) {
-      const error = `Mimetype ${mimetype} is not allowed. Only svg files are accepted`;
-      return Promise.reject(new Error(error));
-    }
-
-    return Promise.resolve();
-  });
-
 export const phaseValidator = body('phase')
   .if(isPatchingAllowAsOptional)
   .isLength({ min: 3, max: 32 })
@@ -214,8 +189,57 @@ export const englishOptionalValidator = body('en')
   .isString({ min: 0 })
   .withMessage('english attribution must be a string');
 
+export const fileIdValidator = param('fileId')
+  .isInt({ min: 1 })
+  .withMessage('fileId must be an integer larger than 0');
+
+function validateSvgMimetype(mimetype) {
+  return mimetype.toLowerCase() === 'image/svg+xml';
+}
+
+export const imageOptionalValidator = body('image')
+  .optional()
+  .custom(async (image, { req = {} }) => {
+    const { file: { path, mimetype } = {} } = req;
+
+    if (!path && !mimetype && req.method === 'PATCH') {
+      return Promise.resolve();
+    }
+
+    if (!path && !mimetype) {
+      return Promise.reject(new Error('image is required'));
+    }
+
+    if (!validateSvgMimetype(mimetype)) {
+      const error = `Mimetype ${mimetype} is not allowed. Only svg files are accepted`;
+      return Promise.reject(new Error(error));
+    }
+
+    return Promise.resolve();
+  });
+
+function validateCsvMimeType(mimetype) {
+  return mimetype.toLowerCase() === 'text/csv';
+}
+
+export const csvValidator = body('file')
+  .custom(async (file, { req = {} }) => {
+    const { file: { path, mimetype } = {} } = req;
+
+    if (!path && !mimetype) {
+      return Promise.reject(new Error('file is required'));
+    }
+
+    if (!validateCsvMimeType(mimetype)) {
+      const error = `Mimetype ${mimetype} is not allowed. Only csv files are accepted`;
+      return Promise.reject(new Error(error));
+    }
+
+    return Promise.resolve();
+  });
+
 export const yearValidators = [
-  yearValidator,
+  descriptionOptionalValidator,
   imageOptionalValidator,
 ];
 
@@ -229,4 +253,8 @@ export const buildingValidators = [
   englishOptionalValidator,
   icelandicOptionalValidator,
   imageOptionalValidator,
+];
+
+export const fileValidators = [
+  csvValidator,
 ];
