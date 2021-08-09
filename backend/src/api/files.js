@@ -109,7 +109,7 @@ export async function updateFile(req, res) {
       const alreadyExists = await exists(path.join(currPath, newPath));
 
       if (!alreadyExists) {
-        return res.status(400).json({ error: 'no file with that name exists' });
+        return res.status(404).json({ error: 'no file with that name exists' });
       }
 
       const data = await readFile(csvPath);
