@@ -7,6 +7,7 @@ import { Login } from './pages/Login/Login';
 import { NotFound } from './pages/Notfound/NotFound';
 import { Building } from './pages/Building/Building';
 import { About } from './pages/About/About';
+import { RawData } from './pages/RawData/RawData';
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
       <Route exact path="/" component={Index}/>
       <Route exact path="/admin" component={Login}/>
       <Route exact path="/about" component={About}/>
+      <Route exact path="/raw" component={RawData}/>
+      <Route exact path="/login" component={Login}/>
       <Route exact path="/finds/:id" component={Detailed}/>
       <Route path="/building/:idNyear" component={Building}/>
       <Route component={NotFound}/>
