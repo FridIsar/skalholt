@@ -7,8 +7,10 @@
     "start": "node ./src/app.js",
     "dev": "nodemon ./src/app.js",
     "lint": "eslint ./src --fix",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest",
-    "setup": "node ./src/setup.js"
+    "setup": "node ./src/setup.js",
+    "teardown": "node ./src/teardown.js",
+    "testcases": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test": "npm run setup && npm run testcases && npm run teardown"
   },
   "keywords": [],
   "author": "",

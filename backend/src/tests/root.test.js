@@ -1,5 +1,9 @@
 /* eslint-disable no-underscore-dangle */
-import { test, describe, expect } from '@jest/globals';
+import {
+  test,
+  describe,
+  expect,
+} from '@jest/globals';
 
 import { fetchAndParse } from './utils.js';
 

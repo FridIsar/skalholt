@@ -31,7 +31,14 @@ export function getRandomInt(min, max) {
   return Math.floor(Math.random() * (floorMax - ceilMin) + ceilMin);
 }
 
-export async function methodAndParse(method, path, data = null, token = null, imagePath = null) {
+export async function methodAndParse(
+  method,
+  path,
+  data = null,
+  token = null,
+  imagePath = null,
+  filePath = null,
+) {
   const url = new URL(path, baseUrl);
 
   const options = { headers: {} };
@@ -54,6 +61,20 @@ export async function methodAndParse(method, path, data = null, token = null, im
       }
     }
     options.body = form;
+  } else if (filePath) {
+    const resolvedFilePath = join(basePath, filePath);
+    const form = new FormData();
+    const stats = stat(resolvedFilePath);
+    const fileSizeInBytes = stats.size;
+    const fileStream = fs.createReadStream(resolvedFilePath);
+    form.append('file', fileStream, { knownLength: fileSizeInBytes });
+
+    if (data) {
+      for (const [key, value] of Object.entries(data)) {
+        form.append(key, value);
+      }
+    }
+    options.body = form;
   } else if (data) {
     options.headers['content-type'] = 'application/json';
     options.body = JSON.stringify(data);
@@ -67,7 +88,8 @@ export async function methodAndParse(method, path, data = null, token = null, im
 
   let json = null;
 
-  if (!path.includes('.svg')) {
+  // These paths only return statuses and SVG / CSV objects, no JSON
+  if (!(path.includes('.svg') || (path.includes('files') && method === 'GET'))) {
     json = await result.json();
   }
 
@@ -81,12 +103,12 @@ export async function fetchAndParse(path, token = null) {
   return methodAndParse('GET', path, null, token);
 }
 
-export async function postAndParse(path, data, token = null, imagePath) {
-  return methodAndParse('POST', path, data, token, imagePath);
+export async function postAndParse(path, data, token = null, imagePath = null, filePath = null) {
+  return methodAndParse('POST', path, data, token, imagePath, filePath);
 }
 
-export async function patchAndParse(path, data, token = null, imagePath) {
-  return methodAndParse('PATCH', path, data, token, imagePath);
+export async function patchAndParse(path, data, token = null, imagePath = null, filePath = null) {
+  return methodAndParse('PATCH', path, data, token, imagePath, filePath);
 }
 
 export async function deleteAndParse(path, data, token = null) {

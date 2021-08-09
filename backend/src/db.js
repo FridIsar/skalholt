@@ -231,7 +231,9 @@ export async function insertFile(csv) {
         $2
       )
     RETURNING
-      *`;
+      id,
+      tag,
+      href`;
 
   const values = [
     csv.csvName,
