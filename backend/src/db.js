@@ -23,11 +23,14 @@ pool.on('error', (err) => {
   process.exit(-1);
 });
 
+const FILES_ROUTE = '/files/';
+
 /**
  * Year
  * @typedef {Object} Year
  * @property {number} year - The number of the year
  * @property {string | null} image - Route for the background svg if defined
+ * @property {string | null} description - A brief description for that year if defined
  */
 
 /**
@@ -45,7 +48,7 @@ pool.on('error', (err) => {
  */
 
 /**
- * Find
+ * Find - THIS IS UNDER REVIEW
  * @typedef {Object} Find
  * @property {number} id - ID of the find
  * @property {number | null} quant - Quantity of the found item if defined
@@ -206,6 +209,41 @@ export async function insertBuilding({
     return result.rows[0];
   } catch (err) {
     logger.error('Error inserting building', err);
+  }
+
+  return null;
+}
+
+export async function insertFile(csv) {
+  const id = await singleQuery('SELECT curr_file_id FROM logging', []);
+  const newId = id.curr_file_id + 1;
+
+  const q = `
+    INSERT INTO
+      files
+      (
+        tag,
+        href
+      )
+    VALUES
+      (
+        $1,
+        $2
+      )
+    RETURNING
+      *`;
+
+  const values = [
+    csv.csvName,
+    `${FILES_ROUTE}${newId}`,
+  ];
+
+  try {
+    const result = await query(q, values);
+    await query('UPDATE logging SET curr_file_id = $1', [newId]);
+    return result.rows[0];
+  } catch (err) {
+    logger.error('Error inserting file', err);
   }
 
   return null;

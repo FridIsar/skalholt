@@ -13,7 +13,7 @@ export async function stat(file) {
   let result = null;
   try {
     result = await fsStat(file);
-  } catch (e) {
+  } catch (err) {
     // unused
   }
   return result;
@@ -33,7 +33,7 @@ export async function isReadable(dir) {
   let readable = true;
   try {
     await access(dir, fs.constants.R_OK);
-  } catch (e) {
+  } catch (err) {
     readable = false;
   }
 
@@ -54,11 +54,15 @@ export async function readFile(file, encoding = 'utf8') {
   return content.toString(encoding);
 }
 
+export async function deleteFile(file) {
+  fs.unlink((file), (err) => {
+    if (err) throw err;
+  });
+}
+
 export async function deleteFiles(files) {
   for (const file of files) {
-    fs.unlink((file), (err) => {
-      if (err) throw err;
-    });
+    deleteFile(file);
   }
 }
 
@@ -96,7 +100,7 @@ export async function readDir(dir) {
   let results = [];
   try {
     results = await fsReadDir(dir);
-  } catch {
+  } catch (err) {
     // unused
   }
   return results;

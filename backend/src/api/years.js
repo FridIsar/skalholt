@@ -4,6 +4,7 @@ import xss from 'xss';
 
 import { exists } from '../utils/fileSystem.js';
 import { logger } from '../utils/logger.js';
+import { isString } from '../utils/typeChecking.js';
 import configureSvg from '../utils/configureSvg.js';
 import {
   query,
@@ -105,11 +106,11 @@ export async function updateYear(req, res) {
   if (body.image && imagePath) return res.status(400).json(null);
 
   const fields = [
-    body.year ? 'year' : null,
+    isString(body.description) ? 'description' : null,
   ];
 
   const values = [
-    body.year ? xss(body.year) : null,
+    isString(body.description) ? xss(body.description) : null,
   ];
 
   let svg = null;

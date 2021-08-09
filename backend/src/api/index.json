@@ -77,5 +77,21 @@
         "PATCH"
       ]
     }
+  },
+  "files": {
+    "files": {
+      "href": "/files",
+      "methods": [
+        "GET",
+        "POST"
+      ]
+    },
+    "file": {
+      "href": "/files/{id}",
+      "methods": [
+        "PATCH",
+        "DELETE"
+      ]
+    }
   }
 }
