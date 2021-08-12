@@ -6,6 +6,7 @@ import { Map } from '../../components/Map/Map';
 import { Description } from '../../components/Description/Description';
 import { MapSidebar } from '../../components/MapSidebar/MapSidebar';
 import { MapSlider } from '../../components/MapSlider/MapSlider';
+import Cookies from 'universal-cookie';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -45,6 +46,10 @@ export function WholeSite() {
       }
     }
     fetchYears();
+
+    const cookies = new Cookies();
+    // console.log(cookies.get('myCat'));
+
   }, [])
 
   useEffect(() => {

@@ -11,7 +11,5 @@ export function joinUrls(...urls) {
     }
     finalUrl = finalUrl + currUrl;
   }
-  console.log(urls)
-  console.log(finalUrl)
   return finalUrl;
 }

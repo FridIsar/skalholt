@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Cookies from 'universal-cookie';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -39,6 +40,11 @@ export function LoginForm() {
         }
         json = await result.json();
         console.log(json);
+
+        const cookies = new Cookies();
+        var exDate = new Date()
+        exDate.setTime(exDate.getTime() + (json?.expiresIn * 1000));
+        cookies.set('admin', `${json?.token}`, { path: '/', expires: exDate });
 
         history.push('/');
       } catch (e) {
@@ -82,7 +88,7 @@ export function LoginForm() {
         </Button>
       </Form>
       {error &&
-        <p className={s.errorMsg}>Something went wrong, could not log in.</p>
+        <p className={s.errorMsg}>Something went wrong, could not log in. {error.toString()}</p>
       }
     </div>
   )
