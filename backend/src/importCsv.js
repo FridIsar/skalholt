@@ -289,31 +289,25 @@ async function importFile(fileName) {
 }
 
 export async function importData() {
-  // Years
   const years = await readStream('./data/csv/years.csv');
 
   console.info('Importing years');
   for (let i = 0; i < years.length; i += 1) {
     await importYear(years[i]);
-    console.info(years[i].year);
   }
 
-  // Buildings
   const buildings = await readStream('./data/csv/buildings.csv');
 
   console.info('Importing buildings');
   for (let i = 0; i < buildings.length; i += 1) {
     await importBuilding(buildings[i]);
-    console.info(buildings[i].en);
   }
 
-  // Finds
   const writing = await readStream('./data/csv/writing.csv');
 
   console.info('Importing writing implements');
   for (let i = 0; i < writing.length; i += 1) {
     await importWriting(writing[i]);
-    console.info(writing[i].obj_type);
   }
 
   const keyList = await readStream('./data/csv/keys.csv');
@@ -321,13 +315,13 @@ export async function importData() {
   console.info('Importing keys');
   for (let i = 0; i < keyList.length; i += 1) {
     await importKeys(keyList[i]);
-    console.info(keyList[i].type);
   }
 
   const fileNames = await readDir('./data/files');
+
+  console.info('Importing shared files');
   for (let i = 0; i < fileNames.length; i += 1) {
     await importFile(fileNames[i]);
-    console.info(fileNames[i]);
   }
 
   await query(

@@ -172,7 +172,7 @@ router.get(
 
 router.post(
   '/files/',
-  // requireAdmin,
+  requireAdmin,
   fileWithMulter,
   fileValidators,
   validationCheck,
@@ -187,7 +187,7 @@ router.get(
 
 router.patch(
   '/files/:fileId',
-  // requireAdmin,
+  requireAdmin,
   fileWithMulter,
   fileIdValidator,
   fileValidators,
@@ -197,7 +197,7 @@ router.patch(
 
 router.delete(
   '/files/:fileId',
-  // requireAdmin,
+  requireAdmin,
   fileIdValidator,
   validationCheck,
   catchErrors(removeFile),

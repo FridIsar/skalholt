@@ -1,12 +1,10 @@
 import path from 'path';
-import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 
 import { logger } from '../utils/logger.js';
 import {
   exists,
   readFile,
-  removeDir,
   writeFile,
   deleteFile,
 } from '../utils/fileSystem.js';
@@ -16,15 +14,6 @@ import {
   singleQuery,
   insertFile,
 } from '../db.js';
-
-import requireEnv from '../utils/requireEnv.js';
-
-dotenv.config();
-requireEnv(['MULTER_TEMP_DIR']);
-
-const {
-  MULTER_TEMP_DIR: multerDir = './temp',
-} = process.env;
 
 export async function listFiles(_req, res) {
   const files = await query(
@@ -45,14 +34,16 @@ export async function getFile(req, res) {
   const { fileId: id } = req.params;
   const actualFile = await singleQuery('SELECT tag FROM files WHERE id = $1', [id]);
 
-  const currPath = path.dirname(fileURLToPath(import.meta.url));
-  const csvExists = await exists(path.join(currPath, `../../data/files/${actualFile.tag}`));
+  if (actualFile) {
+    const currPath = path.dirname(fileURLToPath(import.meta.url));
+    const csvExists = await exists(path.join(currPath, `../../data/files/${actualFile.tag}`));
 
-  // res.download gives us the actual filename rather than the routed filename
-  // It also overrides certain browsers trying to render the csv themselves
-  if (csvExists) {
-    res.setHeader('Content-Type', 'text/csv');
-    return res.download(path.join(currPath, `../../data/files/${actualFile.tag}`), actualFile.tag);
+    // res.download gives us the actual filename rather than the routed filename
+    // It also overrides certain browsers trying to render the csv themselves
+    if (csvExists) {
+      res.setHeader('Content-Type', 'text/csv');
+      return res.download(path.join(currPath, `../../data/files/${actualFile.tag}`), actualFile.tag);
+    }
   }
 
   return res.status(404).json(null);
@@ -61,6 +52,8 @@ export async function getFile(req, res) {
 // Possible TODO:
 // Create and update are extremely similar, could combine?
 // Would need to pass responses around for different reaction
+// Alternatively instead of blocking the same name POST should
+// sequence names instead: a.csv, a1.csv, a2.csv and so on
 
 export async function createFile(req, res) {
   const { file: { path: csvPath, originalname: csvName } = {} } = req;
@@ -79,8 +72,6 @@ export async function createFile(req, res) {
 
       const data = await readFile(csvPath);
       await writeFile(path.join(currPath, newPath), data);
-
-      await removeDir(multerDir);
 
       const insertFileResult = await insertFile({
         csvName,
@@ -113,9 +104,7 @@ export async function updateFile(req, res) {
       }
 
       const data = await readFile(csvPath);
-
       await writeFile(path.join(currPath, newPath), data);
-      await removeDir(multerDir);
 
       return res.status(200).end();
     } catch (err) {
@@ -123,7 +112,7 @@ export async function updateFile(req, res) {
     }
   }
 
-  return res.status(400).json({ error: 'No file in request' });
+  return res.status(400).json({ error: 'Nothing to update' });
 }
 
 export async function removeFile(req, res) {
