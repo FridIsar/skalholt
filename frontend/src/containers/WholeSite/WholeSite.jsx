@@ -51,7 +51,6 @@ export function WholeSite() {
     async function fetchBuildings() {
       let json;
       const url = apiUrl+"years/"+year+"/buildings/";
-      console.log(url)
 
       try {
         const result = await fetch(url);

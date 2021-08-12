@@ -1,22 +1,33 @@
 import s from './description.module.scss';
 
+import { useState } from 'react';
 
 
+export function Description({ description, limit }) {
+  const [limited, setLimited] = useState(true);
 
-export function Description({ description, moreLink, limit }) {
+  if (!limit) {
+    setLimited(false);
+  }
+
+  const onClick = () => {
+    setLimited(!limited);
+  }
 
   return (
   <div className={s.description}>
-    {limit &&
+    {limited &&
       <p className={s.description__text} >{description?.substring(0, limit)+"..."}</p>
     }
-    {!limit &&
+    {!limited &&
       <p className={s.description__text} >{description}</p>
     }
-    {moreLink &&
-      <a className={s.description__link} href={moreLink}>See more.</a>
+    {(limited && limit) &&
+      <a className={s.description__link} onClick={onClick}>See more.</a>
     }
-    {/* make relative link to an artifact or room */}
+    {(!limited && limit) &&
+      <a className={s.description__link} onClick={onClick}>See less.</a>
+    }
   </div>
   )
 }

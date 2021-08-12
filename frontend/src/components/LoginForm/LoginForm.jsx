@@ -2,6 +2,7 @@ import s from "./loginForm.module.scss";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -11,6 +12,8 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [submited, setSubmited] = useState(false)
   const [error, setError] = useState(null)
+
+  const history = useHistory();
 
   function validateForm() {
     return userName?.length > 0 && password?.length > 0;
@@ -27,15 +30,17 @@ export function LoginForm() {
       headers: {'Content-Type': 'application/json' },
       body: JSON.stringify({ username: userName, password: password })
     };
-    console.log(requestOptions)
     async function request() {
       let json;
       try {
-        const result = await fetch(apiUrl + '/users/login', requestOptions);
+        const result = await fetch(apiUrl + 'users/login', requestOptions);
         if (!result.ok) {
           throw new Error('result not ok');
         }
         json = await result.json();
+        console.log(json);
+
+        history.push('/');
       } catch (e) {
         setError(e);
         return;
@@ -76,6 +81,9 @@ export function LoginForm() {
           Login
         </Button>
       </Form>
+      {error &&
+        <p className={s.errorMsg}>Something went wrong, could not log in.</p>
+      }
     </div>
   )
 }

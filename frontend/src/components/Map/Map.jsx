@@ -1,6 +1,7 @@
 import s from './map.module.scss';
 
 import { VectorMap } from '@south-paw/react-vector-maps';
+import { joinUrls } from '../../Utils/utils';
 
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -31,21 +32,6 @@ function makeMapJson(data) {
   }
 }
 
-function joinUrls(...urls) {
-  let finalUrl = '';
-  for (let i = 0; i < urls.length; i++) {
-    let currUrl = urls[i];
-    if (currUrl?.slice(-1) !== '/') {
-      currUrl = currUrl + '/';
-    }
-    if (currUrl?.slice(0,1) === '/') {
-      currUrl = currUrl?.substring(1);
-    }
-    finalUrl = finalUrl + currUrl;
-  }
-  return finalUrl;
-}
-
 export function Map({ data, background, current, setCurrent, setOnClick, loading, error }) {
 
   const layerProps = {
@@ -56,13 +42,13 @@ export function Map({ data, background, current, setCurrent, setOnClick, loading
 
   if (error) {
     return (
-      <p className={s.news__error}>Error: {error}</p>
+      <p className={s.error}>Error: {error}</p>
     );
   }
 
   if (loading) {
     return (
-      <p className={s.news__loading}>Loading...</p>
+      <p className={s.loading}>Loading...</p>
     );
   }
 
