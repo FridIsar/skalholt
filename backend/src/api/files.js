@@ -52,6 +52,8 @@ export async function getFile(req, res) {
 // Possible TODO:
 // Create and update are extremely similar, could combine?
 // Would need to pass responses around for different reaction
+// Alternatively instead of blocking the same name POST should
+// sequence names instead: a.csv, a1.csv, a2.csv and so on
 
 export async function createFile(req, res) {
   const { file: { path: csvPath, originalname: csvName } = {} } = req;
