@@ -6,7 +6,6 @@ export function Header() {
 
   const cookies = new Cookies();
   const admin = cookies.get('admin');
-  console.log(admin);
 
   const logout = () => {
     cookies.remove('admin');
@@ -14,7 +13,7 @@ export function Header() {
 
   return (
     <header className={s.header}>
-      <a href={'/'}><img className={s.header__image} src='/logo_modified.svg'/></a>
+      <a href={'/'}><img className={s.header__image} alt="Skalholt Excavations 2002-7, logo" src='/logo_modified.svg'/></a>
       <div className={s.header__content}>
         <a className={s.header__content__link} href="/raw"><h1 className={s.header__content__text}>Raw data</h1></a>
         <a className={s.header__content__link} href="/about"><h1 className={s.header__content__text}>The Project</h1></a>

@@ -55,7 +55,7 @@ export function LoginForm() {
     if (submited) {
       request();
     }
-  }, [submited]);
+  }, [submited, history, password, userName]);
 
   return (
     <div className="Login">

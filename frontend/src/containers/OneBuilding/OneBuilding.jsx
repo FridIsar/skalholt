@@ -36,14 +36,14 @@ export function OneBuilding() {
         }
         json = await result.json();
       } catch (e) {
+        setError("could not get building information")
         return;
       } finally {
         setData(json);
       }
     }
     fetchBuilding();
-
-  }, [])
+  })
 
   useEffect(() => {
     // TODO: make redirect to find
@@ -72,6 +72,8 @@ export function OneBuilding() {
         {/* TODO: make correct path to moreLink */}
         <Description description={data?.description}
           moreLink={apiUrl}
+          year={year}
+          buildingId={buildingId}
           limit={300}/>
       </div>
     </div>

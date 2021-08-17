@@ -17,5 +17,18 @@
   &__link {
     align-self: flex-end;
     cursor: pointer;
+    border: 0;
+    background-color: white;
   }
+
+  &__inputText {
+    width: 100%;
+    height: fit-content;
+    border: 0;
+    height: 10em;
+  }
+}
+
+.submitBtn {
+  // TODO
 }

@@ -6,7 +6,6 @@ import { Map } from '../../components/Map/Map';
 import { Description } from '../../components/Description/Description';
 import { MapSidebar } from '../../components/MapSidebar/MapSidebar';
 import { MapSlider } from '../../components/MapSlider/MapSlider';
-import Cookies from 'universal-cookie';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -17,7 +16,6 @@ export function WholeSite() {
   const [current, setCurrent] = useState(null);
   // data for this map
   const [data, setData] = useState(null);
-  const [buildingId, setBuildingID] = useState(null);
   const [year, setYear] = useState(1670);
   const [years, setYears] = useState(null);
   const [backgroundImage, setBackgroundImage] = useState(null);
@@ -46,10 +44,6 @@ export function WholeSite() {
       }
     }
     fetchYears();
-
-    const cookies = new Cookies();
-    // console.log(cookies.get('myCat'));
-
   }, [])
 
   useEffect(() => {
@@ -77,7 +71,7 @@ export function WholeSite() {
     if(selectedBuilding) {
       history.push(`/building/${selectedBuilding}-${year}`);
     }
-  }, [selectedBuilding])
+  }, [selectedBuilding, history, year])
 
   return (
     <div className={s.container}>
@@ -102,6 +96,8 @@ export function WholeSite() {
         {/* TODO: make correct path to moreLink */}
         <Description description={years?.filter(y => y.year === year)[0].description}
           moreLink={apiUrl}
+          year={year}
+          buildingId={null}
           limit={300}/>
       </div>
     </div>
