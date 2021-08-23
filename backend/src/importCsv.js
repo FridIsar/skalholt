@@ -9,6 +9,35 @@ const FILES_ROUTE = '/files/';
 let currentBuilding = 1;
 let currentFile = 1;
 
+async function importFile(fileName) {
+  const q = `
+    INSERT INTO
+      files
+      (
+        tag,
+        f_group,
+        href
+      )
+    VALUES
+      (
+        $1,
+        $2,
+        $3
+      )`;
+
+  // The filenames need to match the routing system for this to work
+  const f = fileName.split('.');
+  const values = [
+    fileName,
+    f[0],
+    `${FILES_ROUTE}${currentFile}`,
+  ];
+
+  await query(q, values);
+
+  currentFile += 1;
+}
+
 async function importYear(year) {
   const q = `
     INSERT INTO
@@ -71,151 +100,20 @@ async function importBuilding(building) {
   currentBuilding += 1;
 }
 
-async function importWriting(implement) {
+async function importFeatures(feature) {
   const q = `
     INSERT INTO
-      finds_writing
+      features
       (
-        find,
-        context,
-        quant,
-        weight,
-        obj_type,
-        stone_type,
-        group_no,
-        space,
-        area,
-        unit_type,
-        sieved,
-        phase,
-        building,
-        start_year,
-        end_year,
-        time_period,
-        attribution
-      )
-    VALUES
-      (
-        $1,
-        $2,
-        $3,
-        $4,
-        $5,
-        $6,
-        $7,
-        $8,
-        $9,
-        $10,
-        $11,
-        $12,
-        $13,
-        $14,
-        $15,
-        $16,
-        $17
-      )`;
-
-  const buildingId = await singleQuery(
-    `SELECT
-      id
-    FROM
-      buildings
-    WHERE
-      phase = $1`,
-    [implement.phase],
-  );
-
-  const values = [
-    implement.find || null,
-    implement.context || null,
-    implement.quant || null,
-    implement.weight || null,
-    implement.obj_type || null,
-    implement.stone_type || null,
-    implement.group_no || null,
-    implement.space || null,
-    implement.area || null,
-    implement.unit_type || null,
-    implement.sieved || null,
-    implement.phase || null,
-    buildingId.id || null,
-    implement.start_year || null,
-    implement.end_year || null,
-    implement.time_period || null,
-    implement.attribution || null,
-  ];
-
-  await query(q, values);
-}
-
-async function importKeys(k) {
-  const q = `
-    INSERT INTO
-      finds_keys
-      (
-        finds_no,
-        find_id,
-        context,
-        key_no,
-        find_date,
-        photo,
-        completeness,
-        material,
-        condition,
-        length,
-        weight,
-        bow,
         type,
-        shape_bow,
-        collar,
-        size_bow,
-        length_stem,
-        stem,
-        thickness_stem,
-        bit_teeth,
-        bit_shape,
-        id_1,
-        notes,
-        phase,
-        building,
-        start_year,
-        end_year,
-        real_date,
-        time_period,
-        attribution
+        description,
+        building
       )
     VALUES
       (
         $1,
         $2,
-        $3,
-        $4,
-        $5,
-        $6,
-        $7,
-        $8,
-        $9,
-        $10,
-        $11,
-        $12,
-        $13,
-        $14,
-        $15,
-        $16,
-        $17,
-        $18,
-        $19,
-        $20,
-        $21,
-        $22,
-        $23,
-        $24,
-        $25,
-        $26,
-        $27,
-        $28,
-        $29,
-        $30
+        $3
       )`;
 
   const buildingId = await singleQuery(
@@ -225,70 +123,75 @@ async function importKeys(k) {
       buildings
     WHERE
       phase = $1`,
-    [k.phase],
+    [feature['Building Phase']],
   );
 
+  if (!buildingId) {
+    return;
+  }
+
   const values = [
-    k.finds_no || null,
-    k.find_id || null,
-    k.context || null,
-    k.key_no || null,
-    k.find_date || null,
-    k.photo || null,
-    k.completeness || null,
-    k.material || null,
-    k.condition || null,
-    k.length || null,
-    k.weight || null,
-    k.bow || null,
-    k.type || null,
-    k.shape_bow || null,
-    k.collar || null,
-    k.size_bow || null,
-    k.length_stem || null,
-    k.stem || null,
-    k.thickness_stem || null,
-    k.bit_teeth || null,
-    k.bit_shape || null,
-    k.id_1 || null,
-    k.notes || null,
-    k.phase || null,
+    feature['Unit type'] || null,
+    feature.Description || null,
     buildingId.id || null,
-    k.start_year || null,
-    k.end_year || null,
-    k.real_date || null,
-    k.time_period || null,
-    k.attribution || null,
   ];
 
   await query(q, values);
 }
 
-async function importFile(fileName) {
+async function importFinds(find, type) {
   const q = `
     INSERT INTO
-      files
+      finds
       (
-        tag,
-        href
+        obj_type,
+        material_type,
+        f_group,
+        quantity,
+        building
       )
     VALUES
       (
         $1,
-        $2
+        $2,
+        $3,
+        $4,
+        $5
       )`;
 
+  const buildingId = await singleQuery(
+    `SELECT
+      id
+    FROM
+      buildings
+    WHERE
+      phase = $1`,
+    [find.phase],
+  );
+
+  if (!buildingId) {
+    return;
+  }
+
   const values = [
-    fileName,
-    `${FILES_ROUTE}${currentFile}`,
+    find.obj_type || null,
+    find.material_type || null,
+    type,
+    find.quantity ? find.quantity : 1,
+    buildingId.id,
   ];
 
   await query(q, values);
-
-  currentFile += 1;
 }
 
 export async function importData() {
+  const fileNames = await readDir('./data/files');
+
+  console.info('Importing shared files');
+  for (let i = 0; i < fileNames.length; i += 1) {
+    await importFile(fileNames[i]);
+  }
+
   const years = await readStream('./data/csv/years.csv');
 
   console.info('Importing years');
@@ -303,25 +206,41 @@ export async function importData() {
     await importBuilding(buildings[i]);
   }
 
+  const features = await readStream('./data/csv/features.csv');
+
+  console.info('Importing features');
+  for (let i = 0; i < features.length; i += 1) {
+    await importFeatures(features[i]);
+  }
+
+  // Import each find category with the required file group type
+  // See the file_group ENUM in the sql schema
   const writing = await readStream('./data/csv/writing.csv');
 
   console.info('Importing writing implements');
   for (let i = 0; i < writing.length; i += 1) {
-    await importWriting(writing[i]);
+    await importFinds(writing[i], 'writing');
   }
 
   const keyList = await readStream('./data/csv/keys.csv');
 
   console.info('Importing keys');
   for (let i = 0; i < keyList.length; i += 1) {
-    await importKeys(keyList[i]);
+    await importFinds(keyList[i], 'keys');
   }
 
-  const fileNames = await readDir('./data/files');
+  const pottery = await readStream('./data/csv/pottery.csv');
 
-  console.info('Importing shared files');
-  for (let i = 0; i < fileNames.length; i += 1) {
-    await importFile(fileNames[i]);
+  console.info('Importing pottery');
+  for (let i = 0; i < pottery.length; i += 1) {
+    await importFinds(pottery[i], 'pottery');
+  }
+
+  const tiles = await readStream('./data/csv/tiles.csv');
+
+  console.info('Importing tiles');
+  for (let i = 0; i < tiles.length; i += 1) {
+    await importFinds(tiles[i], 'tiles');
   }
 
   await query(

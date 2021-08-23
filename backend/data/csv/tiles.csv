@@ -1,0 +1,36 @@
+ID1,ID,Finds no,Unit No,obj_type,No fragments,Fragment type(s),Max edge length (mm),Nosides present,Weight (g),material_type,Glazed,Decoration,Other,Draw,phase,Real Date,Start Date,End Date,Period_Date,Attribution,GroupNo,Space,Unit type,Unit entropy,Sieved
+8,5,21,1,stove tile,1,middle,0,0,11.9,A,y,none,flat mid section,n,LH,1958,,1958,1930-1960,Levelling Horizon,752,752,Demolition,disorganized,FALSE
+19,20,7486,1,stove tile,2,middle,0,0,22.3,A,y,moulded - near edge?,,n,LH,1958,,1958,1930-1960,Levelling Horizon,752,752,Demolition,disorganized,FALSE
+16,17,2573,200,stove tile,1,base/cornice,60,1,76,B,y,relief moulded decoration,over-fired/burnt?,y,S4.3,1780-1800,1780,1800,1780-1810,Lodge/Dining Room & Chambers,799,989,Floor,in situ,FALSE
+21,7,1716,364,stove tile?,1,?,0,0,7.4,A,?,fragment with no front face; prob from base of stove tile (or even brick),,n,T1.3,2002-2007,2002,2007,1990-2020,FSÍ Excavation,744,364,Excavation,in situ,FALSE
+2,9,2422,441,floor/wall tile?,1,middle,0,0,10.4,A,y,white slip under mottled green/clear glaze; poss floor tile? Same as no.16,,n,S20.1,1650-1670,1650,1670,1630-1690,School Dormitory,436,733,Floor,in situ,TRUE
+22,8,7496,1292,stove tile?,1,edge,45,1,9,C,n,"moulded edge, no glaze; prob stove tile (but could be from curfew?)",,n,S12.2,1740,,1740,1720-1750,Living Quarters,1320,1320,Wall,disorganized,FALSE
+18,19,7515,1316,stove tile,1,base/cornice,80,1,100,A,y,relief moulded decoration,"large edge of foot/cornice, sooted int; prob same as no.18",y,S18.8,1790-1830,1790,1830,1780-1840,Midden,1335,1335,Wall,disorganized,FALSE
+11,11,7599,1447,stove tile,1,middle,0,0,3.3,A,y,relief moulded decoration,near edge?,n,MC.1,1650-1700,1650,1700,1630-1720,Midden Zone C,634,1440,Midden,in situ,TRUE
+13,13,7606,1453,stove tile,1,middle,0,0,17.3,A,y,relief moulded decoration,over-fired/burnt?,n,S8.2,1750-1800,1750,1800,1750-1810,Nursery/Private Chambers,39,39,Wall,in situ,FALSE
+4,1,10714,1882,stove tile,1,edge,35,1,20.7,A,y,edge of relief moulded decoration and moulded edge,square panel tile,y,S23.1,1700-1720,1700,1720,1690-1720,Bishops Living Quarters,1997,2551,Floor,in situ,TRUE
+17,18,10742,1956,stove tile,3,base/cornice,80,1,80.3,A,y,relief moulded decoration,"one large edge (foot/cornice), 2 small middle parts - poss different tiles",n,S31.2,1700-1720,1700,1720,1690-1720,Bishops Dining Room,1904,1904,External area,disturbed,FALSE
+12,12,10777,2072,stove tile,1,edge,20,1,5,B,y,relief moulded edge,"poss same stove/tile as no.4; splash glazed, reduced/sooted ext",n,MC.1,1650-1700,1650,1700,1630-1720,Midden Zone C,634,2008,Midden,in situ,TRUE
+9,6,10798,2104,stove tile,1,base/cornice,45,1,26.7,A,y,2 rows of geometric scales; side corner or more likely cornice section,sooted int.,y,MC.1,1650-1700,1650,1700,1630-1720,Midden Zone C,634,2008,Slopewash,in situ,TRUE
+6,3,10799,2106,stove tile,2,base corner,60,3,156.8,A,n,relief moulded both sides; one side has foot?,joining sherds: corner of base panel tile; sooted inside,y,MC.1,1650-1700,1650,1700,1630-1720,Midden Zone C,634,2008,Midden,in situ,TRUE
+10,10,10881,2292,stove tile,2,middle,0,0,10.6,A,y,relief moulded decoration,joining sherds,n,S18.3,1690-1700,1690,1700,1690-1720,Pantry,1884,1884,Floor,in situ,TRUE
+20,21,10884,2301,stove tile,2,base,40,3,20.6,A,y,edge moulded; glaze on one sherd (base),"1 base/corner frag and 1 side edge frag, prob from same tile; sooted",n,S6.1,1720-1760,1720,1760,1720-1780,Bishops Living Quarters,2214,1624,Fireplace,disturbed,FALSE
+5,2,10897,2324,stove tile,1,middle,0,0,18,A,y,relief moulded,panel tile,n,S6.1,1720-1760,1720,1760,1720-1780,Bishops Living Quarters,2214,1624,Floor,in situ,FALSE
+14,14,10905,2347,stove tile,1,edge,35,1,32.9,A,n,moulded edge;,poss same stove as no.3,n,S6.1,1720-1760,1720,1760,1720-1780,Bishops Living Quarters,2214,1624,Floor,in situ,FALSE
+15,15,10905,2347,stove tile,1,middle,0,0,8.4,B,y,none,even green glaze - not splash,n,S6.1,1720-1760,1720,1760,1720-1780,Bishops Living Quarters,2214,1624,Floor,in situ,FALSE
+3,16,10972,2513,floor/wall tile?,2,edge,45,1,102.2,A,y,none,clear/green mottled glaze over white slip on surface and edge; 20mm thick tile; joining sherds,y,S18.1,1670-1680,1670,1680,1660-1690,Pantry,2493,1884,Drain,in situ,FALSE
+,,14245,2680,stove tile,1,edge,1,3,19.8,A,n,Grooved edge,in pottery bag/box,,C.1,1670-1720,1670,1720,1660-1720,Courtyard,1257,1257,External area,in situ,FALSE
+,,14157,2694,stove tile,1,middle,0,2,11.9,A,n,edge of relief moulded decoration,in pottery bag/box,,S23.1,1700-1720,1700,1720,1690-1720,Bishops Living Quarters,2658,2551,Floor,in situ,TRUE
+,,14114,2872,stove tile,1,middle,0,1,5.6,A,y,relief decoration,in pottery bag/box,,S23.1,1700-1720,1700,1720,1690-1720,Bishops Living Quarters,2863,2551,Floor,in situ,TRUE
+,,14116,2872,stove tile,1,edge,2,3,6.8,B,y,"straight edge with raised flange, flat back",in pottery bag/box,,S23.1,1700-1720,1700,1720,1690-1720,Bishops Living Quarters,2863,2551,Floor,in situ,TRUE
+,,14094,2904,stove tile?,1,middle,0,2,10.1,A,,plain fragment,in pottery bag/box,,S23.1,1700-1720,1700,1720,1690-1720,Bishops Living Quarters (earlier),2658,2551,Floor,in situ,TRUE
+,,14079,2949,stove tile?,1,middle,0,1,1.5,A,n,combed curving relief,in pottery bag/box,,S23.1,1700-1720,1700,1720,1690-1720,Bishops Living Quarters,2658,2551,Floor,in situ,TRUE
+,,14147,2963,stove tile,1,middle,0,1,4.2,A,n,relief moulding,in pottery bag/box,,S17.1,1670-1690,1670,1690,1660-1690,Meat Store,2960,1680,Drain,in situ,FALSE
+7,4,10989,0,stove tile,1,base corner,45,3,46.8,B,y,no panel extant; uncertain,pedestal foot; splash glaze; heavily sooted/reduced/over-fired,n,,,,,,,0,,,,FALSE
+359,117,1180,170,stove tile,2,fragment,,,59.1,pinkish white,n,decorative tiles - unglazed; stove?,,,S11.4,1740,,1740,1720-1750,Priests Living Quarters,421,421,Roof,disorganized,FALSE
+362,172,6396,778,stove tile,5,fragment,,,103.5,pinkish red,y,25mm thick - refits with #164,rare grog,,S29.1,1780-1790,1780,1790,1780-1810,Infirmary,3029,3029,Floor,in situ,FALSE
+360,164,6404,847,stove tile,1,chip,,,52.2,pinkish red,y,traces of white ?tin glaze on one side - tile? Refits with #172,"occ grog, quartz & flint",,S22.1,1670-1700,1670,1700,1660-1720,Assistant Teachers Quarters,842,842,Wall,disturbed,FALSE
+361,165,6406,853,stove tile,1,chip,,,7.8,pinkish red,y,trace of buff glaze; also curved edge. Tile?,,,S22.3,1730-1750,1730,1750,1720-1750,Assistant Teachers Quarters,842,842,Floor,in situ,FALSE
+363,302,9008,1509,stove tile,2,fragment,,,36.6,A,y,dark brown glazed. Floor/wall - or stove tile?,"mica, grey grit",,S11.1,1690-1720,1690,1720,1690-1720,Living Quarters,2757,2757,Floor,disturbed,FALSE
+364,333,12263,2228,stove tile,1,chip,,,4.8,pinkish red,y,tiny traces of brown glaze,,,IS.1,1650-1720,1650,1720,1630-1720,Interstice,3024,2109,Drain,in situ,TRUE
+365,399,12281,2415,stove tile,1,chip,,,8,A,y,traces of glaze; corner of tile,"mica, grey grit",,MC.1,1650-1700,1650,1700,1630-1720,Midden Zone C,634,2193,Wall,disorganized,TRUE

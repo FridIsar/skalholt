@@ -218,11 +218,16 @@ export const imageOptionalValidator = body('image')
     return Promise.resolve();
   });
 
-function validateCsvMimeType(mimetype) {
-  return mimetype.toLowerCase() === 'text/csv';
+const FILE_MIMETYPES = [
+  'text/csv',
+  'application/zip',
+];
+
+function validateFileMimeType(mimetype) {
+  return FILE_MIMETYPES.indexOf(mimetype.toLowerCase()) >= 0;
 }
 
-export const csvValidator = body('file')
+export const fileValidator = body('file')
   .custom(async (file, { req = {} }) => {
     const { file: { path, mimetype } = {} } = req;
 
@@ -230,7 +235,7 @@ export const csvValidator = body('file')
       return Promise.reject(new Error('file is required'));
     }
 
-    if (!validateCsvMimeType(mimetype)) {
+    if (!validateFileMimeType(mimetype)) {
       const error = `Mimetype ${mimetype} is not allowed. Only csv files are accepted`;
       return Promise.reject(new Error(error));
     }
@@ -256,5 +261,5 @@ export const buildingValidators = [
 ];
 
 export const fileValidators = [
-  csvValidator,
+  fileValidator,
 ];

@@ -14,9 +14,15 @@ import {
   insertBuilding,
 } from '../db.js';
 import {
-  writingFinds,
-  keyFinds,
+  getFilesByBuilding,
+  getFilesByGroup,
+} from './files.js';
+import {
+  listFinds,
 } from './finds.js';
+import {
+  listFeatures,
+} from './features.js';
 
 async function buildingDetails(id, year) {
   if (!id) {
@@ -39,12 +45,18 @@ async function buildingDetails(id, year) {
     return null;
   }
 
-  const finds = {};
-  finds.writing = await writingFinds(id);
-  finds.keys = await keyFinds(id);
-  finds.tiles = [];
+  const files = {};
+  const featureFiles = await getFilesByGroup('features');
+  const findFiles = await getFilesByBuilding(id);
 
+  files.finds = findFiles;
+  files.features = featureFiles;
+
+  const features = await listFeatures(id);
+  const finds = await listFinds(id);
+  building.features = features;
   building.finds = finds;
+  building.files = files;
 
   return building;
 }

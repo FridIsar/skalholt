@@ -146,3 +146,43 @@ export async function removeFile(req, res) {
 
   return res.status(500).json(null);
 }
+
+export async function getFilesByGroup(group) {
+  const files = await query(
+    `SELECT
+      id,
+      tag,
+      href
+    FROM
+      files
+    WHERE
+      f_group = $1`,
+    [group],
+  );
+
+  return files.rows;
+}
+
+export async function getFilesByBuilding(id) {
+  const files = await query(
+    `SELECT
+      id,
+      tag,
+      href
+    FROM
+      files
+    WHERE
+      f_group IN
+        (
+          SELECT DISTINCT
+            f_group
+          FROM
+            finds
+          WHERE
+            building = $1
+        )`,
+    [id],
+  );
+
+  return files.rows;
+}
