@@ -63,7 +63,7 @@ CREATE TABLE finds (
   obj_type VARCHAR(32),
   material_type VARCHAR(64),
   f_group file_group,
-  quantity SMALLINT,
+  fragments SMALLINT,
   building INTEGER,
   CONSTRAINT FK_finds_building FOREIGN KEY (building) REFERENCES buildings (id) ON DELETE CASCADE
 );

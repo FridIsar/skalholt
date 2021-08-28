@@ -1,4 +1,4 @@
-id_ref,find,context,quantity,weight,obj_type,material_type,group_no,space,area,unit_type,unit_entropy,sieved,phase,start,end,period,attribution,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+id_ref,find,context,fragments,weight,obj_type,material_type,group_no,space,area,unit_type,unit_entropy,sieved,phase,start,end,period,attribution,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 1,3771,1238,1,0.86,Graphite Crayon,Graphite,831,443,743,Floor,in situ,0,S5.4,1780,1800,1780-1810,Pantry/Study & Library,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,0.86,,,,,,,,,,,,,,,,,,,,,,
 2,1515,277,1,3.5,Green crayon,Ferroceladonite,272,733,161,Drain,in situ,1,S20.2,1670,1700,1660-1720,School Dormitory,,,,,,,,,,,,,,,,,,,,,,,,1,3.5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 3,6311,1022,1,0.1,Pigment,Celadonite,894,878,161,Floor,in situ,1,S21.1,1650,1690,1630-1690,School Room,,,,,,,,,,,,,,,,,,,,,,,,1,0.1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

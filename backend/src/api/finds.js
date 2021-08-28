@@ -3,23 +3,53 @@ import {
   query,
 } from '../db.js';
 
-export async function listFinds(building) {
+export async function listFinds(req, res) {
+  const { buildingId: building } = req.params;
+
+  const finds = await query(
+    `SELECT
+      id,
+      f_group AS group,
+      obj_type,
+      material_type,
+      fragments
+    FROM
+      finds
+    WHERE
+      building = $1
+    ORDER BY
+      f_group ASC`,
+    [building],
+  );
+
+  if (finds && finds.rows[0]) {
+    return res.json(finds.rows);
+  }
+
+  return res.status(404).json(null);
+}
+
+export async function summarizeFinds(building) {
   let finds = [];
 
   try {
     const result = await query(
       `SELECT
-        id,
-        f_group AS group,
+        f_group,
         obj_type,
         material_type,
-        quantity
+        SUM(fragments) AS fragments
       FROM
         finds
       WHERE
         building = $1
+      GROUP BY
+        f_group,
+        obj_type,
+        material_type
       ORDER BY
-        f_group ASC`,
+        f_group ASC,
+        obj_type ASC`,
       [building],
     );
 
@@ -27,7 +57,7 @@ export async function listFinds(building) {
       finds = result.rows;
     }
   } catch (err) {
-    logger.warn('Unable to query finds for building', building, err);
+    logger.warn('Unable to query summarized finds for building', building, err);
   }
 
   return finds;

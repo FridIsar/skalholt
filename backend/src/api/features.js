@@ -3,19 +3,44 @@ import {
   query,
 } from '../db.js';
 
-export async function listFeatures(building) {
+export async function listFeatures(req, res) {
+  const { buildingId: building } = req.params;
+
+  const features = await query(
+    `SELECT
+      id,
+      type,
+      description
+    FROM
+      features
+    WHERE
+      building = $1`,
+    [building],
+  );
+
+  if (features && features.rows[0]) {
+    return res.json(features.rows);
+  }
+
+  return res.status(404).json(null);
+}
+
+export async function summarizeFeatures(building) {
   let features = [];
 
   try {
     const result = await query(
       `SELECT
-        id,
         type,
-        description
+        count(id) AS fragments
       FROM
         features
       WHERE
-        building = $1`,
+        building = $1
+      GROUP BY
+        type
+      ORDER BY
+        type ASC`,
       [building],
     );
 
@@ -23,7 +48,7 @@ export async function listFeatures(building) {
       features = result.rows;
     }
   } catch (err) {
-    logger.warn('Unable to query features for building', building, err);
+    logger.warn('Unable to query summarized features for building', building, err);
   }
 
   return features;

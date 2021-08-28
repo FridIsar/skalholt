@@ -18,10 +18,10 @@ import {
   getFilesByGroup,
 } from './files.js';
 import {
-  listFinds,
+  summarizeFinds,
 } from './finds.js';
 import {
-  listFeatures,
+  summarizeFeatures,
 } from './features.js';
 
 async function buildingDetails(id, year) {
@@ -49,11 +49,11 @@ async function buildingDetails(id, year) {
   const featureFiles = await getFilesByGroup('features');
   const findFiles = await getFilesByBuilding(id);
 
-  files.finds = findFiles;
   files.features = featureFiles;
+  files.finds = findFiles;
 
-  const features = await listFeatures(id);
-  const finds = await listFinds(id);
+  const features = await summarizeFeatures(id);
+  const finds = await summarizeFinds(id);
   building.features = features;
   building.finds = finds;
   building.files = files;

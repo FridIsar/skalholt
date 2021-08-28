@@ -147,7 +147,7 @@ async function importFinds(find, type) {
         obj_type,
         material_type,
         f_group,
-        quantity,
+        fragments,
         building
       )
     VALUES
@@ -177,7 +177,7 @@ async function importFinds(find, type) {
     find.obj_type || null,
     find.material_type || null,
     type,
-    find.quantity ? find.quantity : 1,
+    find.fragments ? find.fragments : 1,
     buildingId.id,
   ];
 

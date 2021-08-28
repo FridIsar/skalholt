@@ -50,6 +50,14 @@ import {
   updateFile,
 } from './files.js';
 
+import {
+  listFeatures,
+} from './features.js';
+
+import {
+  listFinds,
+} from './finds.js';
+
 export const router = express.Router();
 
 function returnResource(req, res) {
@@ -138,6 +146,18 @@ router.delete(
   buildingIdValidator,
   validationCheck,
   catchErrors(deleteBuilding),
+);
+
+router.get(
+  '/years/:yearId/buildings/:buildingId/features',
+  validationCheck,
+  catchErrors(listFeatures),
+);
+
+router.get(
+  '/years/:yearId/buildings/:buildingId/finds',
+  validationCheck,
+  catchErrors(listFinds),
 );
 
 router.get(

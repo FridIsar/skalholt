@@ -1,4 +1,4 @@
-ID1,ID,Finds no,Unit No,obj_type,No fragments,Fragment type(s),Max edge length (mm),Nosides present,Weight (g),material_type,Glazed,Decoration,Other,Draw,phase,Real Date,Start Date,End Date,Period_Date,Attribution,GroupNo,Space,Unit type,Unit entropy,Sieved
+ID1,ID,Finds no,Unit No,obj_type,fragments,Fragment type(s),Max edge length (mm),Nosides present,Weight (g),material_type,Glazed,Decoration,Other,Draw,phase,Real Date,Start Date,End Date,Period_Date,Attribution,GroupNo,Space,Unit type,Unit entropy,Sieved
 8,5,21,1,stove tile,1,middle,0,0,11.9,A,y,none,flat mid section,n,LH,1958,,1958,1930-1960,Levelling Horizon,752,752,Demolition,disorganized,FALSE
 19,20,7486,1,stove tile,2,middle,0,0,22.3,A,y,moulded - near edge?,,n,LH,1958,,1958,1930-1960,Levelling Horizon,752,752,Demolition,disorganized,FALSE
 16,17,2573,200,stove tile,1,base/cornice,60,1,76,B,y,relief moulded decoration,over-fired/burnt?,y,S4.3,1780-1800,1780,1800,1780-1810,Lodge/Dining Room & Chambers,799,989,Floor,in situ,FALSE

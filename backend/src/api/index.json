@@ -44,6 +44,22 @@
       ]
     }
   },
+  "features": {
+    "features": {
+      "href": "/years/{year}/buildings/{id}/features",
+      "methods": [
+        "GET"
+      ]
+    }
+  },
+  "finds": {
+    "finds": {
+      "href": "/years/{year}/buildings/{id}/finds",
+      "methods": [
+        "GET"
+      ]
+    }
+  },
   "users": {
     "users": {
       "href": "/users",
