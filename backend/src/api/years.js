@@ -47,9 +47,7 @@ export async function listYear(req, res) {
 }
 
 export async function createYear(req, res) {
-  const {
-    year,
-  } = req.body;
+  const { year } = req.body;
   const { file: { path: imagePath } = {} } = req;
 
   let svg = null;

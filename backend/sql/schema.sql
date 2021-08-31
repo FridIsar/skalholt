@@ -1,3 +1,4 @@
+-- Additional files for e.g. finds need to be added manually
 CREATE TYPE file_group AS ENUM (
   'buildings',
   'features',
