@@ -32,7 +32,7 @@ export async function summarizeFeatures(building) {
     const result = await query(
       `SELECT
         type,
-        count(id) AS fragments
+        count(id) AS units
       FROM
         features
       WHERE
