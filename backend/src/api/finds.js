@@ -35,21 +35,16 @@ export async function summarizeFinds(building) {
   try {
     const result = await query(
       `SELECT
-        f_group,
-        obj_type,
-        material_type,
+        f_group AS group,
         SUM(fragments) AS fragments
       FROM
         finds
       WHERE
         building = $1
       GROUP BY
-        f_group,
-        obj_type,
-        material_type
+        f_group
       ORDER BY
-        f_group ASC,
-        obj_type ASC`,
+        f_group ASC`,
       [building],
     );
 

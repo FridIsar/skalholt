@@ -156,3 +156,7 @@
 {"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-08-09 17:11:04"}
 {"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-08-12 09:41:00"}
 {"0":"1","1":"2","level":"warn","message":"Unable to query finds for building","timestamp":"2021-08-28 14:04:29","length":108,"name":"error","severity":"ERROR","code":"42703","position":"95","file":"parse_relation.c","line":"3504","routine":"errorMissingColumn"}
+{"0":"1","1":"2","level":"warn","message":"Unable to query summarized finds for building","timestamp":"2021-08-31 09:38:36","length":95,"name":"error","severity":"ERROR","code":"42601","position":"158","file":"scan.l","line":"1176","routine":"scanner_yyerror"}
+{"0":"1","1":"2","level":"warn","message":"Unable to query summarized finds for building","timestamp":"2021-08-31 09:39:37","length":95,"name":"error","severity":"ERROR","code":"42601","position":"158","file":"scan.l","line":"1176","routine":"scanner_yyerror"}
+{"0":"1","1":"2","level":"warn","message":"Unable to query summarized finds for building","timestamp":"2021-08-31 09:39:52","length":95,"name":"error","severity":"ERROR","code":"42601","position":"121","file":"scan.l","line":"1176","routine":"scanner_yyerror"}
+{"0":"1","1":"2","level":"warn","message":"Unable to query summarized finds for building","timestamp":"2021-08-31 09:42:01","length":95,"name":"error","severity":"ERROR","code":"42601","position":"121","file":"scan.l","line":"1176","routine":"scanner_yyerror"}
