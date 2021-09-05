@@ -30,7 +30,7 @@
       ]
     },
     "building": {
-      "href": "/years/{year}/buildings/{id}",
+      "href": "/years/{year}/buildings/{buildingId}",
       "methods": [
         "GET",
         "PATCH",
@@ -38,7 +38,7 @@
       ]
     },
     "image": {
-      "href": "/years/{year}/buildings/{id}.svg",
+      "href": "/years/{year}/buildings/{buildingId}.svg",
       "methods": [
         "GET"
       ]
@@ -46,17 +46,33 @@
   },
   "features": {
     "features": {
-      "href": "/years/{year}/buildings/{id}/features",
+      "href": "/years/{year}/buildings/{buildingId}/features",
       "methods": [
-        "GET"
+        "GET",
+        "POST"
+      ]
+    },
+    "feature": {
+      "href": "/years/{year}/buildings/{buildingId}/features/{featureId}",
+      "methods": [
+        "PATCH",
+        "DELETE"
       ]
     }
   },
   "finds": {
     "finds": {
-      "href": "/years/{year}/buildings/{id}/finds",
+      "href": "/years/{year}/buildings/{buildingId}/finds",
       "methods": [
-        "GET"
+        "GET",
+        "POST"
+      ]
+    },
+    "find": {
+      "href": "/years/{year}/buildings/{buildingId}/finds/{findId}",
+      "methods": [
+        "PATCH",
+        "DELETE"
       ]
     }
   },
