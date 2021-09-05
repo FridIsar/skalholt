@@ -19,7 +19,7 @@ describe('files admin', () => {
     const token = await loginAsHardcodedAdminAndReturnToken();
     expect(token).toBeTruthy();
 
-    const { status } = await postAndParse('/files', null, token, null, './test1.csv');
+    const { status } = await postAndParse('/files', null, token, null, './atestfile.csv');
 
     expect(status).toBe(201);
   });
@@ -54,7 +54,7 @@ describe('files admin', () => {
     const token = await loginAsHardcodedAdminAndReturnToken();
     expect(token).toBeTruthy();
 
-    const { result, status } = await postAndParse('/files', null, token, null, './test2.csv');
+    const { result, status } = await postAndParse('/files', null, token, null, './adifferenttestfile.csv');
 
     expect(status).toBe(201);
 

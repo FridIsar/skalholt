@@ -243,6 +243,43 @@ export const fileValidator = body('file')
     return Promise.resolve();
   });
 
+export const findIdValidator = param('findId')
+  .isInt({ min: 1 })
+  .withMessage('findId must be an integer larger than 0');
+
+export const objectTypeOptionalValidator = body('obj_type')
+  .optional()
+  .isString({ min: 0 })
+  .withMessage('obj_type must be a string');
+
+export const materialTypeOptionalValidator = body('material_type')
+  .optional()
+  .isString({ min: 0 })
+  .withMessage('material_type must be a string');
+
+export const fileGroupOptionalValidator = body('file_group')
+  .optional()
+  .isString({ min: 0 })
+  .withMessage('file_group must be a string');
+
+export const fragmentOptionalValidator = body('fragments')
+  .optional()
+  .isInt({ min: 1 })
+  .withMessage('fragments must be an integer larger than 0');
+
+export const featureIdValidator = param('featureId')
+  .isInt({ min: 1 })
+  .withMessage('featureId must be an integer larger than 0');
+
+export const fileValidators = [
+  fileValidator,
+];
+
+export const typeOptionalValidator = body('type')
+  .optional()
+  .isString({ min: 0 })
+  .withMessage('type must be a string');
+
 export const yearValidators = [
   descriptionOptionalValidator,
   imageOptionalValidator,
@@ -260,6 +297,21 @@ export const buildingValidators = [
   imageOptionalValidator,
 ];
 
-export const fileValidators = [
-  fileValidator,
+// Despite being routed through years
+// We don't actually specifically need
+// to check the year itself, building ID
+// is sufficient to identify
+
+export const findValidators = [
+  buildingIdValidator,
+  objectTypeOptionalValidator,
+  materialTypeOptionalValidator,
+  fileGroupOptionalValidator,
+  fragmentOptionalValidator,
+];
+
+export const featureValidators = [
+  buildingIdValidator,
+  descriptionOptionalValidator,
+  typeOptionalValidator,
 ];

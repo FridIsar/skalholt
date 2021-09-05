@@ -27,6 +27,7 @@ const FILES_ROUTE = '/files/';
 
 /**
  * Year
+ *
  * @typedef {Object} Year
  * @property {number} year - The number of the year
  * @property {string | null} image - Route for the background svg if defined
@@ -35,6 +36,7 @@ const FILES_ROUTE = '/files/';
 
 /**
  * Building
+ *
  * @typedef {Object} Building
  * @property {number} id - ID of the building
  * @property {string} phase - Phase reference of the building
@@ -48,11 +50,24 @@ const FILES_ROUTE = '/files/';
  */
 
 /**
- * Find - THIS IS UNDER REVIEW
+ * Find
+ *
  * @typedef {Object} Find
  * @property {number} id - ID of the find
- * @property {number | null} quant - Quantity of the found item if defined
- * @property {string | null} type - Description text of the find if defined
+ * @property {number} building - ID of the building the find belongs to
+ * @property {string | null} obj_type - Object type of the find if defined
+ * @property {string | null} material_type - Material type of the find if defined
+ * @property {number | null} fragments - Quantity of fragments of the found item if defined
+ */
+
+/**
+ * Feature
+ *
+ * @typedef {Object} Feature
+ * @param {number} id - ID of the feature
+ * @property {number} building - ID of the building the feature belongs to
+ * @param {string | null} type - Type of the feature if defined
+ * @param {string | null} description -  Description of the feature if defined
  */
 
 export async function query(_query, values = []) {
@@ -116,6 +131,43 @@ export async function conditionalUpdate(table, key, id, fields, values) {
   const result = await query(q, queryValues);
 
   return result;
+}
+
+export async function insertFile(csv) {
+  const id = await singleQuery('SELECT curr_file_id FROM logging', []);
+  const newId = id.curr_file_id + 1;
+
+  const q = `
+    INSERT INTO
+      files
+      (
+        tag,
+        href
+      )
+    VALUES
+      (
+        $1,
+        $2
+      )
+    RETURNING
+      id,
+      tag,
+      href`;
+
+  const values = [
+    csv.csvName,
+    `${FILES_ROUTE}${newId}`,
+  ];
+
+  try {
+    const result = await query(q, values);
+    await query('UPDATE logging SET curr_file_id = $1', [newId]);
+    return result.rows[0];
+  } catch (err) {
+    logger.error('Error inserting file', err);
+  }
+
+  return null;
 }
 
 export async function insertYear({
@@ -214,38 +266,84 @@ export async function insertBuilding({
   return null;
 }
 
-export async function insertFile(csv) {
-  const id = await singleQuery('SELECT curr_file_id FROM logging', []);
-  const newId = id.curr_file_id + 1;
-
+export async function insertFeature({
+  id,
+  type,
+  description,
+}) {
   const q = `
     INSERT INTO
-      files
+      features
       (
-        tag,
-        href
+        building,
+        type,
+        description
       )
     VALUES
       (
         $1,
-        $2
+        $2,
+        $3
       )
     RETURNING
-      id,
-      tag,
-      href`;
+      *`;
 
   const values = [
-    csv.csvName,
-    `${FILES_ROUTE}${newId}`,
+    xss(id),
+    type ? xss(type) : null,
+    description ? xss(description) : null,
   ];
 
   try {
     const result = await query(q, values);
-    await query('UPDATE logging SET curr_file_id = $1', [newId]);
     return result.rows[0];
   } catch (err) {
-    logger.error('Error inserting file', err);
+    logger.error('Error inserting feature', err);
+  }
+
+  return null;
+}
+
+export async function insertFind({
+  id,
+  objectType,
+  materialType,
+  fileGroup,
+  fragments,
+}) {
+  const q = `
+    INSERT INTO
+      finds
+      (
+        building,
+        obj_type,
+        material_type,
+        f_group,
+        fragments
+      )
+    VALUES
+      (
+        $1,
+        $2,
+        $3,
+        $4,
+        $5
+      )
+    RETURNING
+      *`;
+  const values = [
+    xss(id),
+    objectType ? xss(objectType) : null,
+    materialType ? xss(materialType) : null,
+    fileGroup ? xss(fileGroup) : null,
+    fragments ? xss(fragments) : null,
+  ];
+
+  try {
+    const result = await query(q, values);
+    return result.rows[0];
+  } catch (err) {
+    logger.error('Error inserting find', err);
   }
 
   return null;
