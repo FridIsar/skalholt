@@ -1,12 +1,14 @@
 /* eslint-disable no-await-in-loop */
 
+// NOTES
+//
 // Cannot directly call through JEST
 // Testing environment tries to force SSL
-
+//
 // ( Could configure SSL, BUT! )
 // ( Would require SSL to be configured,
 //   for every computer that runs the tests )
-
+//
 // Cannot call setup script directly
 // Causes duplicate table creations and crashes
 
@@ -29,6 +31,12 @@ requireEnv(['DATABASE_URL']);
 
 const CURR_PATH = path.dirname(fileURLToPath(import.meta.url));
 
+/**
+ * Helper function to clear dummy years created by unit tests
+ *
+ * All fake inserts are past the year 2000 so function deletes
+ * everything with a year number higher than 2000
+ */
 async function cleanYears() {
   const yearNames = await readDir('./data/svg/years');
 
@@ -40,6 +48,13 @@ async function cleanYears() {
   }
 }
 
+/**
+ * Helper function to clear dummy buildings created by unit tests
+ *
+ * The setup script keeps a counter of sequential building IDs
+ * Currently this script clears any buildings that exceed
+ * the initial building ID counter.
+ */
 async function cleanBuildings() {
   const buildingNames = await readDir('./data/svg/buildings');
 
@@ -54,6 +69,15 @@ async function cleanBuildings() {
   }
 }
 
+/**
+ * Helper function to clear dummy csv files created by unit tests
+ *
+ * The real shared files are kept track of by using a duplicate folder
+ * at /data/csv/shared.
+ *
+ * Any files that are in /data/files but not in /data/csv/shared
+ * are destroyed
+ */
 async function cleanFiles() {
   console.info('Removing files created by testing');
   const fileNames = await readDir('./data/files');
@@ -72,6 +96,12 @@ async function cleanFiles() {
   }
 }
 
+/**
+ * Main teardown function, used to reset the database
+ * and shared files.
+ *
+ * Works by destroying dummy files and running a modified setup script
+ */
 export default async function teardown() {
   try {
     await cleanFiles();

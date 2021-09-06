@@ -1,4 +1,11 @@
 /* eslint-disable no-await-in-loop */
+
+// Core database control functions
+//
+// All runtime database communications are
+// eventually routed through functions
+// provided here
+
 import dotenv from 'dotenv';
 import pg from 'pg';
 import xss from 'xss';
