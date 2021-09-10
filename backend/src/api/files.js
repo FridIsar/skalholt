@@ -20,7 +20,8 @@ export async function listFiles(_req, res) {
     `SELECT
       id,
       tag,
-      href
+      href,
+      major_group
     FROM
       files`,
     [],

@@ -32,6 +32,7 @@ CREATE TABLE files (
   id SERIAL PRIMARY KEY,
   tag VARCHAR(32) NOT NULL UNIQUE,
   f_group VARCHAR(32),
+  major_group VARCHAR(32),
   href VARCHAR(64)
 );
 
@@ -66,7 +67,7 @@ CREATE TABLE features (
 
 CREATE TABLE finds (
   id SERIAL PRIMARY KEY,
-  obj_type VARCHAR(32),
+  obj_type VARCHAR(64),
   material_type VARCHAR(64),
   f_group VARCHAR(32),
   fragments SMALLINT,

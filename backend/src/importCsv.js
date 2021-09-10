@@ -19,8 +19,17 @@ import { yearToPreviousDecade, yearToNextDecade } from './utils/decadeHelpers.js
 // Filesystem routes and global counters
 const YEARS_SVG_ROUTE = '/years/';
 const FILES_ROUTE = '/files/';
+const MAJOR_FILE_GROUPS = [
+  'buildings',
+  'features',
+];
+
 let currentBuilding = 1;
 let currentFile = 1;
+
+function validateFileGroup(filename) {
+  return MAJOR_FILE_GROUPS.indexOf(filename.toLowerCase()) >= 0;
+}
 
 /**
  * Inserts shared file information into the database
@@ -38,20 +47,24 @@ async function importFile(fileName) {
       (
         tag,
         f_group,
+        major_group,
         href
       )
     VALUES
       (
         $1,
         $2,
-        $3
+        $3,
+        $4
       )`;
 
   // The filenames need to match the routing system for this to work
   const f = fileName.split('.');
+  const mg = validateFileGroup(f[0]) ? f[0] : 'finds';
   const values = [
     fileName,
     f[0],
+    mg,
     `${FILES_ROUTE}${currentFile}`,
   ];
 
@@ -193,9 +206,8 @@ async function importFeatures(feature) {
  * Inserts a csv find row into the database
  *
  * @param {Object} find the find row to be inserted
- * @param {string} type the major type of the find (writing, pottery, ...)
  */
-async function importFinds(find, type) {
+async function importFinds(find) {
   const q = `
     INSERT INTO
       finds
@@ -232,7 +244,7 @@ async function importFinds(find, type) {
   const values = [
     find.obj_type || null,
     find.material_type || null,
-    type,
+    find.datafile || null,
     find.fragments ? find.fragments : 1,
     buildingId.id,
   ];
@@ -283,33 +295,11 @@ export async function importData() {
     await importFeatures(features[i]);
   }
 
-  // Import each find category with the required file group type
-  const writing = await readStream('./data/csv/writing.csv');
+  const finds = await readStream('./data/csv/finds.csv');
 
-  console.info('Importing writing implements');
-  for (let i = 0; i < writing.length; i += 1) {
-    await importFinds(writing[i], 'writing');
-  }
-
-  const keyList = await readStream('./data/csv/keys.csv');
-
-  console.info('Importing keys');
-  for (let i = 0; i < keyList.length; i += 1) {
-    await importFinds(keyList[i], 'keys');
-  }
-
-  const pottery = await readStream('./data/csv/pottery.csv');
-
-  console.info('Importing pottery');
-  for (let i = 0; i < pottery.length; i += 1) {
-    await importFinds(pottery[i], 'pottery');
-  }
-
-  const tiles = await readStream('./data/csv/tiles.csv');
-
-  console.info('Importing tiles');
-  for (let i = 0; i < tiles.length; i += 1) {
-    await importFinds(tiles[i], 'tiles');
+  console.info('Importing finds');
+  for (let i = 0; i < finds.length; i += 1) {
+    await importFinds(finds[i]);
   }
 
   await query(
