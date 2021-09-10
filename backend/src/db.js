@@ -140,6 +140,15 @@ export async function conditionalUpdate(table, key, id, fields, values) {
   return result;
 }
 
+const MAJOR_FILE_GROUPS = [
+  'buildings',
+  'features',
+];
+
+function validateFileGroup(filename) {
+  return MAJOR_FILE_GROUPS.indexOf(filename.toLowerCase()) >= 0;
+}
+
 export async function insertFile(csv) {
   const id = await singleQuery('SELECT curr_file_id FROM logging', []);
   const newId = id.curr_file_id + 1;
@@ -149,20 +158,28 @@ export async function insertFile(csv) {
       files
       (
         tag,
+        f_group,
+        major_group,
         href
       )
     VALUES
       (
         $1,
-        $2
+        $2,
+        $3,
+        $4
       )
     RETURNING
       id,
       tag,
+      f_group,
+      major_group,
       href`;
 
   const values = [
     csv.csvName,
+    csv.csvName,
+    validateFileGroup(csv.csvName) ? csv.csvName : 'finds',
     `${FILES_ROUTE}${newId}`,
   ];
 
