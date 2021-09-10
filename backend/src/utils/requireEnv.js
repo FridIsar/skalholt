@@ -1,5 +1,12 @@
 import { isEmpty } from './typeChecking.js';
 
+/**
+ * Helper function to check whether all required environment
+ * variables are present
+ *
+ * @param {Object} vars an array of variables that need to be
+ *                      present in .env
+ */
 export default function requireEnv(vars = []) {
   const missing = [];
 

@@ -15,21 +15,14 @@
 import { query, singleQuery } from './db.js';
 import { readStream, readDir } from './utils/fileSystem.js';
 import { yearToPreviousDecade, yearToNextDecade } from './utils/decadeHelpers.js';
+import validateFileGroup from './utils/fileNames.js';
 
 // Filesystem routes and global counters
 const YEARS_SVG_ROUTE = '/years/';
 const FILES_ROUTE = '/files/';
-const MAJOR_FILE_GROUPS = [
-  'buildings',
-  'features',
-];
 
 let currentBuilding = 1;
 let currentFile = 1;
-
-function validateFileGroup(filename) {
-  return MAJOR_FILE_GROUPS.indexOf(filename.toLowerCase()) >= 0;
-}
 
 /**
  * Inserts shared file information into the database

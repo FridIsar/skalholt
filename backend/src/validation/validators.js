@@ -1,3 +1,5 @@
+// Contains all the validation that is done before a request is routed to its handler function
+
 import { body, param } from 'express-validator';
 
 import { resourceExists } from './helpers.js';
@@ -176,17 +178,17 @@ export const pathOptionalValidator = body('path')
 
 export const descriptionOptionalValidator = body('description')
   .optional()
-  .isString({ min: 0 })
+  .isString({ min: 0, max: 4096 })
   .withMessage('description must be a string');
 
 export const icelandicOptionalValidator = body('is')
   .optional()
-  .isString({ min: 0 })
+  .isString({ min: 0, max: 64 })
   .withMessage('icelandic attribution must be a string');
 
 export const englishOptionalValidator = body('en')
   .optional()
-  .isString({ min: 0 })
+  .isString({ min: 0, max: 64 })
   .withMessage('english attribution must be a string');
 
 export const fileIdValidator = param('fileId')
@@ -249,17 +251,17 @@ export const findIdValidator = param('findId')
 
 export const objectTypeOptionalValidator = body('obj_type')
   .optional()
-  .isString({ min: 0 })
+  .isString({ min: 0, max: 64 })
   .withMessage('obj_type must be a string');
 
 export const materialTypeOptionalValidator = body('material_type')
   .optional()
-  .isString({ min: 0 })
+  .isString({ min: 0, max: 64 })
   .withMessage('material_type must be a string');
 
 export const fileGroupOptionalValidator = body('file_group')
   .optional()
-  .isString({ min: 0 })
+  .isString({ min: 0, max: 32 })
   .withMessage('file_group must be a string');
 
 export const fragmentOptionalValidator = body('fragments')
