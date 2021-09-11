@@ -1,0 +1,42 @@
+@import '../../base.module.scss';
+
+
+.selectionBox {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  border-radius: 20px;
+  width: 100%;
+
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    columns: 5;
+  }
+
+  &__button {
+    border: none;
+    background-color: white;
+    width: 10em;
+    height: 5em;
+
+    :hover {
+      background-color: var(--secondary-color);
+      border-radius: 30px;
+    }
+  }
+
+  &__seperator {
+    margin: 1em;
+    margin-left: 6em;
+    margin-right: 6em;
+    border-bottom: 1px solid black;
+  }
+}
+
+.title {
+  margin: 0.5em 1em 0em 1em;
+  text-decoration: underline;
+  font-size: 1.5em;
+}

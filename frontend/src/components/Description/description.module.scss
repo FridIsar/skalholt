@@ -1,17 +1,13 @@
 .description {
-  width: 90%;
-  margin-top: 0.5em;
-  margin-left: 2em;
-  margin-right: 2em;
+  width: 100%;
+  margin: 1em 0em 1em 0em;
   border: 1px solid black;
-  border-radius: 5px;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
-  padding: 0.5em;
-  align-self: flex-end;
 
   &__text {
-    margin: 0;
+    margin: 0.2em;
   }
 
   &__link {
@@ -19,6 +15,7 @@
     cursor: pointer;
     border: 0;
     background-color: white;
+    margin: 0.5em;
   }
 
   &__inputText {

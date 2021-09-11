@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Map } from '../../components/Map/Map';
 import { Description } from '../../components/Description/Description';
 import { MapSidebar } from '../../components/MapSidebar/MapSidebar';
+import { SelectionBox } from '../../components/SelectionBox/SelectionBox';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -43,7 +44,7 @@ export function OneBuilding() {
       }
     }
     fetchBuilding();
-  })
+  },[])
 
   useEffect(() => {
     // TODO: make redirect to find
@@ -53,29 +54,27 @@ export function OneBuilding() {
 
   return (
     <div className={s.container}>
-      <MapSidebar items={data?.finds}
+      <h2>{data?.en + '/' + data?.is + ' - ' + year}</h2>
+      <a href={'/'}>Back to site map</a>
+      <Description description={data?.description}
+        moreLink={apiUrl}
+        year={year}
+        buildingId={buildingId}
+        limit={300}/>
+      <div className={s.mapContainer}>
+        <Map data={data}
+          background={null}
+          current={current}
+          setCurrent={setCurrent}
+          setOnClick={setSelectedFind}
+          loading={!data}
+          error={error}/>
+      </div>
+      <SelectionBox items={data}
         current={current}
         setCurrent={setCurrent}
         setOnClick={setSelectedFind}/>
-      <div className={s.mapNDescContainer}>
-        <h2>{data?.en + '/' + data?.is + ' - ' + year}</h2>
-        <a href={'/'}>Back to site map</a>
-        <div className={s.mapContainer}>
-          <Map data={data}
-            background={null}
-            current={current}
-            setCurrent={setCurrent}
-            setOnClick={setSelectedFind}
-            loading={!data}
-            error={error}/>
-        </div>
-        {/* TODO: make correct path to moreLink */}
-        <Description description={data?.description}
-          moreLink={apiUrl}
-          year={year}
-          buildingId={buildingId}
-          limit={300}/>
-      </div>
+      <a href={'/'}>Back to site map</a>
     </div>
   );
 }

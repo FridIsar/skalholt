@@ -32,13 +32,30 @@ function makeMapJson(data) {
   }
 }
 
-export function Map({ data, background, current, setCurrent, setOnClick, loading, error }) {
+export function Map({ data,
+                      background,
+                      year=null,
+                      expanded,
+                      setExpanded,
+                      current,
+                      setCurrent,
+                      setOnClick,
+                      loading,
+                      error }) {
 
   const layerProps = {
     onClick: ({ target }) => setOnClick(target.attributes.id.value),
     onMouseEnter: ({ target }) => setCurrent(target.attributes.id.value),
     onMouseLeave: ({ target }) => setCurrent('None'),
   };
+
+  function expand_() {
+    setExpanded(true);
+  }
+
+  function shrink_() {
+    setExpanded(false);
+  }
 
   if (error) {
     return (
@@ -54,6 +71,23 @@ export function Map({ data, background, current, setCurrent, setOnClick, loading
 
   return (
     <div className={s.mapContainer}>
+      {year &&
+        <div className={s.mapHeader}>
+          <h5 className={s.mapHeader__year}>{year}</h5>
+          {!expanded &&
+            <button className={s.mapHeader__expandShrink}
+            onClick={expand_}>
+              Expand
+            </button>
+          }
+          {expanded &&
+            <button className={s.mapHeader__expandShrink}
+            onClick={shrink_}>
+              Shrink
+            </button>
+          }
+        </div>
+      }
       <div className={s.map}>
       {background &&
         <img alt='map details' src={joinUrls(apiUrl, background)} className={s.image}/>
