@@ -1,6 +1,6 @@
 import s from './index.module.scss';
 
-import { Header } from '../../components/Header/Header'
+import { Navigation } from '../../components/Navigation/Navigation'
 import { WholeSite } from '../../containers/WholeSite/WholeSite';
 
 
@@ -8,7 +8,7 @@ export function Index() {
   return (
     <div className={s.page}>
       <div className={s.page__header}>
-        <Header/>
+        <Navigation/>
       </div>
       <div className={s.page__content}>
         <WholeSite/>

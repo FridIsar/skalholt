@@ -1,6 +1,6 @@
 import s from './building.module.scss';
 
-import { Header } from '../../components/Header/Header'
+import { Navigation } from '../../components/Navigation/Navigation'
 import { OneBuilding } from '../../containers/OneBuilding/OneBuilding'
 
 
@@ -8,7 +8,7 @@ export function Building() {
   return (
     <div className={s.page}>
       <div className={s.page__header}>
-        <Header/>
+        <Navigation/>
       </div>
       <div className={s.page__content}>
         <OneBuilding/>

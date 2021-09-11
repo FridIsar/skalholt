@@ -1,19 +1,29 @@
-$main-color: #279AF1;
-$secondary-color: #3D7068;
-$background-color: #D7D5D6;
+// $main-color: #279AF1;
+// $secondary-color: #3D7068;
+// $background-color: #D7D5D6;
 
-.header {
+@import '../../base.module.scss';
 
-  background-color: $main-color;
+.navigation {
+
+  background-color: var(--main-color);
   border-bottom: 1px solid black;
   display: flex;
-  flex-direction: row;
   height: 35px;
   width: 100vw;
   position: fixed;
   z-index: 10;
-  justify-content: space-between;
+  justify-content: center;
   padding: 3px;
+
+  &__bar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    max-width: var(--max-width);
+  }
 
   &__image {
     height: 100%;
@@ -29,7 +39,7 @@ $background-color: #D7D5D6;
       font-size: 0.8em;
       margin-left: 1em;
       margin-bottom: 0.1em;
-      text-decoration: underline;
+      text-decoration: none;
     }
 
     &__link {

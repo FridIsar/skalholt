@@ -1,6 +1,4 @@
-$main-color: #279AF1;
-$secondary-color: #3D7068;
-$background-color: #D7D5D6;
+@import '../../base.module.scss';
 
 .page {
   height: 100%;
@@ -12,6 +10,7 @@ $background-color: #D7D5D6;
 
   &__links {
     padding-top: 50px;
+    display: flex;
+    justify-content: center;
   }
-
 }

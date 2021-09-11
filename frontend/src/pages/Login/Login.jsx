@@ -1,14 +1,14 @@
 import s from "./login.module.scss";
 
 import { LoginForm } from "../../components/LoginForm/LoginForm";
-import { Header } from "../../components/Header/Header";
+import { Navigation } from "../../components/Navigation/Navigation";
 
 
 export function Login() {
   return (
     <div className={s.page}>
       <div className={s.page__header}>
-        <Header/>
+        <Navigation/>
       </div>
       <div className={s.form}>
         <LoginForm/>
