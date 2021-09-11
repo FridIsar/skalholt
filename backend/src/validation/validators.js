@@ -1,4 +1,5 @@
 // Contains all the validation that is done before a request is routed to its handler function
+// Most of these should be relatively easy to understand from the given message
 
 import { body, param } from 'express-validator';
 

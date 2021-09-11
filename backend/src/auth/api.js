@@ -23,6 +23,13 @@ import { logger } from '../utils/logger.js';
 
 export const router = express.Router();
 
+/**
+ * Middleware to be used to log in a user
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @returns json response with user and login details
+ */
 async function loginRoute(req, res) {
   const { username } = req.body;
 
@@ -44,6 +51,13 @@ async function loginRoute(req, res) {
   });
 }
 
+/**
+ * Middleware to check current login details
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @returns the logged in user details ( if the user is logged in )
+ */
 async function currentUserRoute(req, res) {
   const { user: { id } = {} } = req;
 
@@ -58,6 +72,14 @@ async function currentUserRoute(req, res) {
   return res.json(user);
 }
 
+/**
+ * Middleware to update current user info
+ * admins cannot move their own status
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @returns the updated user details, if any
+ */
 async function updateCurrentUserRoute(req, res) {
   const { id } = req.user;
 
@@ -79,6 +101,14 @@ async function updateCurrentUserRoute(req, res) {
   return res.status(200).json(result);
 }
 
+/**
+ * Middleware for user registration
+ * new users always default to non admin status
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @returns the created user details
+ */
 async function registerRoute(req, res) {
   const { username, email, password = '' } = req.body;
   const result = await createUser(username, email, password);
@@ -86,6 +116,8 @@ async function registerRoute(req, res) {
 
   return res.status(201).json(result);
 }
+
+// The defined routes
 
 router.post(
   '/users/register',
