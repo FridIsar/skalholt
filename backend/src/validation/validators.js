@@ -1,3 +1,5 @@
+// Contains all the validation that is done before a request is routed to its handler function
+
 import { body, param } from 'express-validator';
 
 import { resourceExists } from './helpers.js';
@@ -176,17 +178,17 @@ export const pathOptionalValidator = body('path')
 
 export const descriptionOptionalValidator = body('description')
   .optional()
-  .isString({ min: 0 })
+  .isString({ min: 0, max: 4096 })
   .withMessage('description must be a string');
 
 export const icelandicOptionalValidator = body('is')
   .optional()
-  .isString({ min: 0 })
+  .isString({ min: 0, max: 64 })
   .withMessage('icelandic attribution must be a string');
 
 export const englishOptionalValidator = body('en')
   .optional()
-  .isString({ min: 0 })
+  .isString({ min: 0, max: 64 })
   .withMessage('english attribution must be a string');
 
 export const fileIdValidator = param('fileId')
@@ -243,6 +245,43 @@ export const fileValidator = body('file')
     return Promise.resolve();
   });
 
+export const findIdValidator = param('findId')
+  .isInt({ min: 1 })
+  .withMessage('findId must be an integer larger than 0');
+
+export const objectTypeOptionalValidator = body('obj_type')
+  .optional()
+  .isString({ min: 0, max: 64 })
+  .withMessage('obj_type must be a string');
+
+export const materialTypeOptionalValidator = body('material_type')
+  .optional()
+  .isString({ min: 0, max: 64 })
+  .withMessage('material_type must be a string');
+
+export const fileGroupOptionalValidator = body('file_group')
+  .optional()
+  .isString({ min: 0, max: 32 })
+  .withMessage('file_group must be a string');
+
+export const fragmentOptionalValidator = body('fragments')
+  .optional()
+  .isInt({ min: 1 })
+  .withMessage('fragments must be an integer larger than 0');
+
+export const featureIdValidator = param('featureId')
+  .isInt({ min: 1 })
+  .withMessage('featureId must be an integer larger than 0');
+
+export const fileValidators = [
+  fileValidator,
+];
+
+export const typeOptionalValidator = body('type')
+  .optional()
+  .isString({ min: 0 })
+  .withMessage('type must be a string');
+
 export const yearValidators = [
   descriptionOptionalValidator,
   imageOptionalValidator,
@@ -260,6 +299,21 @@ export const buildingValidators = [
   imageOptionalValidator,
 ];
 
-export const fileValidators = [
-  fileValidator,
+// Despite being routed through years
+// We don't actually specifically need
+// to check the year itself, building ID
+// is sufficient to identify
+
+export const findValidators = [
+  buildingIdValidator,
+  objectTypeOptionalValidator,
+  materialTypeOptionalValidator,
+  fileGroupOptionalValidator,
+  fragmentOptionalValidator,
+];
+
+export const featureValidators = [
+  buildingIdValidator,
+  descriptionOptionalValidator,
+  typeOptionalValidator,
 ];

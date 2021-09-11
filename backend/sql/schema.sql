@@ -1,12 +1,17 @@
 -- Additional files for e.g. finds need to be added manually
-CREATE TYPE file_group AS ENUM (
-  'buildings',
-  'features',
-  'keys',
-  'pottery',
-  'writing',
-  'tiles'
-);
+-- Currently on pause since likely have too many actual groups
+-- Discuss to see if this check is even possible ...
+--
+-- If it is f_group should be changed from VARCHAR to file_group
+--
+-- CREATE TYPE file_group AS ENUM (
+--   'buildings',
+--   'features',
+--   'keys',
+--   'pottery',
+--   'writing',
+--   'tiles'
+-- );
 
 CREATE TABLE logging (
   logging_id BOOLEAN PRIMARY KEY DEFAULT TRUE,
@@ -26,7 +31,8 @@ CREATE TABLE users (
 CREATE TABLE files (
   id SERIAL PRIMARY KEY,
   tag VARCHAR(32) NOT NULL UNIQUE,
-  f_group file_group,
+  f_group VARCHAR(32),
+  major_group VARCHAR(32),
   href VARCHAR(64)
 );
 
@@ -55,16 +61,16 @@ CREATE TABLE features (
   id SERIAL PRIMARY KEY,
   type VARCHAR(32),
   description VARCHAR(128),
-  building INTEGER,
+  building INTEGER NOT NULL,
   CONSTRAINT FK_features_building FOREIGN KEY (building) REFERENCES buildings (id) ON DELETE CASCADE
 );
 
 CREATE TABLE finds (
   id SERIAL PRIMARY KEY,
-  obj_type VARCHAR(32),
+  obj_type VARCHAR(64),
   material_type VARCHAR(64),
-  f_group file_group,
+  f_group VARCHAR(32),
   fragments SMALLINT,
-  building INTEGER,
+  building INTEGER NOT NULL,
   CONSTRAINT FK_finds_building FOREIGN KEY (building) REFERENCES buildings (id) ON DELETE CASCADE
 );

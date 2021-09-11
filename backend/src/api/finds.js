@@ -4,6 +4,7 @@ import {
   query,
   deleteQuery,
   conditionalUpdate,
+  insertFind,
 } from '../db.js';
 
 import { isString, isInt } from '../utils/typeChecking.js';
@@ -65,6 +66,26 @@ export async function summarizeFinds(building) {
 
 export async function createFind(req, res) {
   const { buildingId: id } = req.params;
+  const {
+    obj_type: objectType,
+    material_type: materialType,
+    file_group: fileGroup,
+    fragments,
+  } = req.body;
+
+  const insertFindResult = await insertFind({
+    id,
+    objectType,
+    materialType,
+    fileGroup,
+    fragments,
+  });
+
+  if (insertFindResult) {
+    return res.status(201).json(insertFindResult);
+  }
+
+  return res.status(500).end();
 }
 
 export async function updateFind(req, res) {
@@ -72,7 +93,7 @@ export async function updateFind(req, res) {
   const { body } = req;
 
   const fields = [
-    isString(body.obj_type) ? 'body_type' : null,
+    isString(body.obj_type) ? 'obj_type' : null,
     isString(body.material_type) ? 'material_type' : null,
     isString(body.file_group) ? 'file_group' : null,
     isInt(body.fragments) ? 'fragments' : null,

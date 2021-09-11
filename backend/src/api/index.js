@@ -23,6 +23,10 @@ import {
   buildingIdValidator,
   fileIdValidator,
   fileValidators,
+  findIdValidator,
+  findValidators,
+  featureIdValidator,
+  featureValidators,
 } from '../validation/validators.js';
 import { validationCheck } from '../validation/helpers.js';
 
@@ -52,10 +56,16 @@ import {
 
 import {
   listFeatures,
+  createFeature,
+  updateFeature,
+  deleteFeature,
 } from './features.js';
 
 import {
   listFinds,
+  createFind,
+  updateFind,
+  deleteFind,
 } from './finds.js';
 
 export const router = express.Router();
@@ -148,16 +158,66 @@ router.delete(
   catchErrors(deleteBuilding),
 );
 
+router.post(
+  '/years/:yearId/buildings/:buildingId/features/',
+  requireAdmin,
+  featureValidators,
+  validationCheck,
+  catchErrors(createFeature),
+);
+
 router.get(
   '/years/:yearId/buildings/:buildingId/features',
   validationCheck,
   catchErrors(listFeatures),
 );
 
+router.patch(
+  '/years/:yearId/buildings/:buildingId/features/:featureId',
+  requireAdmin,
+  featureIdValidator,
+  featureValidators,
+  validationCheck,
+  catchErrors(updateFeature),
+);
+
+router.delete(
+  '/years/:yearId/buildings/:buildingId/features/:featureId',
+  requireAdmin,
+  featureIdValidator,
+  validationCheck,
+  catchErrors(deleteFeature),
+);
+
+router.post(
+  '/years/:yearId/buildings/:buildingId/finds/',
+  requireAdmin,
+  findValidators,
+  validationCheck,
+  catchErrors(createFind),
+);
+
 router.get(
   '/years/:yearId/buildings/:buildingId/finds',
   validationCheck,
   catchErrors(listFinds),
+);
+
+router.patch(
+  '/years/:yearId/buildings/:buildingId/finds/:findId',
+  requireAdmin,
+  findIdValidator,
+  findValidators,
+  validationCheck,
+  catchErrors(updateFind),
+);
+
+router.delete(
+  '/years/:yearId/buildings/:buildingId/finds/:findId',
+  requireAdmin,
+  findIdValidator,
+  validationCheck,
+  catchErrors(deleteFind),
 );
 
 router.get(

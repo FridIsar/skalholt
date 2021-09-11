@@ -8,6 +8,12 @@ import requireEnv from './utils/requireEnv.js';
 dotenv.config();
 requireEnv(['DATABASE_URL']);
 
+/**
+ * Main setup function, used to construct ( or reset )
+ * the database
+ *
+ * Drop and schema files for the process can be inspected in /sql
+ */
 export default async function setup() {
   try {
     const dropTables = await readFile('./sql/drop.sql');
@@ -37,6 +43,7 @@ export default async function setup() {
   }
 
   try {
+    // csv data read into the newly created empty tables
     await importData();
   } catch (err) {
     console.error('Error importing csv data:', err.message);

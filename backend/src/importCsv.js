@@ -1,14 +1,38 @@
 /* eslint-disable no-await-in-loop */
+
+// NOTE
+//
+// These are the functions used when importing csv data
+// into the database
+//
+// Some data formatting is done to make the csv files match
+// the schema of the database in use
+//
+// Minimal typechecking and validation is done
+// These files are all on the local filesystem and should be safe
+// If local files are compromised we have bigger problems than csv setup
+
 import { query, singleQuery } from './db.js';
 import { readStream, readDir } from './utils/fileSystem.js';
 import { yearToPreviousDecade, yearToNextDecade } from './utils/decadeHelpers.js';
+import validateFileGroup from './utils/fileNames.js';
 
+// Filesystem routes and global counters
 const YEARS_SVG_ROUTE = '/years/';
 const FILES_ROUTE = '/files/';
 
 let currentBuilding = 1;
 let currentFile = 1;
 
+/**
+ * Inserts shared file information into the database
+ *
+ * Database columns are constructed from filenames
+ * They should therefore match the filegroup and have
+ * descriptive names
+ *
+ * @param {string} fileName the filename of the file to import
+ */
 async function importFile(fileName) {
   const q = `
     INSERT INTO
@@ -16,28 +40,42 @@ async function importFile(fileName) {
       (
         tag,
         f_group,
+        major_group,
         href
       )
     VALUES
       (
         $1,
         $2,
-        $3
+        $3,
+        $4
       )`;
 
   // The filenames need to match the routing system for this to work
   const f = fileName.split('.');
+  const mg = validateFileGroup(f[0]) ? f[0] : 'finds';
   const values = [
     fileName,
     f[0],
+    mg,
     `${FILES_ROUTE}${currentFile}`,
   ];
 
   await query(q, values);
 
+  // Maintain an ID counter to be able to self reference the file route
   currentFile += 1;
 }
 
+/**
+ * Inserts a csv year row into the database
+ *
+ * There is an assumption that the svg files required
+ * are correcly named and stored in /data/svg/years
+ * ( name representing start year and already optimized )
+ *
+ * @param {Object} year the csv year row to be inserted
+ */
 async function importYear(year) {
   const q = `
     INSERT INTO
@@ -55,6 +93,16 @@ async function importYear(year) {
   await query(q, values);
 }
 
+/**
+ * Inserts a csv building row into the database
+ *
+ * There is an assumption that the svg files required
+ * are correcly named and stored in /data/svg/buildings
+ * ( name representing building id and already optimized )
+ * see buildings.csv file for the ID references of the svg files
+ *
+ * @param {Object} building the csv building row to be inserted
+ */
 async function importBuilding(building) {
   const q = `
     INSERT INTO
@@ -100,6 +148,14 @@ async function importBuilding(building) {
   currentBuilding += 1;
 }
 
+/**
+ * Inserts a csv feature row into the database
+ *
+ * Only feature type and description is stored for database lookup
+ * other columns are only available for download
+ *
+ * @param {Object} feature the csv feature row to be inserted
+ */
 async function importFeatures(feature) {
   const q = `
     INSERT INTO
@@ -139,7 +195,12 @@ async function importFeatures(feature) {
   await query(q, values);
 }
 
-async function importFinds(find, type) {
+/**
+ * Inserts a csv find row into the database
+ *
+ * @param {Object} find the find row to be inserted
+ */
+async function importFinds(find) {
   const q = `
     INSERT INTO
       finds
@@ -176,7 +237,7 @@ async function importFinds(find, type) {
   const values = [
     find.obj_type || null,
     find.material_type || null,
-    type,
+    find.datafile || null,
     find.fragments ? find.fragments : 1,
     buildingId.id,
   ];
@@ -184,6 +245,20 @@ async function importFinds(find, type) {
   await query(q, values);
 }
 
+/**
+ * Driver function for database inserts
+ *
+ * Reads through predefined csv files
+ * in a rowwise manner and sends each row
+ * to the correct insertion function
+ *
+ * NOTE: Could make this process faster
+ *       by doing bulk inserts instead of
+ *       rowwise, but we lose granular control
+ *       and this script is only used for setup
+ *       and teardown and should not ever be used
+ *       while the backend is running in production
+ */
 export async function importData() {
   const fileNames = await readDir('./data/files');
 
@@ -213,34 +288,11 @@ export async function importData() {
     await importFeatures(features[i]);
   }
 
-  // Import each find category with the required file group type
-  // See the file_group ENUM in the sql schema
-  const writing = await readStream('./data/csv/writing.csv');
+  const finds = await readStream('./data/csv/finds.csv');
 
-  console.info('Importing writing implements');
-  for (let i = 0; i < writing.length; i += 1) {
-    await importFinds(writing[i], 'writing');
-  }
-
-  const keyList = await readStream('./data/csv/keys.csv');
-
-  console.info('Importing keys');
-  for (let i = 0; i < keyList.length; i += 1) {
-    await importFinds(keyList[i], 'keys');
-  }
-
-  const pottery = await readStream('./data/csv/pottery.csv');
-
-  console.info('Importing pottery');
-  for (let i = 0; i < pottery.length; i += 1) {
-    await importFinds(pottery[i], 'pottery');
-  }
-
-  const tiles = await readStream('./data/csv/tiles.csv');
-
-  console.info('Importing tiles');
-  for (let i = 0; i < tiles.length; i += 1) {
-    await importFinds(tiles[i], 'tiles');
+  console.info('Importing finds');
+  for (let i = 0; i < finds.length; i += 1) {
+    await importFinds(finds[i]);
   }
 
   await query(

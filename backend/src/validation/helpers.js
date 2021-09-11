@@ -2,6 +2,15 @@ import { validationResult } from 'express-validator';
 
 import { logger } from '../utils/logger.js';
 
+/**
+ * Middleware used to stop routing and send out the listed errors
+ * if there were any. If no errors have accumulated the request is routed onwards
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @param {Function} next next middleware
+ * @returns The errors as a JSON response or the next middleware in the routing list
+ */
 export function validationCheck(req, res, next) {
   const validation = validationResult(req);
 
@@ -28,6 +37,14 @@ export function validationCheck(req, res, next) {
   return next();
 }
 
+/**
+ * Middleware used to check whether a requested resource exists
+ *
+ * @param {Function} fn the function to the check the value for
+ * @returns not found errors (or rejection if no function)
+ *          if resources are not found, further routing of the
+ *          request if the resources are found
+ */
 export function resourceExists(fn) {
   return (value, { req }) => fn(value, req)
     .then((resource) => {

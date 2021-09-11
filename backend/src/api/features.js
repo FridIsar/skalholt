@@ -4,6 +4,7 @@ import {
   query,
   deleteQuery,
   conditionalUpdate,
+  insertFeature,
 } from '../db.js';
 
 import { isString } from '../utils/typeChecking.js';
@@ -61,6 +62,19 @@ export async function summarizeFeatures(building) {
 
 export async function createFeature(req, res) {
   const { buildingId: id } = req.params;
+  const { type, description } = req.body;
+
+  const insertFeatureResult = await insertFeature({
+    id,
+    type,
+    description,
+  });
+
+  if (insertFeatureResult) {
+    return res.status(201).json(insertFeatureResult);
+  }
+
+  return res.status(500).end();
 }
 
 export async function updateFeature(req, res) {
