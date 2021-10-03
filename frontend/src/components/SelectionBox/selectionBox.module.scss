@@ -10,14 +10,16 @@
   &__buttons {
     display: flex;
     flex-wrap: wrap;
-    margin: 0em 1em 0em 1em;
+
   }
 
   &__button {
     border: 0.5px solid lightgrey;
     background-color: white;
+    border-radius: 5px;
     width: 10em;
     height: 5em;
+    margin: 0.2em 0.5em 0.2em 0.5em;
 
     :hover {
       background-color: var(--secondary-color);
