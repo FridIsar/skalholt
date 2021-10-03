@@ -13,6 +13,12 @@ const {
   TOKEN_LIFETIME: tokenLifetime = 3600,
 } = process.env;
 
+/**
+ * Middleware to add user details
+ *
+ * @param {Object} data current request user data
+ * @param {Function} next next middleware to send to
+ */
 async function strat(data, next) {
   const user = await findById(data.id);
 
@@ -23,6 +29,14 @@ async function strat(data, next) {
   }
 }
 
+/**
+ * Middleware to check the jwt status of a user
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @param {Function} next next middleware to route to
+ * @returns the next middleware
+ */
 export function requireAuthentication(req, res, next) {
   return passport.authenticate(
     'jwt',
@@ -45,6 +59,15 @@ export function requireAuthentication(req, res, next) {
   )(req, res, next);
 }
 
+/**
+ * Middleware to add user details to the request
+ * using the jwt token details
+ *
+ * @param {Object} req request object
+ * @param {Object} res response objec
+ * @param {*} next the next middleware to route to
+ * @returns the next middleware
+ */
 export function addUserIfAuthenticated(req, res, next) {
   return passport.authenticate(
     'jwt',
@@ -63,6 +86,14 @@ export function addUserIfAuthenticated(req, res, next) {
   )(req, res, next);
 }
 
+/**
+ * Middleware to check the jwt status of an admin
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @param {Function} next next middleware to route to
+ * @returns the next middleware
+ */
 export function requireAdmin(req, res, next) {
   return passport.authenticate(
     'jwt',

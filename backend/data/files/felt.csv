@@ -1,0 +1,128 @@
+﻿ID1,Context,ID,Site code,Brief description,ID No,Material,Length mm,min Width mm,max Width mm,Diameter mm,Thickness mm,Field11,Building Phase,Start Date,End Date,Real Date,Period_Date,Attribution
+1,95,1,SKH02,Ring,910,Horn,,,,36,8,,S20.4,1750,1770,1750-1770,1750-1780,School Dormitory
+2,93,2,SKH02,"piece with holes along one edge (quite similar to a shoe component) and all edges cut, mid brown in colour",912,Felt,74,,26,,2,,S4.4,1800,1840,1800-1840,1780-1840,Pantry/Kitchen
+3,93,3,SKH02,"tapering piece with 3 cut sides the other torn, mid brown in colour",912,Felt,78,,29,,3,,S4.4,1800,1840,1800-1840,1780-1840,Pantry/Kitchen
+4,93,4,SKH02,"L-shaped piece, now 29mm wide, from which an angular piece has been cut",912,Felt,100,,89,,5,,S4.4,1800,1840,1800-1840,1780-1840,Pantry/Kitchen
+5,103,5,SKH02,"fuiting body of a fungus, very shiny and thin",918,Fungus,,,,,,,S5.4,1780,1800,1780-1800,1780-1810,Pantry/Study & Library
+6,145,6,SKH03,"semi-circular piece with curved cut edges, rest torn away, mid brown in colour",1022,Felt,100,,40,,3,?offcut from a collar,S4.2,1760,1780,1760-1780,1750-1780,Lodge/Dining Room & Chambers
+7,238,7,SKH03,"5 pieces of felt including a rectangular piece with stitching, a circular offcut probably from a collar and a small triangular piece",1509,Felt,,,,,,offcut from a collar,S4.4,1800,1840,1800-1840,1780-1840,Pantry/Kitchen
+8,253,8,SKH03,"2 pieces of strip with an obliquely cut end and a rounded terminal pierced by a central hole 3mm diam appears to be laminated horn, Largest piece measured",1362,Horn?,35.5,,9,,1.5,,S20.4,1750,1770,1750-1770,1750-1780,School Dormitory
+9,283,9,SKH03,5 pieces probably joining from a trimming (longest measured) dark brown in colour,1491,Felt,62,,10,,2,,S20.2,1670,1700,1670-1700,1660-1720,School Dormitory
+10,377,10,SKH03,,2372,Wood,,,,,,spectacles?,S20.1,1650,1670,1650-1670,1630-1690,School Dormitory
+11,391,11,SKH03,4 delaminating pieces from a washer or a thick flat ring 8mm wide with a central hole 18mm in diam. From horn spectacles?,2508,Horn,32,,8,,2,,S20.2,1670,1700,1670-1700,1660-1720,School Dormitory
+12,483,12,SKH03,"wide trimming with a rounded end, other torn, mid brown in colour",2558,Felt,116,,14,,2,,S20.2,1670,1700,1670-1700,1660-1720,School Dormitory
+13,483,13,SKH03,"trimming with curved end, mid brown in colour",2558,Felt,30,,8,,4,,S20.2,1670,1700,1670-1700,1660-1720,School Dormitory
+14,548,14,SKH03,"scrap all edges broken, light brown colour",2596,Felt,58,,26,,2,,S4.3,1780,1800,1780-1800,1780-1810,Lodge/Dining Room & Chambers
+15,548,15,SKH03,"scrap all edges broken, light brown colour",2596,Felt,50,,21,,2,,S4.3,1780,1800,1780-1800,1780-1810,Lodge/Dining Room & Chambers
+16,665,16,SKH03,sub-triangular piece with cut and torn edges,3015,Felt,100,,32,,3,,S4.3,1780,1800,1780-1800,1780-1810,Lodge/Dining Room & Chambers
+17,954,17,SKH04,A length of woven woollen braid possibly a fragment of wide belt/girdle,4307,Textile,,,,,,,S5.3,1760,1780,1760-1780,1750-1780,Bishops Dining Room
+18,962,18,SKH04,ID as bark but no species ID,4287,Bark,,,,,,,S5.3,1760,1780,1760-1780,1750-1780,Bishops Dining Room
+19,1026,19,SKH04,wooden peg with straight cut head,4302,Wood,50,,6,,4,,S30.1,1670,1720,1670-1720,1660-1720,School Master's House
+20,1034,20,SKH04,"trimming, light brown",4303,Felt,160,3,16,,4,,S13.2,1750,1800,1750-1800,1750-1810,Main Corridor
+21,1034,21,SKH04,"trimming crescentic shape, mid brown",4303,Felt,104,,24,,3.5,,S13.2,1750,1800,1750-1800,1750-1810,Main Corridor
+22,1034,22,SKH04,rectangular offcut,4303,Felt,108,24,42,,6,,S13.2,1750,1800,1750-1800,1750-1810,Main Corridor
+23,1180,23,SKH04,"piece with 2 cut and 2 torn edges, light brown in colour",4277,Felt,56,,40,,1.5,,S5.3,1760,1780,1760-1780,1750-1780,Bishops Dining Room
+24,1393,24,SKH05,"trimming, curved",6962,Felt,106,,14,,5,,S5.2,1740,1760,1740-1760,1720-1780,Bishops Dining Room
+25,1449,25,SKH05,trimming,6968,Felt,32,,13,,1,,S5.2,1740,1760,1740-1760,1720-1780,Bishops Dining Room
+26,1506,26,SKH05,very narrow trimming,6912,Felt,29,,3.5,,2,,S19.1,1730,1770,1730-1770,1720-1780,School Refectory
+27,1506,27,SKH05,,6912,Bark,,,,,,,S19.1,1730,1770,1730-1770,1720-1780,School Refectory
+28,1527,28,SKH05,trimming,6941,Felt,68,,3,,2,,S5.2,1740,1760,1740-1760,1720-1780,Bishops Dining Room
+29,1527,29,SKH05,trimming,6941,Felt,46,,2,,2,,S5.2,1740,1760,1740-1760,1720-1780,Bishops Dining Room
+30,1527,30,SKH05,trimming,6941,Felt,43,,5,,2,,S5.2,1740,1760,1740-1760,1720-1780,Bishops Dining Room
+31,1527,31,SKH05,trimming,6941,Felt,68,,8,,5,,S5.2,1740,1760,1740-1760,1720-1780,Bishops Dining Room
+32,1547,32,SKH05,"narrow trimming, mid/dark brown",6940,Felt,45,,6,,3,,S5.1,1720,1740,1720-1740,1720-1750,Bishops Dining Room
+33,1568,33,SKH05,"narrow trimming, dark brown",6985,Felt,45,,3,,2,,S11.1,1690,1720,1690-1720,1690-1720,Living Quarters
+34,1627,34,SKH05,"tapering trimming, light gingery brown in colour",7169,Felt,108,,19,,4,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+35,1627,35,SKH05,"tapering trimming, light gingery brown in colour",7169,Felt,112,,17,,2.5,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+36,1627,36,SKH05,trimming with a curved edge,7169,Felt,105,,16.5,,3,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+37,1627,37,SKH05,torn triangular shape,7169,Felt,50,,24,,2,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+38,1627,38,SKH05,rectangular offcut with double lobed cutout of one side,7169,Felt,146,,46,,2,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+39,1627,39,SKH05,offcut with a disc (diam 10mm) removed from the centre,7169,Felt,38,,25,,3.5,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+40,1627,40,SKH05,offcut with cut and torn edges,7169,Felt,32,,29,,3,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+41,1627,41,SKH05,offcut with cut and torn edges,7169,Felt,39,,28,,2,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+42,1627,42,SKH05,offcut with cut and torn edges,7169,Felt,58,,32,,3.5,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+43,1627,43,SKH05,offcut with cut and torn edges,7169,Felt,56,,28,,3,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+44,1627,44,SKH05,offcut with cut and torn edges,7169,Felt,30,,23,,2,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+45,1627,45,SKH05,offcut with cut and torn edges,7169,Felt,20,,19,,2,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+46,1627,46,SKH05,sub-triangular piece with line of oblique stitch holes along the longest edge but no thread impressions visible,7169,Felt,103,,45,,3,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+47,1627,47,SKH05,"fragment with a single cut edge with small stitch holes that appear paired with suggestion of thread impression visible, other edges torn",7169,Felt,52,,27,,1.5,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+48,1627,48,SKH05,"triangular piece with all edges cut and stitching along two sides, thread impression suggests a whip stitch. Probably a facing",7169,Felt,76,,25,,2,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+49,1627,49,SKH05,woven textile fragment,7170,Textile,35,,6,,,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+50,1627,50,SKH05,"narrow trimming, gingery brown in colour",7170,Felt,75,,8,,3,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+51,1627,51,SKH05,"narrow trimming, gingery brown in colour",7170,Felt,56,,8,,3,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+52,1627,52,SKH05,"narrow trimming, gingery brown in colour",7170,Felt,75,,6,,2,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+53,1627,53,SKH05,"narrow trimming, gingery brown in colour",7170,Felt,49,,5,,2,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+54,1627,54,SKH05,"narrow trimming, gingery brown in colour",7170,Felt,100,,5,,2,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+55,1627,55,SKH05,"narrow trimming, gingery brown in colour",7170,Felt,83,,3,,2,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+56,1627,56,SKH05,"narrow trimming, gingery brown in colour",7170,Felt,93,,3,,2,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+57,1627,57,SKH05,"narrow trimming, gingery brown in colour",7170,Felt,56,,7,,5,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+58,1627,58,SKH05,"narrow trimming, gingery brown in colour",7170,Felt,58,,4,,5,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+59,1627,59,SKH05,"narrow trimming, gingery brown in colour",7170,Felt,63,,3,,3,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+60,1627,60,SKH05,narrow trimming,7170,Felt,48,,3,,2,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+61,1627,61,SKH05,"narrow trimming, gingery brown in colour",7170,Felt,55,,7,,3,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+62,1627,62,SKH05,large triangular offcut,7170,Felt,106,,60,,3,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+63,1627,63,SKH05,smaller triangular offcut,7170,Felt,48,,19,,4,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+64,1627,64,SKH05,"rectangular offcut with a concave curved edge, others straight",7170,Felt,49,,24,,5,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+65,1627,65,SKH05,elongated triangular offcut,7170,Felt,64,,20,,1.5,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+66,1627,66,SKH05,irregular elongated triangular offcut,7170,Felt,95,,19,,4,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+67,1627,67,SKH05,"fragment with a single cut edge, others torn",7170,Felt,52,,14,,2,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+68,1627,68,SKH05,sub-triangular piece,7170,Felt,38,,29,,3,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+69,1627,69,SKH05,rectangular offcut with one side torn away,7170,Felt,24,,19,,3.5,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+70,1659,70,SKH05,"crescentic piece with all edges cut, light brown in colour",7204,Felt,56,,18,,2,,S18.6,1760,1770,1760-1770,1750-1780,Pantry
+71,1679,71,SKH05,"trimming, narrow, light brown colour",7202,Felt,32,,3,,3,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+72,1679,72,SKH05,"trimming, wider with cut and a skived edge, light brown colour",7202,Felt,55,,24,,4,,S7.1,1720,1760,1720-1760,1720-1780,Vestibule & Corridor
+73,1861,73,SKH06,"4 x long trimmings, 3x wider trimmings, 3x semi-circular/crescentic shapes,1 x irregular pointed piece",9693,Felt,,,,,,,S31.2,1700,1720,1700-1720,1690-1720,Bishops Dining Room
+74,1861,74,SKH06,woven textile fragment,9693,Textile,,,,,,,S31.2,1700,1720,1700-1720,1690-1720,Bishops Dining Room
+75,1826,75,SKH06,strap with faint grain/flesh stitch holes,9719,Felt?,162,6,11,,2.5,,S18.5,1740,1760,1740-1760,1720-1780,Pantry
+76,1899,76,SKH06,"triangular offcut, light brown in colour",9711,Felt,55,,14,,2,,S31.2,1700,1720,1700-1720,1690-1720,Bishops Dining Room
+77,1899,77,SKH06,narrow trimming,9711,Felt,46,,4,,2.5,,S31.2,1700,1720,1700-1720,1690-1720,Bishops Dining Room
+78,1903,78,SKH06,narrow trimming,9713,Felt,70,,8,,3,,S31.2,1700,1720,1700-1720,1690-1720,Bishops Dining Room
+79,1903,79,SKH06,narrow trimming,9713,Felt,57,,7,,3,,S31.2,1700,1720,1700-1720,1690-1720,Bishops Dining Room
+80,1903,80,SKH06,narrow trimming,9713,Felt,82,,9,,2,,S31.2,1700,1720,1700-1720,1690-1720,Bishops Dining Room
+81,1903,81,SKH06,"intersectional cutting piece, triangular offcut with 3 concave curving edges, ,may come from cutting out shoe insocks or even felt shoe soles",9713,Felt,80,,80,,4.88,,S31.2,1700,1720,1700-1720,1690-1720,Bishops Dining Room
+82,2139,82,SKH06,length of 2 plied fibre yarn or cord possibly of wool,9703,Yarn,,,,,,,S18.4,1700,1740,1700-1740,1690-1750,Pantry
+83,2185,83,SKH06,rectangular piece with 2 cut edges,9714,Bark,,,,,,,S5.2,1740,1760,1740-1760,1720-1780,Bishops Dining Room
+84,2185,84,SKH06,"2x trimmings, 2x small triangular pieces, 1x larger triangular piece all light brown in colour",9714,Felt,,,,,,,S5.2,1740,1760,1740-1760,1720-1780,Bishops Dining Room
+85,2215,85,SKH06,circular offcut,9709,Felt,,,,84,3,offcut from a collar,S5.2,1740,1760,1740-1760,1720-1780,Bishops Dining Room
+86,2233,86,SKH06,triangular offcut,9708,Felt,103,,62,,3,,S6.2,1760,1800,1760-1800,1750-1810,Bishops Living Quarters
+87,2233,87,SKH06,off cut with two curved edges,9708,Felt,70,,80,,3,,S6.2,1760,1800,1760-1800,1750-1810,Bishops Living Quarters
+88,2314,88,SKH06,thin felt with 2 cut edges,9698,Felt,71,,47,,1,,S4.1,1720,1760,1720-1760,1720-1780,Lodge/Dining Room & Chambers
+89,2314,89,SKH06,thin felt with all edges torn,9698,Felt,43,,27,,1,,S4.1,1720,1760,1720-1760,1720-1780,Lodge/Dining Room & Chambers
+90,2314,90,SKH06,3 fine twisted threads,9698,Thread,,,,,,,S4.1,1720,1760,1720-1760,1720-1780,Lodge/Dining Room & Chambers
+91,2341,91,SKH06,fragment,9865,Felt,26,,16,,1,,S25.3,,1720,1720,1690-1720,Boys Lodge (servants?)
+92,2346,92,SKH06,"narrow trimmings, a larger curved piece",9849,Felt,134,,43,,,offcut from a collar,S31.1,1650,1700,1650-1700,1660-1690,Bishops Former Living Quarters
+93,2346,93,SKH06,woven textile fragment,9849,Textile,,,,,,,S31.1,1650,1700,1650-1700,1660-1690,Bishops Former Living Quarters
+94,2358,94,SKH06,"rectangular piece, dark brown in colour",9848,Felt,45,,16,,3,,S31.1,1650,1700,1650-1700,1660-1690,Bishops Former Living Quarters
+95,2467,95,SKH06,trimmings of felt including a piece with a stitched border,9866,Felt,,,,,,,S8.1,1720,1750,1720-1750,1720-1750,Nursery
+96,2469,96,SKH06,2 narrow trimmings,9867,Felt,,,,,,,S8.1,1720,1750,1720-1750,1720-1750,Nursery
+97,2469,97,SKH06,2 pieces of woven textile,9867,Textile,,,,,,,S8.1,1720,1750,1720-1750,1720-1750,Nursery
+98,2471,98,SKH06,trimming,9838,Felt,55,,8,,2.5,,S8.1,1720,1750,1720-1750,1720-1750,Nursery
+99,2495,99,SKH06,"small fragment of organic material pierced by a wooden peg 6mm remaining, appears to be a very small piece broken from a bark heel with wooden pegging",9823,"Bark, wood",12,,11,,,,S17.5,1720,1750,1720-1750,1720-1750,Meat Store
+100,2497,100,SKH06,"rectangular trimming, brown in colour",9864,Felt,25,,9,,2,,S17.5,1720,1750,1720-1750,1720-1750,Meat Store
+101,2527,101,SKH06,fragment light brown colour,15841,Felt,23,,17,,2,,S10.1,1700,1740,1700-1740,1690-1750,Kitchen
+102,2644,102,SKH07,trimming brown in colour,15847,Felt,80,,7,,5,,S25.2,1710,1720,1710-1720,1690-1720,Boys Lodge (servants?)
+103,2649,103,SKH07,trimming mid brown colour,15827,Felt,68,,5,,3,,S25.2,1710,1720,1710-1720,1690-1720,Boys Lodge (servants?)
+104,2652,104,SKH07,triangular off cut,15853,Felt,38,,16,,5,,S25.2,1710,1720,1710-1720,1690-1720,Boys Lodge (servants?)
+105,2653,105,SKH07,"trimming, mid brown in colour",16086,Felt,52,,5,,3,,S25.2,1710,1720,1710-1720,1690-1720,Boys Lodge (servants?)
+106,2673,106,SKH07,"trimming, brown in colour",15883,Felt,46,,11,,1,,S25.2,1710,1720,1710-1720,1690-1720,Boys Lodge (servants?)
+107,2677,107,SKH07,"trimming, mid brown in colour",15863,Felt,86,,11,,2,,S25.2,1710,1720,1710-1720,1690-1720,Boys Lodge (servants?)
+108,2677,108,SKH07,"trimming, mid brown in colour",15863,Felt,61,,8,,4,,S25.2,1710,1720,1710-1720,1690-1720,Boys Lodge (servants?)
+109,2677,109,SKH07,"trimming, mid brown in colour",15863,Felt,25,,8,,2,,S25.2,1710,1720,1710-1720,1690-1720,Boys Lodge (servants?)
+110,2678,110,SKH07,thin fragment,15865,Wood,,,,,,,S25.2,1710,1720,1710-1720,1690-1720,Boys Lodge (servants?)
+111,2687,111,SKH07,"curved trimming, mid brown in colour",16084,Felt,40,,5,,3,,S23.1,1700,1720,1700-1720,1690-1720,Bishops Living Quarters
+112,2705,112,SKH07,,16080,Bark,,,,,,,S25.2,1710,1720,1710-1720,1690-1720,Boys Lodge (servants?)
+113,2748,113,SKH07,curved trimming,15913,Felt,95,,27,,4,,S25.1,1670,1710,1670-1710,1660-1720,Boys Lodge (servants?)
+114,2799,114,SKH07,"sub-triangular piece with stitch holes, mid brown in colour",15786,Felt,126,,54,,1.5,,S25.1,1670,1710,1670-1710,1660-1720,Boys Lodge (servants?)
+115,2810,115,SKH07,"long triangular trimming, mid brown in colour",15882,Felt,60,,13,,2,,S25.1,1670,1710,1670-1710,1660-1720,Boys Lodge (servants?)
+116,2810,116,SKH07,"triangular piece, light brown in colour",15894,Felt,75,,30,,3,,S25.1,1670,1710,1670-1710,1660-1720,Boys Lodge (servants?)
+117,2820,117,SKH07,"large piece with cut and torn edges, mid brown in colour",15871,Felt,121,,90,,4,,S25.1,1670,1710,1670-1710,1660-1720,Boys Lodge (servants?)
+118,2821,118,SKH07,narrow trimming,15857,Felt,62,,6,,3,,S25.2,1710,1720,1710-1720,1690-1720,Boys Lodge (servants?)
+119,2821,119,SKH07,trimming,16045,Felt,199,,5,,3,,S25.1,1670,1710,1670-1710,1660-1720,Boys Lodge (servants?)
+120,2823,120,SKH07,narrow trimming,16040,Felt,74,,2,,2,,S25.1,1670,1710,1670-1710,1660-1720,Boys Lodge (servants?)
+121,2825,121,SKH07,narrow plano-convex sectioned loop for binding a stave built vessel,15878,Wood,,,,,,,S25.1,1670,1710,1670-1710,1660-1720,Boys Lodge (servants?)
+122,2840,122,SKH07,"square pieces with 2 cut edges and small fragments broken from it, mid brown in colour",15904,Felt,52,,49,,3,,S25.1,1670,1710,1670-1710,1660-1720,Boys Lodge (servants?)
+123,2865,123,SKH07,,16075,Bark,,,,,,,S17.3,1700,1710,1700-1710,1690-1720,Meat Store
+124,2872,124,SKH07,"tapering latchet-shaped piece seamed around the edge, mid brown in colour. From a shoe with a textile upper perhaps or a textile lining",15923,Felt,80,10,32,,3,from shoe latchet,S23.1,1700,1720,1700-1720,1690-1720,Bishops Living Quarters
+125,2872,125,SKH07,woven textile fragment,15930,Textile,105,,82,,3,,S23.1,1700,1720,1700-1720,1690-1720,Bishops Living Quarters
+126,2904,126,SKH07,"tapering trimming, mid brown colour",15907,Felt,111,,5,,2,,S23.1,1700,1720,1700-1720,1690-1720,Bishops Living Quarters
+127,1630,-42,,,8776,felt,37,,,,,"small patch of felt, dark brown; from sample 191",S5.2,1740,1760,1740-1760,1720-1780,Bishops Dining Room

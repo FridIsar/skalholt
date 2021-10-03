@@ -12,6 +12,9 @@ const dev = process.env.NODE_ENV === 'development';
 
 const { createLogger, format, transports } = winston;
 
+/**
+ * Defined format, files and levels for winston logging
+ */
 export const logger = createLogger({
   format: format.combine(
     format.timestamp({

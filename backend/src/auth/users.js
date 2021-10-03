@@ -13,6 +13,14 @@ const {
   BCRYPT_ROUNDS: bcryptRounds = 12,
 } = process.env;
 
+/**
+ * Function to add a user to the database
+ *
+ * @param {*} username the username to use
+ * @param {*} email the email to use
+ * @param {*} password the password to use ( will be hashed before storage )
+ * @returns the query result values
+ */
 export async function createUser(username, email, password) {
   const hashedPassword = await bcrypt.hash(password, parseInt(bcryptRounds, 10));
 
@@ -32,12 +40,26 @@ export async function createUser(username, email, password) {
   return result.rows[0];
 }
 
+/**
+ * Helper function to compare hashed and real password
+ *
+ * @param {*} password the real password
+ * @param {*} hash the hashed password
+ * @returns the outcome of the comparison
+ */
 export async function comparePasswords(password, hash) {
   const result = await bcrypt.compare(password, hash);
 
   return result;
 }
 
+/**
+ * Function to find a user from the database using the username
+ * ( usernames are unique and should provide unique results )
+ *
+ * @param {string} username the username to use
+ * @returns the result values of the query
+ */
 export async function findByUsername(username) {
   const q = 'SELECT * FROM users WHERE username = $1';
 
@@ -55,6 +77,12 @@ export async function findByUsername(username) {
   return false;
 }
 
+/**
+ * Function to find a user from the database using the email
+ *
+ * @param {string} email the email to use
+ * @returns the result values of the query
+ */
 export async function findByEmail(email) {
   const q = 'SELECT * FROM users WHERE email = $1';
 
@@ -72,6 +100,13 @@ export async function findByEmail(email) {
   return false;
 }
 
+/**
+ * Function to find a user from the database using the id
+ * ( id values are unique and should provide unique results )
+ *
+ * @param {number} id the id to use
+ * @returns the result values of the query
+ */
 export async function findById(id) {
   const q = 'SELECT * FROM users WHERE id = $1';
 
@@ -88,6 +123,14 @@ export async function findById(id) {
   return null;
 }
 
+/**
+ * Function to update database user details
+ *
+ * @param {*} id the id of the user to update
+ * @param {*} password the password to change to ( if any )
+ * @param {*} email the email to change to ( if any )
+ * @returns the query result values
+ */
 export async function updateUser(id, password, email) {
   if (!isInt(id)) {
     return null;

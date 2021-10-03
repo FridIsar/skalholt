@@ -11,6 +11,8 @@ import requireEnv from './requireEnv.js';
 dotenv.config();
 requireEnv(['MULTER_TEMP_DIR']);
 
+// The optimizations to undertake
+// These can be changed as needed
 const config = {
   plugins: [
     'removeStyleElement',
@@ -28,6 +30,15 @@ const config = {
   ],
 };
 
+/**
+ * Function to optimize a svg and store it according to type
+ * building/year
+ *
+ * @param {string} svg the path to the unoptimized image
+ * @param {number} id the id of the year or building to apply to the new image path
+ * @param {string} type whether this svg is for a building or year
+ * @returns the name of the new optimized svg
+ */
 export default async function configureSvg(svg, id, type) {
   if (svg) {
     try {

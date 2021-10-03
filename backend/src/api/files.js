@@ -23,7 +23,8 @@ export async function listFiles(_req, res) {
       href,
       major_group
     FROM
-      files`,
+      files
+    ORDER BY major_group ASC`,
     [],
   );
 
@@ -153,11 +154,13 @@ export async function getFilesByGroup(group) {
     `SELECT
       id,
       tag,
+      major_group,
       href
     FROM
       files
     WHERE
-      f_group = $1`,
+      f_group = $1
+    ORDER BY major_group ASC`,
     [group],
   );
 
@@ -169,6 +172,7 @@ export async function getFilesByBuilding(id) {
     `SELECT
       id,
       tag,
+      major_group,
       href
     FROM
       files
@@ -181,7 +185,8 @@ export async function getFilesByBuilding(id) {
             finds
           WHERE
             building = $1
-        )`,
+        )
+    ORDER BY major_group ASC`,
     [id],
   );
 
