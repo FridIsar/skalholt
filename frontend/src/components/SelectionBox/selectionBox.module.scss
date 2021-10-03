@@ -4,19 +4,17 @@
 .selectionBox {
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
-  border-radius: 20px;
   width: 100%;
+  margin-bottom: 2em;
 
   &__buttons {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
-    columns: 5;
+    margin: 0em 1em 0em 1em;
   }
 
   &__button {
-    border: none;
+    border: 0.5px solid lightgrey;
     background-color: white;
     width: 10em;
     height: 5em;
@@ -26,6 +24,17 @@
       border-radius: 30px;
     }
   }
+
+  // &__icon {
+  //   border: none;
+  //   background-color: white;
+  //   width: 3em;
+  //   height: 3em;
+  //   margin: 0.2em 0.5em 0.2em 0.5em;
+  //   border-radius: 5px;
+  //   background-image: url(https://placekitten.com/100/100);
+  //   background-size: cover;
+  // }
 
   &__seperator {
     margin: 1em;

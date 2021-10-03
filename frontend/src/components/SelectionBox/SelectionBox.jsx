@@ -1,4 +1,4 @@
-import { List } from '@material-ui/core';
+import { FindsIcon } from '../FindsIcon/FindsIcon';
 import s from './selectionBox.module.scss';
 
 
@@ -28,41 +28,27 @@ export function SelectionBox({ title, items, current, setCurrent, setOnClick }) 
     }
   }
 
+  function onIconClick(event) {
+    console.log(event);
+    const clicked = event?.target?.attributes?.id?.value
+    if (clicked) {
+      console.log(clicked)
+    }
+  }
+
   if (items) {
     if (items?.features && items?.finds) {
       return (
         <div className={s.selectionBox}>
           <div className={s.selectionBox__sections}>
-            <h2 className={s.title}>Features</h2>
-            <div className={s.selectionBox__buttons}>
-              {items.features.map((value, index) => {
-                {console.log(value);}
-                return (
-                  <button className={s.selectionBox__button}
-                    id={value?.type}
-                    key={index}
-                    onMouseEnter={onEnter}
-                    onMouseLeave={onLeave}
-                    onClick={onClick}
-                  >
-                    {`${value?.type} x ${value?.units}`}
-                  </button>
-                )
-              })}
-            </div>
-            <div className={s.selectionBox__seperator}/>
             <h2 className={s.title}>Finds</h2>
             <div className={s.selectionBox__buttons}>
               {items.finds.map((value, index) => {
-                {console.log(value);}
-                return (
-                  <button className={s.selectionBox__button}
-                    id={value?.f_group}
-                    key={index}
-                  >
-                    {`${value?.f_group} x ${value?.fragments}`}
-                  </button>
-                )
+                return <FindsIcon fGroup={value?.f_group}
+                  fragments={value?.fragments}
+                  index={index}
+                  onClick={onIconClick}
+                />
               })}
             </div>
           </div>

@@ -7,6 +7,8 @@ import { Description } from '../../components/Description/Description';
 import { MapSidebar } from '../../components/MapSidebar/MapSidebar';
 import { SelectionBox } from '../../components/SelectionBox/SelectionBox';
 
+import { joinUrls } from '../../Utils/utils';
+
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export function OneBuilding() {
@@ -28,7 +30,7 @@ export function OneBuilding() {
   useEffect(() => {
     async function fetchBuilding() {
       let json;
-      const url = apiUrl+"years/"+year+"/buildings/"+buildingId;
+      const url = joinUrls(apiUrl+"years/", year, "/buildings/", buildingId);
 
       try {
         const result = await fetch(url);
@@ -55,26 +57,22 @@ export function OneBuilding() {
   return (
     <div className={s.container}>
       <h2>{data?.en + '/' + data?.is + ' - ' + year}</h2>
-      <a href={'/'}>Back to site map</a>
+      <a href={'/interactive'}>Back to interactive map</a>
       <Description description={data?.description}
         moreLink={apiUrl}
         year={year}
         buildingId={buildingId}
         limit={300}/>
       <div className={s.mapContainer}>
-        <Map data={data}
-          background={null}
-          current={current}
-          setCurrent={setCurrent}
-          setOnClick={setSelectedFind}
-          loading={!data}
-          error={error}/>
+        <img src={joinUrls(apiUrl, data?.image)}
+          alt={'Topdown map of ' + data?.en + '/' + data?.is}
+          className={s.mapImage}/>
       </div>
       <SelectionBox items={data}
         current={current}
         setCurrent={setCurrent}
         setOnClick={setSelectedFind}/>
-      <a href={'/'}>Back to site map</a>
+      <a href={'/interactive'}>Back to interactive map</a>
     </div>
   );
 }

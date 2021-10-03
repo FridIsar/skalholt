@@ -12,18 +12,36 @@ $background-color: #D7D5D6;
 
   &__figure {
     width: 100vw;
-    height: 100vh;
+    height: 80vh;
     margin: 0;
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin-bottom: 1em;
+    margin-bottom: 2em;
   }
 
+
+
   &__pic {
-    width: 100%;
+    width: 150%;
     height: 100%;
     object-fit: cover;
-    object-position: 50% 0%;
+    object-position: 50% 20%;
+    // right: -200px;
+    // left: -200px;
+    // top: -200px;
+    // bottom: 0px;
+    border-radius: 0% 0% 50% 50%;
+
+    // &::before {
+    //   border-radius: 100%;
+    //   position: absolute;
+    //   background: black;
+    //   right: -200px;
+    //   left: -200px;
+    //   top: -200px;
+    //   content: '';
+    //   bottom: 0;
+    // }
   }
 }
