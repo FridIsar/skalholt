@@ -1,0 +1,52 @@
+
+
+.image {
+  width: 100%;
+  height: 100%;
+
+  &__figContainer {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+
+  &__figure {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;;
+  }
+
+  &__pic {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 20%;
+
+  }
+
+  &__blur {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    opacity: 0.2;
+    top: 0;
+  }
+
+  &__button {
+    position: absolute;
+    height: 15vh;
+    width: 10vw;
+    bottom: 0;
+    right: 0;
+    background-color: transparent;
+    border: 0;
+    // background-image: url("arrow-down.svg");
+    z-index: 10;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin: 3em;
+  }
+}
