@@ -9,6 +9,18 @@ import {
 
 import { isString, isInt } from '../utils/typeChecking.js';
 
+/**
+ * Routing function used for GET on /years/{year}/buildings/{building}/finds,
+ * returns a list of finds with their basic information
+ *
+ * NOTE:
+ * * Currently finds work relationally with buildings,
+ * because of this you only receive a list of finds for the selected building
+ *
+ * @param {Object} _req request object ( Not used )
+ * @param {Object} res  response object
+ * @returns JSON response with the rows of the available finds
+ */
 export async function listFinds(req, res) {
   const { buildingId: building } = req.params;
 
@@ -35,6 +47,13 @@ export async function listFinds(req, res) {
   return res.status(404).json(null);
 }
 
+/**
+ * Helper function used to group finds and provide a summary
+ * for a given building using the building ID
+ *
+ * @param {number} building the building ID to fetch for
+ * @returns a list of grouped and summarized finds info
+ */
 export async function summarizeFinds(building) {
   let finds = [];
 
@@ -64,6 +83,13 @@ export async function summarizeFinds(building) {
   return finds;
 }
 
+/**
+ * Routing function used for POST on /years/{year}/buildings/{building}/finds,
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @returns the status code and ( optionally ) the JSON result of the insert
+ */
 export async function createFind(req, res) {
   const { buildingId: id } = req.params;
   const {
@@ -88,6 +114,13 @@ export async function createFind(req, res) {
   return res.status(500).end();
 }
 
+/**
+ * Routing function used for PATCH on /years/{year}/buildings/{building}/finds,
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @returns the status code and ( optionally ) the JSON result of the update
+ */
 export async function updateFind(req, res) {
   const { findId: id } = req.params;
   const { body } = req;

@@ -1,3 +1,6 @@
+// This is a somewhat long file that defines how requests are routed
+// The actual routing functions can be seen in their respective files
+
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -51,7 +54,6 @@ import {
   getFile,
   createFile,
   removeFile,
-  updateFile,
 } from './files.js';
 
 import {
@@ -263,16 +265,6 @@ router.get(
   '/files/:fileId',
   validationCheck,
   catchErrors(getFile),
-);
-
-router.patch(
-  '/files/:fileId',
-  requireAdmin,
-  fileWithMulter,
-  fileIdValidator,
-  fileValidators,
-  validationCheck,
-  catchErrors(updateFile),
 );
 
 router.delete(

@@ -28,7 +28,7 @@ export const router = express.Router();
  *
  * @param {Object} req request object
  * @param {Object} res response object
- * @returns json response with user and login details
+ * @returns JSON response with user and login details
  */
 async function loginRoute(req, res) {
   const { username } = req.body;

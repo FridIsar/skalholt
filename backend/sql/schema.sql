@@ -1,18 +1,3 @@
--- Additional files for e.g. finds need to be added manually
--- Currently on pause since likely have too many actual groups
--- Discuss to see if this check is even possible ...
---
--- If it is f_group should be changed from VARCHAR to file_group
---
--- CREATE TYPE file_group AS ENUM (
---   'buildings',
---   'features',
---   'keys',
---   'pottery',
---   'writing',
---   'tiles'
--- );
-
 CREATE TABLE logging (
   logging_id BOOLEAN PRIMARY KEY DEFAULT TRUE,
   curr_building_id INTEGER,

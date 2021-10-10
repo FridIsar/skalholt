@@ -4,7 +4,6 @@ import {
   deleteAndParse,
   loginAsHardcodedAdminAndReturnToken,
   createRandomUserAndReturnWithToken,
-  patchAndParse,
   postAndParse,
 } from './utils.js';
 
@@ -64,16 +63,5 @@ describe('files admin', () => {
 
     expect(deleteStatus).toBe(200);
     expect(deleteResult).toEqual({});
-  });
-
-  test('PATCH /files/:fileId, invalid data', async () => {
-    const token = await loginAsHardcodedAdminAndReturnToken();
-    expect(token).toBeTruthy();
-
-    const data = null;
-
-    const { status } = await patchAndParse('/files/1', data, token);
-
-    expect(status).toBe(400);
   });
 });

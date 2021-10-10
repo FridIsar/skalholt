@@ -121,7 +121,7 @@
     "file": {
       "href": "/files/{id}",
       "methods": [
-        "PATCH",
+        "GET",
         "DELETE"
       ]
     }

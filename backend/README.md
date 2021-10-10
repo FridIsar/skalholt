@@ -32,6 +32,7 @@ In addition to the above there is a temporary folder `/temp` which is used to st
 
 * Note 1: The teardown script within `npm run test` is not properly executed if testcases fail due to a runtime exception, if this is the case the original state can be restored by running `npm run teardown` after the testcases fail.
 * Note 2: Some testcases such as failed login make logfile entries, the decision was to not reset logfiles automatically on teardown as this can provide information for debugging.
+
 ## Logging:
 
 `winston` is used for logging.
