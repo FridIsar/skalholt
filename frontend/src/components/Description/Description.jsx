@@ -9,8 +9,8 @@ import { useHistory } from 'react-router-dom';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-export function Description({ description, limit, year, buildingId }) {
-  const [limited, setLimited] = useState(true);
+export function Description({ description, limit, year, buildingId, limited, setLimited }) {
+
   const [submited, setSubmited] = useState(false);
   const [editText, setEditText] = useState("");
   const [error, setError] = useState(null);

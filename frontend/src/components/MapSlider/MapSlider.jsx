@@ -3,7 +3,7 @@ import s from './mapSlider.module.scss';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 
-export function MapSlider({ value, range, setYear, setBackgroundImage }) {
+export function MapSlider({ value, range, changeYear, setBackgroundImage }) {
 
   function listValueOf(listOfObjects) {
     let list = []
@@ -22,7 +22,7 @@ export function MapSlider({ value, range, setYear, setBackgroundImage }) {
   }
 
   const onSliderChange = (event, newValue) => {
-    setYear(newValue);
+    changeYear(newValue);
     setBackgroundImage(range[sliderRange.indexOf(newValue)]?.image);
   }
 

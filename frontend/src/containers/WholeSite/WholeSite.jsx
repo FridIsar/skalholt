@@ -23,8 +23,15 @@ export function WholeSite() {
   const [expanded, setExpanded] = useState(false);
   // some indication of what was chosen from the map or sidebar
   const [selectedBuilding, setSelectedBuilding] = useState(null);
+  // is the description limited
+  const [limited, setLimited] = useState(true);
 
   const history = useHistory();
+
+  function changeYear(year) {
+    setYear(year);
+    setLimited(true);
+  }
 
   useEffect(() => {
     async function fetchYears() {
@@ -78,10 +85,11 @@ export function WholeSite() {
   return (
     <div className={s.container}>
       <Description description={years?.filter(y => y.year === year)[0].description}
-        moreLink={apiUrl}
         year={year}
         buildingId={null}
-        limit={300}/>
+        limit={300}
+        limited={limited}
+        setLimited={setLimited}/>
       {!expanded &&
         <div className={s.mapContainer}>
           <div className={s.map}>
@@ -99,7 +107,7 @@ export function WholeSite() {
           <div className={s.slider}>
             <MapSlider value={year}
               range={years}
-              setYear={setYear}
+              changeYear={changeYear}
               setBackgroundImage={setBackgroundImage}/>
           </div>
         </div>
