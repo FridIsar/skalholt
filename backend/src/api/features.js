@@ -9,6 +9,18 @@ import {
 
 import { isString } from '../utils/typeChecking.js';
 
+/**
+ * Routing function used for GET on /years/{year}/buildings/{building}/features,
+ * returns a list of features with their basic information
+ *
+ * NOTE:
+ * * Currently features work relationally with buildings,
+ * because of this you only receive a list of features for the selected building
+ *
+ * @param {Object} _req request object ( Not used )
+ * @param {Object} res  response object
+ * @returns JSON response with the rows of the available features
+ */
 export async function listFeatures(req, res) {
   const { buildingId: building } = req.params;
 
@@ -31,6 +43,13 @@ export async function listFeatures(req, res) {
   return res.status(404).json(null);
 }
 
+/**
+ * Helper function used to group features and provide a summary
+ * for a given building using the building ID
+ *
+ * @param {number} building the building ID to fetch for
+ * @returns a list of grouped and summarized features info
+ */
 export async function summarizeFeatures(building) {
   let features = [];
 
@@ -60,6 +79,13 @@ export async function summarizeFeatures(building) {
   return features;
 }
 
+/**
+ * Routing function used for POST on /years/{year}/buildings/{building}/features,
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @returns the status code and ( optionally ) the JSON result of the insert
+ */
 export async function createFeature(req, res) {
   const { buildingId: id } = req.params;
   const { type, description } = req.body;
@@ -77,6 +103,13 @@ export async function createFeature(req, res) {
   return res.status(500).end();
 }
 
+/**
+ * Routing function used for PATCH on /years/{year}/buildings/{building}/features,
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @returns the status code and ( optionally ) the JSON result of the update
+ */
 export async function updateFeature(req, res) {
   const { featureId: id } = req.params;
   const { body } = req;

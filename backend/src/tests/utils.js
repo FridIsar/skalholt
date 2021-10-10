@@ -1,3 +1,5 @@
+// File contains HTTP method helpers to construct test requests
+
 import fs from 'fs';
 import crypto from 'crypto';
 import { join, dirname } from 'path';

@@ -24,6 +24,14 @@ import {
   summarizeFeatures,
 } from './features.js';
 
+/**
+ * Helper function to construct a composite building response
+ * containing additional information such as finds and features
+ *
+ * @param {number} id the id of the building
+ * @param {number} year the year to use
+ * @returns an object containing the info, files, features and finds of the building
+ */
 async function buildingDetails(id, year) {
   if (!id) {
     return null;
@@ -61,6 +69,20 @@ async function buildingDetails(id, year) {
   return building;
 }
 
+/**
+ * Routing function used for GET on /years/{year}/buildings/{building},
+ * this route forks depending on whether an svg file is requested or not
+ *
+ * NOTE:
+ * * Forking is done based on whether the building id request is an integer,
+ * if the request fails an integer check it is then checked whether the request
+ * string has the format {integer}.svg - in such a case an svg is returned
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @returns composite building information if request is an integer,
+ *          an svg image representing the building if its a valid svg request
+ */
 export async function listBuilding(req, res) {
   const { yearId, buildingId: buildingNumber } = req.params;
 
@@ -69,17 +91,29 @@ export async function listBuilding(req, res) {
     if (data) return res.json(data);
   }
 
-  const path = dirname(fileURLToPath(import.meta.url));
-  const svgExists = await exists(join(path, `../../data/svg/buildings/${buildingNumber}`));
+  const parts = buildingNumber.split('.');
 
-  if (svgExists) {
-    res.setHeader('Content-Type', 'image/svg+xml');
-    return res.sendFile(join(path, `../../data/svg/buildings/${buildingNumber}`));
+  if (parts.length === 2 && isInt(parts[0]) && parts[1] === 'svg') {
+    const path = dirname(fileURLToPath(import.meta.url));
+    const svgExists = await exists(join(path, `../../data/svg/buildings/${buildingNumber}`));
+
+    if (svgExists) {
+      res.setHeader('Content-Type', 'image/svg+xml');
+      return res.sendFile(join(path, `../../data/svg/buildings/${buildingNumber}`));
+    }
   }
 
   return res.status(404).json(null);
 }
 
+/**
+ * Routing function used for GET on /years/{year}/buildings,
+ * returns a list of buildings for the year
+ *
+ * @param {Object} _req request object ( Not used )
+ * @param {Object} res  response object
+ * @returns JSON response with the rows of the existing buildings for the year
+ */
 export async function listBuildings(req, res) {
   const { yearId: id } = req.params;
 
@@ -100,12 +134,26 @@ export async function listBuildings(req, res) {
   return res.status(404).json(null);
 }
 
+/**
+ * Routing function used for POST on /years/{year}/buildings
+ * an image which represents the building should be added in form-data
+ *
+ * NOTES:
+ * * The svg provided by form data will be optimized automatically
+ * according to the method that has been used for the current images
+ * * Some of the attributes of the building are renamed in the routes compared
+ * to the values in the database, these should match for for all the routes
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @returns the status code and the JSON result of the insert
+ */
 export async function createBuilding(req, res) {
   const {
     phase,
     start: startYear,
     end: endYear,
-    path = null,
+    d: path = null,
     description = null,
     en: english = null,
     is: icelandic = null,
@@ -149,6 +197,13 @@ export async function createBuilding(req, res) {
   return res.status(500).end();
 }
 
+/**
+ * Routing function used for DELETE on /years/{year}/building/{building},
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @returns the status code and ( optionally ) the JSON result of the deletion
+ */
 export async function deleteBuilding(req, res) {
   const { buildingId } = req.params;
 
@@ -170,6 +225,20 @@ export async function deleteBuilding(req, res) {
   return res.status(500).json(null);
 }
 
+/**
+ * Routing function used for PATCH on /years/{year}/buildings/{building}
+ *
+ * NOTES:
+ * * Currently there isn't really a good way to estimate what should happen
+ * if the user tries to explicitly state that the building should use a different image
+ * as well as providing a new image
+ * As a result of this forked behaviour if both values are provided
+ * the request is simply blocked as a bad request.
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @returns the status code and ( optionally ) the JSON result of the update
+ */
 export async function updateBuilding(req, res) {
   const { yearId, buildingId: id } = req.params;
   const { body } = req;
@@ -181,7 +250,7 @@ export async function updateBuilding(req, res) {
     isString(body.phase) ? 'phase' : null,
     isInt(body.start) ? 'start_year' : null,
     isInt(body.end) ? 'end_year' : null,
-    isString(body.path) ? 'path' : null,
+    isString(body.d) ? 'path' : null,
     isString(body.description) ? 'description' : null,
     isString(body.en) ? 'english' : null,
     isString(body.is) ? 'icelandic' : null,
@@ -191,7 +260,7 @@ export async function updateBuilding(req, res) {
     isString(body.phase) ? xss(body.phase) : null,
     isInt(body.start) ? xss(body.start) : null,
     isInt(body.end) ? xss(body.end) : null,
-    isString(body.path) ? xss(body.path) : null,
+    isString(body.d) ? xss(body.d) : null,
     isString(body.description) ? xss(body.description) : null,
     isString(body.en) ? xss(body.en) : null,
     isString(body.is) ? xss(body.is) : null,
