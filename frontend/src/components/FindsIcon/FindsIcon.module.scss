@@ -25,3 +25,19 @@
     right: 0;
   }
 }
+
+.popover {
+
+}
+
+.popper__text {
+  background-color: lightgray;
+  // border: 1px solid #666;
+  opacity: 1;
+  z-index: 100;
+  position: relative;
+  top: 3em;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  border-radius: 5px;
+
+}
