@@ -60,6 +60,19 @@ export function SelectionBox({ title, items, current, setCurrent, setOnClick }) 
           <h2 className={s.title}>{title}</h2>
           <div className={s.selectionBox__buttons}>
             {items.map((value, index) => {
+              if (current === value.id) {
+                return (
+                  <button className={s.selectionBox__button__hovered}
+                    id={value.id}
+                    key={index}
+                    onMouseEnter={onEnter}
+                    onMouseLeave={onLeave}
+                    onClick={onClick}
+                  >
+                    {value.en}
+                  </button>
+                )
+              };
               return (
                 <button className={s.selectionBox__button}
                   id={value.id}

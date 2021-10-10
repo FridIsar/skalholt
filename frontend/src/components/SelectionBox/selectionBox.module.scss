@@ -21,10 +21,14 @@
     height: 5em;
     margin: 0.2em 0.5em 0.2em 0.5em;
 
-    :hover {
+    &__hovered {
       background-color: var(--secondary-color);
       border-radius: 30px;
     }
+    // :hover {
+    //   background-color: var(--secondary-color);
+    //   border-radius: 30px;
+    // }
   }
 
   // &__icon {

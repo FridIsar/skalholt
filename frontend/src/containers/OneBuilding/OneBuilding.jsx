@@ -20,6 +20,8 @@ export function OneBuilding() {
   const [data, setData] = useState(null);
   // somr indication of what was chosen from the map or sidebar
   const [selectedFind, setSelectedFind] = useState(null);
+  // is the description limited
+  const [limited, setLimited] = useState(true);
 
   // get id and year from params
   const { idNyear } = useParams();
@@ -59,10 +61,11 @@ export function OneBuilding() {
       <h2>{data?.en + '/' + data?.is + ' - ' + year}</h2>
       <a href={'/interactive'}>Back to interactive map</a>
       <Description description={data?.description}
-        moreLink={apiUrl}
         year={year}
         buildingId={buildingId}
-        limit={300}/>
+        limit={300}
+        limited={limited}
+        setLimited={setLimited}/>
       <div className={s.mapContainer}>
         <img src={joinUrls(apiUrl, data?.image)}
           alt={'Topdown map of ' + data?.en + '/' + data?.is}
