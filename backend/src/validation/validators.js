@@ -179,7 +179,7 @@ export const pathOptionalValidator = body('path')
 
 export const descriptionOptionalValidator = body('description')
   .optional()
-  .isString({ min: 0, max: 4096 })
+  .isString({ min: 0, max: 16384 })
   .withMessage('description must be a string');
 
 export const icelandicOptionalValidator = body('is')
