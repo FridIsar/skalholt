@@ -4,11 +4,12 @@ import { Link } from "../../components/Link/Link";
 import { useEffect } from "react";
 import { useState } from "react";
 import { joinUrls } from "../../Utils/utils";
+import { GeneralList } from "../../components/GeneralList/GeneralList";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export function RawLinks() {
-  const [links, setLinks] = useState([]);
+  const [linksByGroup, setLinksByGroup] = useState([]);
 
   useEffect(() => {
     async function fetchLinks() {
@@ -24,7 +25,13 @@ export function RawLinks() {
       } catch (e) {
         return;
       } finally {
-        setLinks(json);
+
+        let grouped = json.reduce((r, a) => {
+          r[a.major_group] = [...r[a.major_group] || [], a];
+          return r;
+         }, {});
+
+        setLinksByGroup(grouped);
       }
     }
 
@@ -33,12 +40,9 @@ export function RawLinks() {
 
   return (
     <div className={s.links}>
-      {links.map((value, index) => {
+      {Object.keys(linksByGroup).map((key, index) => {
         return (
-          <Link
-            key={index}
-            href={joinUrls(apiUrl, value?.href)}
-            title={value?.tag}/>
+          <GeneralList list={linksByGroup[key]} key={index}/>
         )
       })}
     </div>

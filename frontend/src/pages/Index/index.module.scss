@@ -17,7 +17,11 @@ $background-color: #D7D5D6;
     margin-bottom: 2em;
   }
 
-
+  &__about {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 
 
 }

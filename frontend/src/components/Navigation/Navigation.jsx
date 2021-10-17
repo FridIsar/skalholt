@@ -17,7 +17,7 @@ export function Navigation() {
         <a href={'/'}>
           <img className={s.navigation__image}
             alt="Skalholt Excavations 2002-7, logo"
-            src='/logo_modified.svg'/>
+            src='/logo/logo_modified.svg'/>
         </a>
         <div className={s.navigation__content}>
           <a className={s.navigation__content__link} href="/raw">

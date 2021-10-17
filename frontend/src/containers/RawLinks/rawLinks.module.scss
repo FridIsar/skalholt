@@ -3,4 +3,7 @@
 .links {
   width: 100%;
   max-width: var(--max-width);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }

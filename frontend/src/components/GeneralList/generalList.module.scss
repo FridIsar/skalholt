@@ -1,0 +1,16 @@
+.container {
+  width: fit-content;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+.title {
+  font-size: 1.5em;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--secondary-color);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+}
