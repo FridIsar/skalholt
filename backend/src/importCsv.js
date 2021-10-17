@@ -130,7 +130,11 @@ async function importBuilding(building) {
       )`;
 
   // Values are await inserted in a loop so we should be able to rely on the counter ID
-  const svgRoute = `${YEARS_SVG_ROUTE}${building.start}/buildings/${currentBuilding}.svg`;
+  let svgRoute = null;
+
+  if (building.image) {
+    svgRoute = `${YEARS_SVG_ROUTE}${building.start}/buildings/${currentBuilding}.svg`;
+  }
 
   const values = [
     building.phase,
@@ -140,7 +144,7 @@ async function importBuilding(building) {
     building.description || null,
     building.en || null,
     building.is || null,
-    svgRoute,
+    svgRoute || null,
   ];
 
   await query(q, values);

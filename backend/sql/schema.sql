@@ -34,7 +34,7 @@ CREATE TABLE buildings (
   start_year SMALLINT,
   end_year SMALLINT,
   path VARCHAR(8192),
-  description VARCHAR(4096),
+  description VARCHAR(16384),
   english VARCHAR(64),
   icelandic VARCHAR(64),
   image VARCHAR(128),
