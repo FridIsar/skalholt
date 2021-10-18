@@ -109,7 +109,7 @@ export function WholeSite() {
       <Description description={years?.filter(y => y.year === year)[0].description}
         year={year}
         buildingId={null}
-        limit={300}
+        limit={150}
         limited={limited}
         setLimited={setLimited}/>
       {!expanded &&
