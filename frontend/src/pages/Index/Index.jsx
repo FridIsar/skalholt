@@ -18,7 +18,7 @@ export function Index() {
       <div className={s.page__image}>
         <IndexImage/>
       </div>
-      <div className={s.page__about}>
+      <div id="content" className={s.page__about}>
         <About/>
       </div>
     </div>
