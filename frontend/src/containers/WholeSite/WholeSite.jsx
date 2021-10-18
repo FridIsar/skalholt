@@ -156,7 +156,6 @@ export function WholeSite() {
         current={current}
         setCurrent={setCurrent}
         setOnClick={setSelectedBuilding}/>
-      {/* TODO: make correct path to moreLink */}
     </div>
   );
 }

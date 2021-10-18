@@ -21,26 +21,16 @@
     height: 5em;
     margin: 0.2em 0.5em 0.2em 0.5em;
 
-    &__hovered {
+    &__hovering {
+      border: 0.5px solid lightgrey;
       background-color: var(--secondary-color);
-      border-radius: 30px;
+      border-radius: 5px;
+      width: 10em;
+      height: 5em;
+      margin: 0.2em 0.5em 0.2em 0.5em;
+      color: #fff;
     }
-    // :hover {
-    //   background-color: var(--secondary-color);
-    //   border-radius: 30px;
-    // }
   }
-
-  // &__icon {
-  //   border: none;
-  //   background-color: white;
-  //   width: 3em;
-  //   height: 3em;
-  //   margin: 0.2em 0.5em 0.2em 0.5em;
-  //   border-radius: 5px;
-  //   background-image: url(https://placekitten.com/100/100);
-  //   background-size: cover;
-  // }
 
   &__seperator {
     margin: 1em;
