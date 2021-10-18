@@ -13,7 +13,7 @@ export function IndexImage() {
             Photo by <a>someone</a>, of the excavations in progress.
           </figcaption>
         </figure>
-        <div className={s.image__blur}/>
+        <div className={s.image__blur} style={{backgroundImage: "url(/frontpageImg/overview.JPG)"}}/>
         <a href="#content"><button className={s.image__button} style={{backgroundImage: "url(/util/down-arrow.svg)"}}/></a>
       </div>
     </div>
