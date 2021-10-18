@@ -73,7 +73,6 @@ export function OneBuilding() {
             className={s.mapImage}/>
         </div>
       }
-      {console.log(data)}
       <SelectionBox items={data}
         current={current}
         setCurrent={setCurrent}

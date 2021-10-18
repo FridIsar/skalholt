@@ -33,6 +33,16 @@ export function WholeSite() {
     setLimited(true);
   }
 
+  function setBGImageByYear(_year) {
+    console.log(_year)
+    console.log(years)
+    for (var i = 0; i < years?.length; i++) {
+      if (years[i].year === _year) {
+        setBackgroundImage(years[i].image);
+      }
+    }
+  }
+
   useEffect(() => {
     async function fetchYears() {
       let json;
@@ -49,11 +59,11 @@ export function WholeSite() {
         return;
       } finally {
         setYears(json);
-        setBackgroundImage(json[0]?.image)
+        setBackgroundImage(json[0]?.image);
       }
     }
     fetchYears();
-  }, [])
+  }, []);
 
   useEffect(() => {
     async function fetchBuildings() {
@@ -74,13 +84,25 @@ export function WholeSite() {
       }
     }
     fetchBuildings();
-  }, [year])
+  }, [year]);
 
   useEffect(() => {
     if(selectedBuilding) {
       history.push(`/building/${selectedBuilding}-${year}`);
     }
-  }, [selectedBuilding, history, year])
+  }, [selectedBuilding, history, year]);
+
+  useEffect(() => {
+    let _year = JSON.parse(window.localStorage.getItem('currYear'));
+    if (_year) {
+      setYear(_year);
+      setBGImageByYear(_year);
+    }
+  }, [years]);
+
+  useEffect(() => {
+    window.localStorage.setItem('currYear', year);
+  }, [year]);
 
   return (
     <div className={s.container}>
