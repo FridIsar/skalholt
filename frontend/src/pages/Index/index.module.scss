@@ -19,6 +19,7 @@ $background-color: #D7D5D6;
   &__about {
     position: relative;
     width: 100%;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
 
