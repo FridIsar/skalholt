@@ -83,13 +83,21 @@ export function Description({ description, limit, year, buildingId, limited, set
   }
 
   if (!admin) {
+
+    var split;
+    if (description) {
+      split = description.split('     ');
+    }
+
     return (
       <div className={s.description}>
         {limited &&
-          <p className={s.description__text} >{description?.substring(0, limit)+"..."}</p>
+          <pre className={s.description__text} >{description?.substring(0, limit)+"..."}</pre>
         }
         {!limited &&
-          <p className={s.description__text} >{description}</p>
+          split.map((value, index) => {
+            return <pre className={s.description__text} >{value}</pre>
+          })
         }
         {(limited && limit) &&
           <button className={s.description__link} onClick={onSeeMoreOrLess}>See more.</button>
