@@ -2,7 +2,7 @@ import s from './navigation.module.scss';
 
 import Cookies from 'universal-cookie';
 
-export function Navigation() {
+export function Navigation({ onHome }) {
 
   const cookies = new Cookies();
   const admin = cookies.get('admin');
@@ -20,6 +20,13 @@ export function Navigation() {
             src='/logo/logo_modified.svg'/>
         </a>
         <div className={s.navigation__content}>
+          {!onHome &&
+            <a className={s.navigation__content__link} href="/">
+              <h1 className={s.navigation__content__text}>
+                Home
+              </h1>
+            </a>
+          }
           <a className={s.navigation__content__link} href="/raw">
             <h1 className={s.navigation__content__text}>
               Project data

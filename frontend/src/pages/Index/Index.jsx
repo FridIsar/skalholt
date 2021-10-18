@@ -13,7 +13,7 @@ export function Index() {
   return (
     <div className={s.page}>
       <div className={s.page__header}>
-        <Navigation/>
+        <Navigation onHome={true}/>
       </div>
       <div className={s.page__image}>
         <IndexImage/>
