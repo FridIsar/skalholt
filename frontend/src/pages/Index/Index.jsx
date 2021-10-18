@@ -19,6 +19,7 @@ export function Index() {
         <IndexImage/>
       </div>
       <div id="content" className={s.page__about}>
+        <img className={s.page__about__bgImg} src={'/frontpageImg/vinnumynd.jpg'} alt="TODO"/>
         <About/>
       </div>
     </div>

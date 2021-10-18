@@ -42,7 +42,7 @@ export function About() {
           <p className={s.text}>{paragraphs[1]}</p>
         </div>
         <div className={s.section}>
-          <img className={s.image} src='/frontpageImg/overview.JPG' alt="Overview of skálholt"/>
+          {/* <img className={s.image} src='/frontpageImg/vinnumynd.jpg' alt="Overview of skálholt"/> */}
           <p className={s.text}>{paragraphs[2]}</p>
         </div>
         <div className={s.section}>

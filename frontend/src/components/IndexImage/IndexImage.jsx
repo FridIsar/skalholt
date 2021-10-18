@@ -8,8 +8,8 @@ export function IndexImage() {
     <div className={s.image}>
       <div className={s.image__figContainer}>
         <figure className={s.image__figure}>
-          <img src='/frontpageImg/vinnumynd.jpg' className={s.image__pic}/>
-          <figcaption className={s.page__figcaption}>
+          <img src='/frontpageImg/overview.JPG' className={s.image__pic}/>
+          <figcaption className={s.image__figcaption}>
             Photo by <a>someone</a>, of the excavations in progress.
           </figcaption>
         </figure>

@@ -66,11 +66,14 @@ export function OneBuilding() {
         limit={300}
         limited={limited}
         setLimited={setLimited}/>
-      <div className={s.mapContainer}>
-        <img src={joinUrls(apiUrl, data?.image)}
-          alt={'Topdown map of ' + data?.en + '/' + data?.is}
-          className={s.mapImage}/>
-      </div>
+      {!(data?.image === null) &&
+        <div className={s.mapContainer}>
+          <img src={joinUrls(apiUrl, data?.image)}
+            alt={'Topdown map of ' + data?.en + '/' + data?.is}
+            className={s.mapImage}/>
+        </div>
+      }
+      {console.log(data)}
       <SelectionBox items={data}
         current={current}
         setCurrent={setCurrent}

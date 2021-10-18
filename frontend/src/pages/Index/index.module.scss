@@ -8,7 +8,6 @@ $background-color: #D7D5D6;
   height: 100%;
   align-items: center;
   flex-direction: column;
-  margin-bottom: 2em;
 
   &__image {
     width: 100vw;
@@ -18,9 +17,19 @@ $background-color: #D7D5D6;
   }
 
   &__about {
+    position: relative;
     width: 100%;
     display: flex;
     justify-content: center;
+
+    &__bgImg {
+      position: absolute;
+      z-index: -30;
+      width: 100%;
+      opacity: 0.5;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
 
