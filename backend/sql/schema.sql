@@ -13,7 +13,7 @@ CREATE TABLE users (
   admin BOOLEAN DEFAULT false
 );
 
-CREATE TABLE files (
+CREATE TABLE csvs (
   id SERIAL PRIMARY KEY,
   tag VARCHAR(32) NOT NULL UNIQUE,
   f_group VARCHAR(32),

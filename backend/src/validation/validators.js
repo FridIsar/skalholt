@@ -192,7 +192,7 @@ export const englishOptionalValidator = body('en')
   .isString({ min: 0, max: 64 })
   .withMessage('english attribution must be a string');
 
-export const fileIdValidator = param('fileId')
+export const csvIdValidator = param('csvId')
   .isInt({ min: 1 })
   .withMessage('fileId must be an integer larger than 0');
 
@@ -221,16 +221,15 @@ export const imageOptionalValidator = body('image')
     return Promise.resolve();
   });
 
-const FILE_MIMETYPES = [
+const CSV_MIMETYPES = [
   'text/csv',
-  'application/zip',
 ];
 
-function validateFileMimeType(mimetype) {
-  return FILE_MIMETYPES.indexOf(mimetype.toLowerCase()) >= 0;
+function validateCsvMimeType(mimetype) {
+  return CSV_MIMETYPES.indexOf(mimetype.toLowerCase()) >= 0;
 }
 
-export const fileValidator = body('file')
+export const csvValidator = body('file')
   .custom(async (file, { req = {} }) => {
     const { file: { path, mimetype } = {} } = req;
 
@@ -238,7 +237,7 @@ export const fileValidator = body('file')
       return Promise.reject(new Error('file is required'));
     }
 
-    if (!validateFileMimeType(mimetype)) {
+    if (!validateCsvMimeType(mimetype)) {
       const error = `Mimetype ${mimetype} is not allowed. Only csv files are accepted`;
       return Promise.reject(new Error(error));
     }
@@ -274,8 +273,8 @@ export const featureIdValidator = param('featureId')
   .isInt({ min: 1 })
   .withMessage('featureId must be an integer larger than 0');
 
-export const fileValidators = [
-  fileValidator,
+export const csvValidators = [
+  csvValidator,
 ];
 
 export const typeOptionalValidator = body('type')

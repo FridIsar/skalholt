@@ -91,7 +91,7 @@ export async function methodAndParse(
   let json = null;
 
   // These paths only return statuses and SVG / CSV objects, no JSON
-  if (!(path.includes('.svg') || (path.includes('files') && method === 'GET'))) {
+  if (!(path.includes('.svg') || (path.includes('csv/') && method === 'GET'))) {
     json = await result.json();
   }
 

@@ -31,7 +31,7 @@ pool.on('error', (err) => {
   process.exit(-1);
 });
 
-const FILES_ROUTE = '/files/';
+const CSV_ROUTE = '/csv/';
 
 /**
  * Year
@@ -200,13 +200,13 @@ export async function conditionalUpdate(table, key, id, fields, values) {
  * @param {string} csv the name of the csv to insert
  * @returns the result of the insertion statement
  */
-export async function insertFile(csv) {
+export async function insertCsv(csv) {
   const id = await singleQuery('SELECT curr_file_id FROM logging', []);
   const newId = id.curr_file_id + 1;
 
   const q = `
     INSERT INTO
-      files
+      csvs
       (
         tag,
         f_group,
@@ -232,7 +232,7 @@ export async function insertFile(csv) {
     csv.csvName,
     // This isn't entirely meaningful, allow patching to change group
     validateFileGroup(csv.csvName) ? 'units' : 'finds',
-    `${FILES_ROUTE}${newId}`,
+    `${CSV_ROUTE}${newId}`,
   ];
 
   try {

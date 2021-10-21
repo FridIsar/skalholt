@@ -14,9 +14,9 @@ import {
   insertBuilding,
 } from '../db.js';
 import {
-  getFilesByBuilding,
-  getFilesByGroup,
-} from './files.js';
+  getCsvsByBuilding,
+  getCsvsByGroup,
+} from './csvs.js';
 import {
   summarizeFinds,
 } from './finds.js';
@@ -54,8 +54,8 @@ async function buildingDetails(id, year) {
   }
 
   const files = {};
-  const featureFiles = await getFilesByGroup('features');
-  const findFiles = await getFilesByBuilding(id);
+  const featureFiles = await getCsvsByGroup('units');
+  const findFiles = await getCsvsByBuilding(id);
 
   files.features = featureFiles;
   files.finds = findFiles;

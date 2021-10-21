@@ -12,17 +12,17 @@ import {
   query,
   deleteQuery,
   singleQuery,
-  insertFile,
+  insertCsv,
 } from '../db.js';
 
 /**
- * Routing function used for GET on /files
+ * Routing function used for GET on /csv
  *
  * @param {Object} _req request object ( Not used )
  * @param {Object} res  response object
  * @returns JSON response with the info of all the available csv files
  */
-export async function listFiles(_req, res) {
+export async function listCsvs(_req, res) {
   const files = await query(
     `SELECT
       id,
@@ -30,8 +30,8 @@ export async function listFiles(_req, res) {
       href,
       major_group
     FROM
-      files
-    ORDER BY major_group ASC`,
+      csvs
+    ORDER BY major_group DESC`,
     [],
   );
 
@@ -39,7 +39,7 @@ export async function listFiles(_req, res) {
 }
 
 /**
- * Routing function used for GET on /files/{id}
+ * Routing function used for GET on /csv/{id}
  *
  * NOTE:
  * * This uses res.download explicitly to force a download popup,
@@ -49,12 +49,12 @@ export async function listFiles(_req, res) {
  * @param {Object} res response object
  * @returns A download offer for the requested csv file
  */
-export async function getFile(req, res) {
+export async function getCsv(req, res) {
   // Because this function explicitly expects integer ID requests
   // We can be sure that the validator function will catch malicious requests
   // As such we don't necessarily need to check the format here
-  const { fileId: id } = req.params;
-  const actualFile = await singleQuery('SELECT tag FROM files WHERE id = $1', [
+  const { csvId: id } = req.params;
+  const actualFile = await singleQuery('SELECT tag FROM csvs WHERE id = $1', [
     id,
   ]);
 
@@ -79,7 +79,7 @@ export async function getFile(req, res) {
 }
 
 /**
- * Routing function used for POST on /files
+ * Routing function used for POST on /csv
  *
  * NOTE:
  * * Most of the additional data is generated from the file name.
@@ -90,7 +90,7 @@ export async function getFile(req, res) {
  * @param {Object} res response object
  * @returns the status code and ( optionally ) the JSON result of the insert
  */
-export async function createFile(req, res) {
+export async function createCsv(req, res) {
   const { file: { path: csvPath, originalname: csvName } = {} } = req;
 
   if (csvPath) {
@@ -109,7 +109,7 @@ export async function createFile(req, res) {
       const data = await readFile(csvPath);
       await writeFile(path.join(currPath, newPath), data);
 
-      const insertFileResult = await insertFile({
+      const insertFileResult = await insertCsv({
         csvName,
       });
 
@@ -125,19 +125,19 @@ export async function createFile(req, res) {
 }
 
 /**
- * Routing function used for DELETE on /files/{id},
+ * Routing function used for DELETE on /csv/{id},
  *
  * @param {Object} req request object
  * @param {Object} res response object
  * @returns the status code and ( optionally ) the JSON result of the deletion
  */
-export async function removeFile(req, res) {
-  const { fileId } = req.params;
+export async function removeCsv(req, res) {
+  const { csvId } = req.params;
 
   try {
     const actualFile = await singleQuery(
-      'SELECT tag FROM files WHERE id = $1',
-      [fileId],
+      'SELECT tag FROM csvs WHERE id = $1',
+      [csvId],
     );
 
     if (actualFile) {
@@ -150,8 +150,8 @@ export async function removeFile(req, res) {
       }
     }
 
-    const deleted = await deleteQuery('DELETE FROM files WHERE id = $1', [
-      fileId,
+    const deleted = await deleteQuery('DELETE FROM csvs WHERE id = $1', [
+      csvId,
     ]);
 
     if (deleted === 0) {
@@ -160,13 +160,13 @@ export async function removeFile(req, res) {
 
     return res.status(200).json({});
   } catch (err) {
-    logger.error(`Unable to delete file ${fileId}`, err);
+    logger.error(`Unable to delete csv ${csvId}`, err);
   }
 
   return res.status(500).json(null);
 }
 
-export async function getFilesByGroup(group) {
+export async function getCsvsByGroup(group) {
   const files = await query(
     `SELECT
       id,
@@ -174,7 +174,7 @@ export async function getFilesByGroup(group) {
       major_group,
       href
     FROM
-      files
+      csvs
     WHERE
       f_group = $1
     ORDER BY major_group ASC`,
@@ -184,7 +184,7 @@ export async function getFilesByGroup(group) {
   return files.rows;
 }
 
-export async function getFilesByBuilding(id) {
+export async function getCsvsByBuilding(id) {
   const files = await query(
     `SELECT
       id,
@@ -192,7 +192,7 @@ export async function getFilesByBuilding(id) {
       major_group,
       href
     FROM
-      files
+      csvs
     WHERE
       f_group IN
         (

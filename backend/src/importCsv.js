@@ -33,10 +33,10 @@ let currentFile = 1;
  *
  * @param {string} fileName the filename of the file to import
  */
-async function importFile(fileName) {
+async function importCsv(fileName) {
   const q = `
     INSERT INTO
-      files
+      csvs
       (
         tag,
         f_group,
@@ -268,7 +268,7 @@ export async function importData() {
 
   console.info('Importing shared files');
   for (let i = 0; i < fileNames.length; i += 1) {
-    await importFile(fileNames[i]);
+    await importCsv(fileNames[i]);
   }
 
   const years = await readStream('./data/csv/years.csv');

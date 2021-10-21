@@ -110,16 +110,16 @@
       ]
     }
   },
-  "files": {
-    "files": {
-      "href": "/files",
+  "csv": {
+    "csv": {
+      "href": "/csv",
       "methods": [
         "GET",
         "POST"
       ]
     },
     "file": {
-      "href": "/files/{id}",
+      "href": "/csv/{id}",
       "methods": [
         "GET",
         "DELETE"

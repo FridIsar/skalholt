@@ -24,8 +24,8 @@ import {
   yearIdValidator,
   buildingValidators,
   buildingIdValidator,
-  fileIdValidator,
-  fileValidators,
+  csvIdValidator,
+  csvValidators,
   findIdValidator,
   findValidators,
   featureIdValidator,
@@ -50,11 +50,11 @@ import {
 } from './buildings.js';
 
 import {
-  listFiles,
-  getFile,
-  createFile,
-  removeFile,
-} from './files.js';
+  listCsvs,
+  getCsv,
+  createCsv,
+  removeCsv,
+} from './csvs.js';
 
 import {
   listFeatures,
@@ -247,30 +247,30 @@ router.patch(
 );
 
 router.get(
-  '/files',
+  '/csv',
   validationCheck,
-  catchErrors(listFiles),
+  catchErrors(listCsvs),
 );
 
 router.post(
-  '/files/',
+  '/csv/',
   requireAdmin,
   fileWithMulter,
-  fileValidators,
+  csvValidators,
   validationCheck,
-  catchErrors(createFile),
+  catchErrors(createCsv),
 );
 
 router.get(
-  '/files/:fileId',
+  '/csv/:csvId',
   validationCheck,
-  catchErrors(getFile),
+  catchErrors(getCsv),
 );
 
 router.delete(
-  '/files/:fileId',
+  '/csv/:csvId',
   requireAdmin,
-  fileIdValidator,
+  csvIdValidator,
   validationCheck,
-  catchErrors(removeFile),
+  catchErrors(removeCsv),
 );

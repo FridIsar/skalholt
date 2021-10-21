@@ -7,59 +7,59 @@ import {
   postAndParse,
 } from './utils.js';
 
-describe('files admin', () => {
-  test('POST /files requires admin', async () => {
-    const { status } = await postAndParse('/files');
+describe('csv admin', () => {
+  test('POST /csv requires admin', async () => {
+    const { status } = await postAndParse('/csv');
 
     expect(status).toBe(401);
   });
 
-  test('POST /files valid file', async () => {
+  test('POST /csv valid file', async () => {
     const token = await loginAsHardcodedAdminAndReturnToken();
     expect(token).toBeTruthy();
 
-    const { status } = await postAndParse('/files', null, token, null, './atestfile.csv');
+    const { status } = await postAndParse('/csv', null, token, null, './atestfile.csv');
 
     expect(status).toBe(201);
   });
 
-  test('POST /files requires admin, not user', async () => {
+  test('POST /csv requires admin, not user', async () => {
     const { token } = await createRandomUserAndReturnWithToken();
     expect(token).toBeTruthy();
 
-    const { result, status } = await postAndParse('/files', null, token);
+    const { result, status } = await postAndParse('/csv', null, token);
 
     expect(status).toBe(401);
     expect(result.error).toBe('insufficient authorization');
   });
 
-  test('DELETE /files/:fileId requires admin', async () => {
-    const { status } = await deleteAndParse('/files/9999');
+  test('DELETE /csv/:csvId requires admin', async () => {
+    const { status } = await deleteAndParse('/csv/9999');
 
     expect(status).toBe(401);
   });
 
-  test('DELETE /files/:fileId requires admin, not user', async () => {
+  test('DELETE /csv/:csvId requires admin, not user', async () => {
     const { token } = await createRandomUserAndReturnWithToken();
     expect(token).toBeTruthy();
 
-    const { result, status } = await deleteAndParse('/files/9999', null, token);
+    const { result, status } = await deleteAndParse('/csv/9999', null, token);
 
     expect(status).toBe(401);
     expect(result.error).toBe('insufficient authorization');
   });
 
-  test('DELETE /files/:fileId success', async () => {
+  test('DELETE /csv/:csvId success', async () => {
     const token = await loginAsHardcodedAdminAndReturnToken();
     expect(token).toBeTruthy();
 
-    const { result, status } = await postAndParse('/files', null, token, null, './adifferenttestfile.csv');
+    const { result, status } = await postAndParse('/csv', null, token, null, './adifferenttestfile.csv');
 
     expect(status).toBe(201);
 
     const {
       result: deleteResult, status: deleteStatus,
-    } = await deleteAndParse(`/files/${result.id}`, null, token);
+    } = await deleteAndParse(`/csv/${result.id}`, null, token);
 
     expect(deleteStatus).toBe(200);
     expect(deleteResult).toEqual({});
