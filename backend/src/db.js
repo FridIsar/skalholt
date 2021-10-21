@@ -230,7 +230,8 @@ export async function insertFile(csv) {
   const values = [
     csv.csvName,
     csv.csvName,
-    validateFileGroup(csv.csvName) ? csv.csvName : 'finds',
+    // This isn't entirely meaningful, allow patching to change group
+    validateFileGroup(csv.csvName) ? 'units' : 'finds',
     `${FILES_ROUTE}${newId}`,
   ];
 

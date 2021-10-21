@@ -53,7 +53,7 @@ async function importFile(fileName) {
 
   // The filenames need to match the routing system for this to work
   const f = fileName.split('.');
-  const mg = validateFileGroup(f[0]) ? f[0] : 'finds';
+  const mg = validateFileGroup(f[0]) ? 'units' : 'finds';
   const values = [
     fileName,
     f[0],

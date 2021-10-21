@@ -1,8 +1,9 @@
 // Simple helpers to check which major groups to apply to a file
 
-const MAJOR_FILE_GROUPS = [
+const NON_FIND_GROUPS = [
+  'units',
+  'samples',
   'buildings',
-  'features',
 ];
 
 /**
@@ -12,5 +13,5 @@ const MAJOR_FILE_GROUPS = [
  * @returns true/false
  */
 export default function validateFileGroup(filename) {
-  return MAJOR_FILE_GROUPS.indexOf(filename.toLowerCase()) >= 0;
+  return NON_FIND_GROUPS.indexOf(filename.toLowerCase()) >= 0;
 }
