@@ -91,21 +91,25 @@ async function importPdf(fileName) {
 }
 
 async function importImage(fileName) {
+  // TODO: Thumbnails for these images.
   const q = `
     INSERT INTO
       images
       (
         tag,
-        href
+        href,
+        thumbnail
       )
     VALUES
       (
         $1,
-        $2
+        $2,
+        $3
       )`;
 
   const values = [
     fileName,
+    `${IMAGE_ROUTE}${currentImage}`,
     `${IMAGE_ROUTE}${currentImage}`,
   ];
 
@@ -378,7 +382,7 @@ export async function importData() {
         curr_csv_id,
         curr_pdf_id,
         curr_image_id)
-    VALUES($1, $2)`,
+    VALUES($1, $2, $3, $4)`,
     [currentBuilding - 1, currentCsv - 1, currentPdf - 1, currentImage - 1],
   );
 }

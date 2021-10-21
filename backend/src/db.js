@@ -201,8 +201,8 @@ export async function conditionalUpdate(table, key, id, fields, values) {
  * @returns the result of the insertion statement
  */
 export async function insertCsv(csv) {
-  const id = await singleQuery('SELECT curr_file_id FROM logging', []);
-  const newId = id.curr_file_id + 1;
+  const id = await singleQuery('SELECT curr_csv_id FROM logging', []);
+  const newId = id.curr_csv_id + 1;
 
   const q = `
     INSERT INTO
@@ -237,7 +237,7 @@ export async function insertCsv(csv) {
 
   try {
     const result = await query(q, values);
-    await query('UPDATE logging SET curr_file_id = $1', [newId]);
+    await query('UPDATE logging SET curr_csv_id = $1', [newId]);
     return result.rows[0];
   } catch (err) {
     logger.error('Error inserting file', err);

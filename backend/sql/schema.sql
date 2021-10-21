@@ -1,7 +1,7 @@
 CREATE TABLE logging (
   logging_id BOOLEAN PRIMARY KEY DEFAULT TRUE,
   curr_building_id INTEGER,
-  curr_file_id INTEGER,
+  curr_csv_id INTEGER,
   curr_pdf_id INTEGER,
   curr_image_id INTEGER,
   CONSTRAINT logging_id CHECK (logging_id)
@@ -24,7 +24,8 @@ CREATE TABLE pdfs (
 CREATE TABLE images (
   id SERIAL PRIMARY KEY,
   tag VARCHAR(32) NOT NULL UNIQUE,
-  href VARCHAR(64)
+  href VARCHAR(64),
+  thumbnail VARCHAR(64)
 );
 
 CREATE TABLE csvs (
