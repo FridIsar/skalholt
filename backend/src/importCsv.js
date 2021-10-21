@@ -19,19 +19,19 @@ import validateFileGroup from './utils/fileNames.js';
 
 // Filesystem routes and global counters
 const YEARS_SVG_ROUTE = '/years/';
-const FILES_ROUTE = '/files/';
+const CSV_ROUTE = '/csv/';
+const PDF_ROUTE = '/pdf/';
+const IMAGE_ROUTE = '/images/';
 
 let currentBuilding = 1;
-let currentFile = 1;
+let currentCsv = 1;
+let currentPdf = 1;
+let currentImage = 1;
 
 /**
- * Inserts shared file information into the database
+ * Insertion helper function for shared csv files
  *
- * Database columns are constructed from filenames
- * They should therefore match the filegroup and have
- * descriptive names
- *
- * @param {string} fileName the filename of the file to import
+ * @param {string} fileName the filename of the csv to import
  */
 async function importCsv(fileName) {
   const q = `
@@ -58,13 +58,85 @@ async function importCsv(fileName) {
     fileName,
     f[0],
     mg,
-    `${FILES_ROUTE}${currentFile}`,
+    `${CSV_ROUTE}${currentCsv}`,
   ];
 
   await query(q, values);
 
   // Maintain an ID counter to be able to self reference the file route
-  currentFile += 1;
+  currentCsv += 1;
+}
+
+async function importPdf(fileName) {
+  const q = `
+    INSERT INTO
+      pdfs
+      (
+        tag,
+        href
+      )
+    VALUES
+      (
+        $1,
+        $2
+      )`;
+
+  const values = [
+    fileName,
+    `${PDF_ROUTE}${currentPdf}`,
+  ];
+
+  await query(q, values);
+  currentPdf += 1;
+}
+
+async function importImage(fileName) {
+  const q = `
+    INSERT INTO
+      images
+      (
+        tag,
+        href
+      )
+    VALUES
+      (
+        $1,
+        $2
+      )`;
+
+  const values = [
+    fileName,
+    `${IMAGE_ROUTE}${currentImage}`,
+  ];
+
+  await query(q, values);
+
+  currentImage += 1;
+}
+
+/**
+ * Inserts shared file information into the database
+ *
+ * Database columns are constructed from filenames
+ * They should therefore match the filegroup and have
+ * descriptive names
+ *
+ * @param {string} fileName the filename of the file to import
+ */
+async function importFile(fileName) {
+  const f = fileName.split('.');
+
+  switch (f[1]) {
+    case 'csv':
+      await importCsv(fileName);
+      break;
+    case 'pdf':
+      await importPdf(fileName);
+      break;
+    default:
+      // Default case allows for jpeg, jpg, png, tif ...
+      await importImage(fileName);
+  }
 }
 
 /**
@@ -268,7 +340,7 @@ export async function importData() {
 
   console.info('Importing shared files');
   for (let i = 0; i < fileNames.length; i += 1) {
-    await importCsv(fileNames[i]);
+    await importFile(fileNames[i]);
   }
 
   const years = await readStream('./data/csv/years.csv');
@@ -303,8 +375,10 @@ export async function importData() {
     `INSERT INTO
       logging(
         curr_building_id,
-        curr_file_id)
+        curr_csv_id,
+        curr_pdf_id,
+        curr_image_id)
     VALUES($1, $2)`,
-    [currentBuilding - 1, currentFile - 1],
+    [currentBuilding - 1, currentCsv - 1, currentPdf - 1, currentImage - 1],
   );
 }

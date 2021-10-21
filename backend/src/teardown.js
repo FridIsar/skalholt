@@ -86,10 +86,10 @@ async function cleanFiles() {
     await deleteFile(path.join(CURR_PATH, `../data/files/${fileNames[i]}`));
   }
 
-  const sharedFiles = await readDir('./data/csv/shared');
+  const sharedFiles = await readDir('./data/shared');
 
   for (let i = 0; i < sharedFiles.length; i += 1) {
-    const sharedFile = `../data/csv/shared/${sharedFiles[i]}`;
+    const sharedFile = `../data/shared/${sharedFiles[i]}`;
     const data = await readFile(path.join(CURR_PATH, sharedFile));
 
     await writeFile(path.join(CURR_PATH, `../data/files/${sharedFiles[i]}`), data);
@@ -105,9 +105,9 @@ async function cleanFiles() {
 export default async function teardown() {
   try {
     await cleanFiles();
-    console.info('Cleaning test csv files');
+    console.info('Cleaning test files');
   } catch (err) {
-    console.error('Error while removing test csv files', err.message);
+    console.error('Error while removing test files', err.message);
     return;
   }
 
