@@ -273,6 +273,14 @@ export const featureIdValidator = param('featureId')
   .isInt({ min: 1 })
   .withMessage('featureId must be an integer larger than 0');
 
+export const pdfIdValidator = param('pdfId')
+  .isInt({ min: 1 })
+  .withMessage('pdfId must be an integer larger than 0');
+
+export const imageIdValidator = param('imageId')
+  .isInt({ min: 1 })
+  .withMessage('imageId must be an integer larger than 0');
+
 export const csvValidators = [
   csvValidator,
 ];

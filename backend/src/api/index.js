@@ -26,6 +26,8 @@ import {
   buildingIdValidator,
   csvIdValidator,
   csvValidators,
+  pdfIdValidator,
+  imageIdValidator,
   findIdValidator,
   findValidators,
   featureIdValidator,
@@ -55,6 +57,16 @@ import {
   createCsv,
   removeCsv,
 } from './csvs.js';
+
+import {
+  listPdfs,
+  getPdf,
+} from './pdfs.js';
+
+import {
+  listImages,
+  getImage,
+} from './images.js';
 
 import {
   listFeatures,
@@ -263,6 +275,7 @@ router.post(
 
 router.get(
   '/csv/:csvId',
+  csvIdValidator,
   validationCheck,
   catchErrors(getCsv),
 );
@@ -273,4 +286,30 @@ router.delete(
   csvIdValidator,
   validationCheck,
   catchErrors(removeCsv),
+);
+
+router.get(
+  '/pdf',
+  validationCheck,
+  catchErrors(listPdfs),
+);
+
+router.get(
+  '/pdf/:pdfId',
+  pdfIdValidator,
+  validationCheck,
+  catchErrors(getPdf),
+);
+
+router.get(
+  '/images',
+  validationCheck,
+  catchErrors(listImages),
+);
+
+router.get(
+  '/images/:imageId',
+  imageIdValidator,
+  validationCheck,
+  catchErrors(getImage),
 );

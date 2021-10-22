@@ -110,19 +110,33 @@
       ]
     }
   },
-  "csv": {
-    "csv": {
+  "csvs": {
+    "csvs": {
       "href": "/csv",
       "methods": [
         "GET",
         "POST"
       ]
     },
-    "file": {
+    "csv": {
       "href": "/csv/{id}",
       "methods": [
         "GET",
         "DELETE"
+      ]
+    }
+  },
+  "pdfs": {
+    "pdfs": {
+      "href": "/pdf",
+      "methods": [
+        "GET"
+      ]
+    },
+    "pdf": {
+      "href": "/pdf/{id}",
+      "methods": [
+        "GET"
       ]
     }
   }
