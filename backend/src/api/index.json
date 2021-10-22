@@ -139,5 +139,19 @@
         "GET"
       ]
     }
+  },
+  "images": {
+    "images": {
+      "href": "/images",
+      "methods": [
+        "GET"
+      ]
+    },
+    "image": {
+      "href": "/image/{id}",
+      "methods": [
+        "GET"
+      ]
+    }
   }
 }
