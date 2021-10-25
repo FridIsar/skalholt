@@ -86,7 +86,7 @@ export function Description({ description, limit, year, buildingId, limited, set
 
     var split;
     if (description) {
-      split = description.split('     ');
+      split = description.split(/\s\s\s*/);   // seperate by 2 or more spaces
     }
 
     return (
@@ -125,6 +125,7 @@ export function Description({ description, limit, year, buildingId, limited, set
           Submit change
         </Button>
       </Form>
+      <p className={s.adminInstructions}>Linebreaks are done by putting 2 or more spaces.</p>
     </div>
   )
 }
