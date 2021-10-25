@@ -30,7 +30,6 @@ export function FindsIcon({fGroup, fragments, index, iconData}) {
 
   function onEnter(event) {
     setAnchorElHover(event?.target);
-    console.log(event)
   }
 
   const openClick = Boolean(anchorElClick);
