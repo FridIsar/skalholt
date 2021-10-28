@@ -7,6 +7,7 @@ import { resourceExists } from './helpers.js';
 import { comparePasswords, findByEmail, findByUsername } from '../auth/users.js';
 import { LoginError } from '../errors.js';
 import { logger } from '../utils/logger.js';
+import { MAX_FILE_SIZE } from '../utils/withMulter.js';
 
 export function validateResourceExists(fetchResource) {
   return [
@@ -207,7 +208,7 @@ function validateSvgMimetype(mimetype) {
 export const imageOptionalValidator = body('image')
   .optional()
   .custom(async (image, { req = {} }) => {
-    const { file: { path, mimetype } = {} } = req;
+    const { file: { path, mimetype, size } = {} } = req;
 
     if (!path && !mimetype && req.method === 'PATCH') {
       return Promise.resolve();
@@ -215,6 +216,10 @@ export const imageOptionalValidator = body('image')
 
     if (!path && !mimetype) {
       return Promise.reject(new Error('image is required'));
+    }
+
+    if (parseInt(size, 10) >= MAX_FILE_SIZE) {
+      return Promise.reject(new Error('image is larger than 20 Mb'));
     }
 
     if (!validateSvgMimetype(mimetype)) {
@@ -235,10 +240,14 @@ function validateCsvMimeType(mimetype) {
 
 export const csvValidator = body('file')
   .custom(async (file, { req = {} }) => {
-    const { file: { path, mimetype } = {} } = req;
+    const { file: { path, mimetype, size } = {} } = req;
 
     if (!path && !mimetype) {
       return Promise.reject(new Error('file is required'));
+    }
+
+    if (parseInt(size, 10) >= MAX_FILE_SIZE) {
+      return Promise.reject(new Error('file is larger than 20 Mb'));
     }
 
     if (!validateCsvMimeType(mimetype)) {
@@ -259,10 +268,14 @@ function validatePdfMimeType(mimetype) {
 
 export const pdfValidator = body('file')
   .custom(async (file, { req = {} }) => {
-    const { file: { path, mimetype } = {} } = req;
+    const { file: { path, mimetype, size } = {} } = req;
 
     if (!path && !mimetype) {
       return Promise.reject(new Error('file is required'));
+    }
+
+    if (parseInt(size, 10) >= MAX_FILE_SIZE) {
+      return Promise.reject(new Error('file is larger than 20 Mb'));
     }
 
     if (!validatePdfMimeType(mimetype)) {
@@ -283,12 +296,16 @@ function validateImageMimeType(mimetype) {
   return IMAGE_MIMETYPES.indexOf(mimetype.toLowerCase()) >= 0;
 }
 
-export const imageValidator = body('file')
+export const imageValidator = body('image')
   .custom(async (file, { req = {} }) => {
-    const { file: { path, mimetype } = {} } = req;
+    const { file: { path, mimetype, size } = {} } = req;
 
     if (!path && !mimetype) {
-      return Promise.reject(new Error('file is required'));
+      return Promise.reject(new Error('image is required'));
+    }
+
+    if (parseInt(size, 10) >= MAX_FILE_SIZE) {
+      return Promise.reject(new Error('image is larger than 20 Mb'));
     }
 
     if (!validateImageMimeType(mimetype)) {

@@ -8,8 +8,6 @@ import { fileURLToPath } from 'url';
 import { logger } from '../utils/logger.js';
 import {
   exists,
-  readFile,
-  writeFile,
   deleteFile,
 } from '../utils/fileSystem.js';
 import {
@@ -140,8 +138,8 @@ export async function createImage(req, res) {
           .json({ error: 'a file with that name already exists' });
       }
 
-      const data = await readFile(imagePath);
-      await writeFile(path.join(currPath, newPath), data);
+      const data = fs.readFileSync(imagePath);
+      fs.writeFileSync(path.join(currPath, newPath), data);
 
       const insertFileResult = await insertImage({ imageName, majorGroup });
 

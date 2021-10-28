@@ -342,7 +342,7 @@ router.get(
 router.post(
   '/images/',
   requireAdmin,
-  fileWithMulter,
+  imageWithMulter,
   imageValidators,
   validationCheck,
   catchErrors(createImage),

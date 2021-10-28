@@ -151,7 +151,7 @@
       ]
     },
     "image": {
-      "href": "/image/{id}",
+      "href": "/image/{id}?width={number}&height={number}&quality={number}&fit={string}",
       "methods": [
         "GET",
         "DELETE"

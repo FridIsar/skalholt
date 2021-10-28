@@ -1,11 +1,10 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { readFileSync, writeFileSync } from 'fs';
 
 import { logger } from '../utils/logger.js';
 import {
   exists,
-  readFile,
-  writeFile,
   deleteFile,
 } from '../utils/fileSystem.js';
 import {
@@ -91,8 +90,8 @@ export async function createPdf(req, res) {
           .json({ error: 'a file with that name already exists' });
       }
 
-      const data = await readFile(pdfPath);
-      await writeFile(path.join(currPath, newPath), data);
+      const data = readFileSync(pdfPath);
+      writeFileSync(path.join(currPath, newPath), data);
 
       const insertFileResult = await insertPdf({ pdfName, majorGroup });
 

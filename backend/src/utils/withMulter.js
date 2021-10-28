@@ -13,16 +13,17 @@ const {
   MULTER_TEMP_DIR: multerDir = './temp',
 } = process.env;
 
+export const MAX_FILE_SIZE = 2097152;
+
 /**
- * Helper function to parse images used for the
- * years and buildings route
+ * Helper function to parse images
  *
  * @param {Object} req the request object
  * @param {Object} res the response object
  * @param {Function} next the next middleware to use
  */
 export function imageWithMulter(req, res, next) {
-  multer({ dest: multerDir })
+  multer({ dest: multerDir, limits: { fieldNameSize: 32, fileSize: MAX_FILE_SIZE } })
     .single('image')(req, res, (err) => {
       if (err) {
         if (err.message === 'Unexpected field') {
@@ -33,7 +34,7 @@ export function imageWithMulter(req, res, next) {
           return res.status(400).json({ errors });
         }
 
-        return next(err);
+        return res.status(400).json(err.message);
       }
 
       return next();
@@ -41,15 +42,14 @@ export function imageWithMulter(req, res, next) {
 }
 
 /**
- * Helper function to parse csv files used for the
- * files route
+ * Helper function to parse other files
  *
  * @param {Object} req the request object
  * @param {Object} res the response object
  * @param {Function} next the next middleware to use
  */
 export function fileWithMulter(req, res, next) {
-  multer({ dest: multerDir })
+  multer({ dest: multerDir, limits: { fieldNameSize: 32, fileSize: MAX_FILE_SIZE } })
     .single('file')(req, res, (err) => {
       if (err) {
         if (err.message === 'Unexpected field') {
@@ -60,7 +60,7 @@ export function fileWithMulter(req, res, next) {
           return res.status(400).json({ errors });
         }
 
-        return next(err);
+        return res.status(400).json(err.message);
       }
 
       return next();
