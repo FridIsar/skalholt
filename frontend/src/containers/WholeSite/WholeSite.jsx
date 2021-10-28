@@ -92,7 +92,7 @@ export function WholeSite() {
   }, [selectedBuilding, history, year]);
 
   useEffect(() => {
-    let _year = JSON.parse(window.localStorage.getItem('currYear'));
+    let _year = JSON.parse(window.sessionStorage.getItem('currYear'));
     if (_year) {
       setYear(_year);
       setBGImageByYear(_year);
@@ -100,7 +100,7 @@ export function WholeSite() {
   }, [years]);
 
   useEffect(() => {
-    window.localStorage.setItem('currYear', year);
+    window.sessionStorage.setItem('currYear', year);
   }, [year]);
 
   useEffect(() => {
@@ -170,6 +170,7 @@ export function WholeSite() {
         current={current}
         setCurrent={setCurrent}
         setOnClick={setSelectedBuilding}/>
+
     </div>
   );
 }
