@@ -7,3 +7,58 @@
   flex-direction: row;
   justify-content: center;
 }
+
+.tabs {
+  width: 100%;
+  max-width: var(--max-width);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+
+  &__headerText {
+    width: fit-content;
+    margin: 0 1.5em 1em 1.5em;
+    border-bottom: 2px solid var(--main-color);
+    cursor: pointer;
+
+    &__current {
+      width: fit-content;
+      margin: 0 1.5em 1em 1.5em;
+      border-bottom: 3px solid var(--main-color);
+      cursor: pointer;
+
+
+      font-weight: 900;
+    }
+  }
+
+}
+
+.content {
+  width: 100%;
+  display: grid;
+  //TODO: all of this
+
+  &__link {
+    margin: 0.5em;
+    width: fit-content;
+  }
+}
+
+.popOver {
+  margin: 1em;
+
+  &__text {
+    font-weight: 600;
+  }
+
+
+}
+

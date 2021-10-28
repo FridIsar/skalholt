@@ -1,0 +1,1 @@
+site used to convert .jpg to .ico files: https://www.freeconvert.com/jpg-to-ico/

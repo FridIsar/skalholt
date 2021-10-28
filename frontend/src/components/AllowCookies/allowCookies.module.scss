@@ -1,0 +1,59 @@
+.page {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.cover {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  opacity: 0.8;
+  z-index: 100;
+}
+
+
+.cookieRequest {
+  position: absolute;
+  background-color: lightgrey;
+  border: 10px solid var(--secondary-color);
+  border-radius: 15px;
+  opacity: 1;
+  z-index: 200;
+
+  padding: 2em;
+  width: 30%;
+  height: 20%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.textBox {
+  width: 100%;
+}
+
+.text {
+  font-size: 1.25em;
+  margin: 0;
+}
+
+.button {
+  align-self: flex-end;
+
+  background-color: var(--main-color);
+  border: 4px solid var(--secondary-color);
+  border-radius: 10px;
+
+  padding: 0.5em;
+
+  font-size: 1.25em;
+
+  cursor: pointer;
+
+}
