@@ -12,7 +12,6 @@ import xss from 'xss';
 
 import { logger } from './utils/logger.js';
 import requireEnv from './utils/requireEnv.js';
-import validateFileGroup from './utils/fileNames.js';
 import { yearToNextDecade, yearToPreviousDecade } from './utils/decadeHelpers.js';
 
 dotenv.config();
@@ -32,12 +31,14 @@ pool.on('error', (err) => {
 });
 
 const CSV_ROUTE = '/csv/';
+const PDF_ROUTE = '/pdf/';
+const IMAGES_ROUTE = '/images/';
 
 /**
  * Year
  *
  * @typedef {Object} Year
- * @property {number} year - The number of the year
+ * @param {number} year - The number of the year
  * @property {string | null} image - Route for the background svg if defined
  * @property {string | null} description - A brief description for that year if defined
  */
@@ -46,7 +47,7 @@ const CSV_ROUTE = '/csv/';
  * Building
  *
  * @typedef {Object} Building
- * @property {number} id - ID of the building
+ * @param {number} id - ID of the building
  * @property {string} phase - Phase reference of the building
  * @property {number} start - Year that the building starts appearing
  * @property {number} end - Year that the building stops appearing
@@ -61,7 +62,7 @@ const CSV_ROUTE = '/csv/';
  * Find
  *
  * @typedef {Object} Find
- * @property {number} id - ID of the find
+ * @param {number} id - ID of the find
  * @property {number} building - ID of the building the find belongs to
  * @property {string | null} obj_type - Object type of the find if defined
  * @property {string | null} material_type - Material type of the find if defined
@@ -74,8 +75,18 @@ const CSV_ROUTE = '/csv/';
  * @typedef {Object} Feature
  * @param {number} id - ID of the feature
  * @property {number} building - ID of the building the feature belongs to
- * @param {string | null} type - Type of the feature if defined
- * @param {string | null} description -  Description of the feature if defined
+ * @property {string | null} type - Type of the feature if defined
+ * @property {string | null} description -  Description of the feature if defined
+ */
+
+/**
+ * Reference
+ *
+ * @typedef {Object} Reference
+ * @param {number} id - ID of the ref
+ * @property {string | null} reference - Technical reference if any
+ * @property {string | null} description - Description of the reference if any
+ * @property {string | null} doi - DOI link if any
  */
 
 /**
@@ -195,14 +206,15 @@ export async function conditionalUpdate(table, key, id, fields, values) {
 }
 
 /**
- * Helper function to insert new entries into the files table
+ * Helper function to insert new entries into the csvs table
  *
- * @param {string} csv the name of the csv to insert
+ * @param {Object} csv the properties to insert with
  * @returns the result of the insertion statement
  */
 export async function insertCsv(csv) {
   const id = await singleQuery('SELECT curr_csv_id FROM logging', []);
   const newId = id.curr_csv_id + 1;
+  const f = csv.csvName.split('.');
 
   const q = `
     INSERT INTO
@@ -229,15 +241,108 @@ export async function insertCsv(csv) {
 
   const values = [
     csv.csvName,
-    csv.csvName,
-    // This isn't entirely meaningful, allow patching to change group
-    validateFileGroup(csv.csvName) ? 'units' : 'finds',
+    f[0],
+    csv.majorGroup.toLowerCase(),
     `${CSV_ROUTE}${newId}`,
   ];
 
   try {
     const result = await query(q, values);
     await query('UPDATE logging SET curr_csv_id = $1', [newId]);
+    return result.rows[0];
+  } catch (err) {
+    logger.error('Error inserting file', err);
+  }
+
+  return null;
+}
+
+/**
+ * Helper function to insert new entries into the pdfs table
+ *
+ * @param {Object} pdf properties of the pdf to insert
+ * @returns the result of the insertion statement
+ */
+export async function insertPdf(pdf) {
+  const id = await singleQuery('SELECT curr_pdf_id FROM logging', []);
+  const newId = id.curr_pdf_id + 1;
+
+  const q = `
+    INSERT INTO
+      pdfs
+      (
+        tag,
+        major_group,
+        href
+      )
+    VALUES
+      (
+        $1,
+        $2,
+        $3
+      )
+    RETURNING
+      id,
+      tag,
+      major_group,
+      href`;
+
+  const values = [
+    pdf.pdfName,
+    pdf.majorGroup.toLowerCase(),
+    `${PDF_ROUTE}${newId}`,
+  ];
+
+  try {
+    const result = await query(q, values);
+    await query('UPDATE logging SET curr_pdf_id = $1', [newId]);
+    return result.rows[0];
+  } catch (err) {
+    logger.error('Error inserting file', err);
+  }
+
+  return null;
+}
+
+/**
+ * Helper function to insert new entries into the images table
+ *
+ * @param {Object} image the properties of the image to insert
+ * @returns the result of the insertion statement
+ */
+export async function insertImage(image) {
+  const id = await singleQuery('SELECT curr_image_id FROM logging', []);
+  const newId = id.curr_image_id + 1;
+
+  const q = `
+    INSERT INTO
+      images
+      (
+        tag,
+        major_group,
+        href
+      )
+    VALUES
+      (
+        $1,
+        $2,
+        $3
+      )
+    RETURNING
+      id,
+      tag,
+      major_group,
+      href`;
+
+  const values = [
+    image.imageName,
+    image.majorGroup.toLowerCase(),
+    `${IMAGES_ROUTE}${newId}`,
+  ];
+
+  try {
+    const result = await query(q, values);
+    await query('UPDATE logging SET curr_image_id = $1', [newId]);
     return result.rows[0];
   } catch (err) {
     logger.error('Error inserting file', err);
@@ -460,6 +565,51 @@ export async function insertFind({
     return result.rows[0];
   } catch (err) {
     logger.error('Error inserting find', err);
+  }
+
+  return null;
+}
+
+/**
+ * Helper function to insert new entries into the refs table
+ *
+ * @param {string} reference the reference text
+ * @param {string} description the description of the material
+ * @param {string} doi the DOI href
+ * @returns the result of the insertion statement
+ */
+export async function insertReference({
+  reference,
+  description,
+  doi,
+}) {
+  const q = `
+    INSERT INTO
+      refs
+      (
+        reference,
+        description,
+        doi
+      )
+    VALUES
+      (
+        $1,
+        $2,
+        $3
+      )
+    RETURNING
+      *`;
+  const values = [
+    reference ? xss(reference) : null,
+    description ? xss(description) : null,
+    doi ? xss(doi) : null,
+  ];
+
+  try {
+    const result = await query(q, values);
+    return result.rows[0];
+  } catch (err) {
+    logger.error('Error inserting reference', err);
   }
 
   return null;

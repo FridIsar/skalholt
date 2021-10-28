@@ -130,13 +130,15 @@
     "pdfs": {
       "href": "/pdf",
       "methods": [
-        "GET"
+        "GET",
+        "POST"
       ]
     },
     "pdf": {
       "href": "/pdf/{id}",
       "methods": [
-        "GET"
+        "GET",
+        "DELETE"
       ]
     }
   },
@@ -144,13 +146,31 @@
     "images": {
       "href": "/images",
       "methods": [
-        "GET"
+        "GET",
+        "POST"
       ]
     },
     "image": {
       "href": "/image/{id}",
       "methods": [
-        "GET"
+        "GET",
+        "DELETE"
+      ]
+    }
+  },
+  "references": {
+    "references": {
+      "href": "/references",
+      "methods": [
+        "GET",
+        "POST"
+      ]
+    },
+    "reference": {
+      "href": "/references/{id}",
+      "methods": [
+        "PATCH",
+        "DELETE"
       ]
     }
   }

@@ -18,14 +18,15 @@ CREATE TABLE users (
 CREATE TABLE pdfs (
   id SERIAL PRIMARY KEY,
   tag VARCHAR(32) NOT NULL UNIQUE,
+  major_group VARCHAR(32),
   href VARCHAR(64)
 );
 
 CREATE TABLE images (
   id SERIAL PRIMARY KEY,
   tag VARCHAR(32) NOT NULL UNIQUE,
-  href VARCHAR(64),
-  thumbnail VARCHAR(64)
+  major_group VARCHAR(32),
+  href VARCHAR(64)
 );
 
 CREATE TABLE csvs (
@@ -34,6 +35,13 @@ CREATE TABLE csvs (
   f_group VARCHAR(32),
   major_group VARCHAR(32),
   href VARCHAR(64)
+);
+
+CREATE TABLE refs (
+  id SERIAL PRIMARY KEY,
+  reference VARCHAR(512),
+  description VARCHAR(512),
+  doi varchar(64)
 );
 
 CREATE TABLE years (

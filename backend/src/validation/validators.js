@@ -172,6 +172,10 @@ export const endValidator = body('end')
   .isInt({ min: 1671 })
   .withMessage('end must be an integer larger than 1670');
 
+export const majorGroupValidator = body('major_group')
+  .isString({ min: 1, max: 32 })
+  .withMessage('major_group is required, max 32 characters');
+
 export const pathOptionalValidator = body('path')
   .optional()
   .isLength({ min: 1, max: 8192 })
@@ -194,7 +198,7 @@ export const englishOptionalValidator = body('en')
 
 export const csvIdValidator = param('csvId')
   .isInt({ min: 1 })
-  .withMessage('fileId must be an integer larger than 0');
+  .withMessage('csvId must be an integer larger than 0');
 
 function validateSvgMimetype(mimetype) {
   return mimetype.toLowerCase() === 'image/svg+xml';
@@ -245,6 +249,56 @@ export const csvValidator = body('file')
     return Promise.resolve();
   });
 
+const PDF_MIMETYPES = [
+  'application/pdf',
+];
+
+function validatePdfMimeType(mimetype) {
+  return PDF_MIMETYPES.indexOf(mimetype.toLowerCase()) >= 0;
+}
+
+export const pdfValidator = body('file')
+  .custom(async (file, { req = {} }) => {
+    const { file: { path, mimetype } = {} } = req;
+
+    if (!path && !mimetype) {
+      return Promise.reject(new Error('file is required'));
+    }
+
+    if (!validatePdfMimeType(mimetype)) {
+      const error = `Mimetype ${mimetype} is not allowed. Only pdf files are accepted`;
+      return Promise.reject(new Error(error));
+    }
+
+    return Promise.resolve();
+  });
+
+const IMAGE_MIMETYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/tiff',
+];
+
+function validateImageMimeType(mimetype) {
+  return IMAGE_MIMETYPES.indexOf(mimetype.toLowerCase()) >= 0;
+}
+
+export const imageValidator = body('file')
+  .custom(async (file, { req = {} }) => {
+    const { file: { path, mimetype } = {} } = req;
+
+    if (!path && !mimetype) {
+      return Promise.reject(new Error('file is required'));
+    }
+
+    if (!validateImageMimeType(mimetype)) {
+      const error = `Mimetype ${mimetype} is not allowed. Only ${IMAGE_MIMETYPES.join(',')} files are accepted`;
+      return Promise.reject(new Error(error));
+    }
+
+    return Promise.resolve();
+  });
+
 export const findIdValidator = param('findId')
   .isInt({ min: 1 })
   .withMessage('findId must be an integer larger than 0');
@@ -281,14 +335,45 @@ export const imageIdValidator = param('imageId')
   .isInt({ min: 1 })
   .withMessage('imageId must be an integer larger than 0');
 
-export const csvValidators = [
-  csvValidator,
-];
-
 export const typeOptionalValidator = body('type')
   .optional()
   .isString({ min: 0 })
   .withMessage('type must be a string');
+
+export const referenceIdValidator = param('referenceId')
+  .isInt({ min: 1 })
+  .withMessage('referenceId must be an integer larger than 0');
+
+export const referenceOptionalValidator = body('reference')
+  .optional()
+  .isString({ min: 0 })
+  .withMessage('reference must be a string');
+
+export const doiOptionalValidator = body('doi')
+  .optional()
+  .isString({ min: 0 })
+  .withMessage('doi must be a string');
+
+export const referenceValidators = [
+  referenceOptionalValidator,
+  descriptionOptionalValidator,
+  doiOptionalValidator,
+];
+
+export const csvValidators = [
+  csvValidator,
+  majorGroupValidator,
+];
+
+export const pdfValidators = [
+  pdfValidator,
+  majorGroupValidator,
+];
+
+export const imageValidators = [
+  imageValidator,
+  majorGroupValidator,
+];
 
 export const yearValidators = [
   descriptionOptionalValidator,

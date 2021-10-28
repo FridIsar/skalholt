@@ -80,3 +80,17 @@
 {"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-10-21 21:31:55"}
 {"length":134,"name":"error","severity":"ERROR","code":"42703","position":"20","file":"analyze.c","line":"2336","routine":"transformUpdateTargetList","level":"error","message":"Error inserting file column \"curr_file_id\" of relation \"logging\" does not exist","stack":"error: column \"curr_file_id\" of relation \"logging\" does not exist\n    at Parser.parseErrorMessage (/home/anjrv/Projects/skalholt/backend/node_modules/pg-protocol/dist/parser.js:287:98)\n    at Parser.handlePacket (/home/anjrv/Projects/skalholt/backend/node_modules/pg-protocol/dist/parser.js:126:29)\n    at Parser.parse (/home/anjrv/Projects/skalholt/backend/node_modules/pg-protocol/dist/parser.js:39:38)\n    at Socket.<anonymous> (/home/anjrv/Projects/skalholt/backend/node_modules/pg-protocol/dist/index.js:11:42)\n    at Socket.emit (node:events:390:28)\n    at addChunk (node:internal/streams/readable:315:12)\n    at readableAddChunk (node:internal/streams/readable:289:9)\n    at Socket.Readable.push (node:internal/streams/readable:228:10)\n    at TCP.onStreamRead (node:internal/stream_base_commons:199:23)","timestamp":"2021-10-21 21:37:12"}
 {"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-10-21 21:38:58"}
+{"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-10-28 17:08:35"}
+{"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-10-28 17:17:05"}
+{"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-10-28 17:19:49"}
+{"level":"error","message":"Unable to transform image 3 Input buffer contains unsupported image format","stack":"Error: Input buffer contains unsupported image format","timestamp":"2021-10-28 17:22:23"}
+{"level":"error","message":"Unable to transform image 3 Input buffer contains unsupported image format","stack":"Error: Input buffer contains unsupported image format","timestamp":"2021-10-28 17:23:19"}
+{"level":"error","message":"Unable to transform image 1 Input buffer contains unsupported image format","stack":"Error: Input buffer contains unsupported image format","timestamp":"2021-10-28 17:23:53"}
+{"level":"error","message":"Unable to transform image 3 Input buffer contains unsupported image format","stack":"Error: Input buffer contains unsupported image format","timestamp":"2021-10-28 17:28:27"}
+{"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-10-28 17:34:23"}
+{"level":"error","message":"Unable to transform image 1 Input buffer contains unsupported image format","stack":"Error: Input buffer contains unsupported image format","timestamp":"2021-10-28 17:34:42"}
+{"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-10-28 18:43:10"}
+{"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-10-28 18:47:10"}
+{"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-10-28 18:49:14"}
+{"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-10-28 18:51:03"}
+{"message":"Invalid login attempt for foobar","level":"info","timestamp":"2021-10-28 19:07:21"}

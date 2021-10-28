@@ -73,32 +73,8 @@ async function importPdf(fileName) {
       pdfs
       (
         tag,
+        major_group,
         href
-      )
-    VALUES
-      (
-        $1,
-        $2
-      )`;
-
-  const values = [
-    fileName,
-    `${PDF_ROUTE}${currentPdf}`,
-  ];
-
-  await query(q, values);
-  currentPdf += 1;
-}
-
-async function importImage(fileName) {
-  // TODO: Thumbnails for these images.
-  const q = `
-    INSERT INTO
-      images
-      (
-        tag,
-        href,
-        thumbnail
       )
     VALUES
       (
@@ -109,7 +85,33 @@ async function importImage(fileName) {
 
   const values = [
     fileName,
-    `${IMAGE_ROUTE}${currentImage}`,
+    'field_records',
+    `${PDF_ROUTE}${currentPdf}`,
+  ];
+
+  await query(q, values);
+  currentPdf += 1;
+}
+
+async function importImage(fileName) {
+  const q = `
+    INSERT INTO
+      images
+      (
+        tag,
+        major_group,
+        href
+      )
+    VALUES
+      (
+        $1,
+        $2,
+        $3
+      )`;
+
+  const values = [
+    fileName,
+    'field_records',
     `${IMAGE_ROUTE}${currentImage}`,
   ];
 
@@ -326,6 +328,36 @@ async function importFinds(find) {
 }
 
 /**
+ * Inserts a csv reference row into the database
+ *
+ * @param {Object} reference reference row to be inserted
+ */
+async function importReference(reference) {
+  const q = `
+    INSERT INTO
+      refs
+      (
+        reference,
+        description,
+        doi
+      )
+    VALUES
+      (
+        $1,
+        $2,
+        $3
+      )`;
+
+  const values = [
+    reference.reference || null,
+    reference.description || null,
+    reference.doi || null,
+  ];
+
+  await query(q, values);
+}
+
+/**
  * Driver function for database inserts
  *
  * Reads through predefined csv files
@@ -373,6 +405,13 @@ export async function importData() {
   console.info('Importing finds');
   for (let i = 0; i < finds.length; i += 1) {
     await importFinds(finds[i]);
+  }
+
+  const references = await readStream('./data/csv/references.csv');
+
+  console.info('Importing references');
+  for (let i = 0; i < references.length; i += 1) {
+    await importReference(references[i]);
   }
 
   await query(

@@ -15,12 +15,12 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { readFileSync, writeFileSync } from 'fs';
 
 import {
   readFile,
   readDir,
   deleteFile,
-  writeFile,
 } from './utils/fileSystem.js';
 import { query, singleQuery } from './db.js';
 import { importData } from './importCsv.js';
@@ -90,9 +90,9 @@ async function cleanFiles() {
 
   for (let i = 0; i < sharedFiles.length; i += 1) {
     const sharedFile = `../data/shared/${sharedFiles[i]}`;
-    const data = await readFile(path.join(CURR_PATH, sharedFile));
+    const data = readFileSync(path.join(CURR_PATH, sharedFile));
 
-    await writeFile(path.join(CURR_PATH, `../data/files/${sharedFiles[i]}`), data);
+    writeFileSync(path.join(CURR_PATH, `../data/files/${sharedFiles[i]}`), data);
   }
 }
 

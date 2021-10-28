@@ -91,6 +91,9 @@ export async function getCsv(req, res) {
  * @returns the status code and ( optionally ) the JSON result of the insert
  */
 export async function createCsv(req, res) {
+  const {
+    major_group: majorGroup,
+  } = req.body;
   const { file: { path: csvPath, originalname: csvName } = {} } = req;
 
   if (csvPath) {
@@ -109,9 +112,7 @@ export async function createCsv(req, res) {
       const data = await readFile(csvPath);
       await writeFile(path.join(currPath, newPath), data);
 
-      const insertFileResult = await insertCsv({
-        csvName,
-      });
+      const insertFileResult = await insertCsv({ csvName, majorGroup });
 
       if (insertFileResult) {
         return res.status(201).json(insertFileResult);

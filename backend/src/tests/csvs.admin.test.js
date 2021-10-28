@@ -18,7 +18,11 @@ describe('csv admin', () => {
     const token = await loginAsHardcodedAdminAndReturnToken();
     expect(token).toBeTruthy();
 
-    const { status } = await postAndParse('/csv', null, token, null, './atestfile.csv');
+    const data = {
+      major_group: 'finds',
+    };
+
+    const { status } = await postAndParse('/csv', data, token, null, './atestfile.csv');
 
     expect(status).toBe(201);
   });
@@ -53,7 +57,11 @@ describe('csv admin', () => {
     const token = await loginAsHardcodedAdminAndReturnToken();
     expect(token).toBeTruthy();
 
-    const { result, status } = await postAndParse('/csv', null, token, null, './adifferenttestfile.csv');
+    const data = {
+      major_group: 'finds',
+    };
+
+    const { result, status } = await postAndParse('/csv', data, token, null, './adifferenttestfile.csv');
 
     expect(status).toBe(201);
 

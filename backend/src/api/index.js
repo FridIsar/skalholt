@@ -27,11 +27,15 @@ import {
   csvIdValidator,
   csvValidators,
   pdfIdValidator,
+  pdfValidators,
   imageIdValidator,
+  imageValidators,
   findIdValidator,
   findValidators,
   featureIdValidator,
   featureValidators,
+  referenceValidators,
+  referenceIdValidator,
 } from '../validation/validators.js';
 import { validationCheck } from '../validation/helpers.js';
 
@@ -61,11 +65,15 @@ import {
 import {
   listPdfs,
   getPdf,
+  createPdf,
+  removePdf,
 } from './pdfs.js';
 
 import {
   listImages,
   getImage,
+  createImage,
+  removeImage,
 } from './images.js';
 
 import {
@@ -81,6 +89,13 @@ import {
   updateFind,
   deleteFind,
 } from './finds.js';
+
+import {
+  listReferences,
+  createReference,
+  updateReference,
+  deleteReference,
+} from './references.js';
 
 export const router = express.Router();
 
@@ -294,11 +309,28 @@ router.get(
   catchErrors(listPdfs),
 );
 
+router.post(
+  '/pdf/',
+  requireAdmin,
+  fileWithMulter,
+  pdfValidators,
+  validationCheck,
+  catchErrors(createPdf),
+);
+
 router.get(
   '/pdf/:pdfId',
   pdfIdValidator,
   validationCheck,
   catchErrors(getPdf),
+);
+
+router.delete(
+  '/pdf/:pdfId',
+  requireAdmin,
+  pdfIdValidator,
+  validationCheck,
+  catchErrors(removePdf),
 );
 
 router.get(
@@ -307,9 +339,57 @@ router.get(
   catchErrors(listImages),
 );
 
+router.post(
+  '/images/',
+  requireAdmin,
+  fileWithMulter,
+  imageValidators,
+  validationCheck,
+  catchErrors(createImage),
+);
+
 router.get(
   '/images/:imageId',
   imageIdValidator,
   validationCheck,
   catchErrors(getImage),
+);
+
+router.delete(
+  '/images/:imageId',
+  requireAdmin,
+  imageIdValidator,
+  validationCheck,
+  catchErrors(removeImage),
+);
+
+router.post(
+  '/references/',
+  requireAdmin,
+  referenceValidators,
+  validationCheck,
+  catchErrors(createReference),
+);
+
+router.get(
+  '/references',
+  validationCheck,
+  catchErrors(listReferences),
+);
+
+router.patch(
+  '/references/:referenceId',
+  requireAdmin,
+  referenceIdValidator,
+  referenceValidators,
+  validationCheck,
+  catchErrors(updateReference),
+);
+
+router.delete(
+  '/references/:referenceId',
+  requireAdmin,
+  referenceIdValidator,
+  validationCheck,
+  catchErrors(deleteReference),
 );
