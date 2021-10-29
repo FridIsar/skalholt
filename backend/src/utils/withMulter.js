@@ -26,15 +26,26 @@ export function imageWithMulter(req, res, next) {
   multer({ dest: multerDir, limits: { fieldNameSize: 32, fileSize: MAX_FILE_SIZE } })
     .single('image')(req, res, (err) => {
       if (err) {
+        let errors;
+
         if (err.message === 'Unexpected field') {
-          const errors = [{
+          errors = [{
             field: 'image',
             error: 'Unable to read image',
           }];
-          return res.status(400).json({ errors });
+        } else if (err.message === 'File too large') {
+          errors = [{
+            field: 'image',
+            error: `Image too large, max size is ${MAX_FILE_SIZE / 1024 / 1024} Mb`,
+          }];
+        } else {
+          errors = [{
+            field: 'image',
+            error: err.message,
+          }];
         }
 
-        return res.status(400).json(err.message);
+        return res.status(400).json({ errors });
       }
 
       return next();
@@ -52,15 +63,26 @@ export function fileWithMulter(req, res, next) {
   multer({ dest: multerDir, limits: { fieldNameSize: 32, fileSize: MAX_FILE_SIZE } })
     .single('file')(req, res, (err) => {
       if (err) {
+        let errors;
+
         if (err.message === 'Unexpected field') {
-          const errors = [{
+          errors = [{
             field: 'file',
             error: 'Unable to read file',
           }];
-          return res.status(400).json({ errors });
+        } else if (err.message === 'File too large') {
+          errors = [{
+            field: 'file',
+            error: `File too large, max size is ${MAX_FILE_SIZE / 1024 / 1024} Mb`,
+          }];
+        } else {
+          errors = [{
+            field: 'file',
+            error: err.message,
+          }];
         }
 
-        return res.status(400).json(err.message);
+        return res.status(400).json({ errors });
       }
 
       return next();
