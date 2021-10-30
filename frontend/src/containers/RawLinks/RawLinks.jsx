@@ -17,6 +17,7 @@ export function RawLinks() {
   const [groups, setGroups] = useState([]);
   const [images, setImages] = useState([]);
   const [pdfs, setPdfs] = useState([]);
+  const [refs, setRefs] = useState([]);
   // to keep track of the manually built tabs on this page
   const [currTab, setCurrTab] = useState('units');
 
@@ -80,9 +81,29 @@ export function RawLinks() {
       }
     }
 
+    async function fetchRefs() {
+      const url = joinUrls(apiUrl, 'references');
+
+      let json;
+      try {
+        const result = await fetch(url);
+        if (!result.ok) {
+          throw new Error('result not ok');
+        }
+        json = await result.json();
+      } catch (e) {
+        return;
+      } finally {
+
+        setRefs(json);
+
+      }
+    }
+
     fetchLinks();
     fetchImages();
     fetchPDFs();
+    fetchRefs();
   }, [])
 
   /**
@@ -96,6 +117,8 @@ export function RawLinks() {
     if (val === "finds") return findContent();
 
     if (val === "archive") return archiveContent();
+
+    if (val === "references") return referenceContent();
 
     return <div/>;
   }
@@ -151,12 +174,12 @@ export function RawLinks() {
       <div className={s.content}>
         {images.map((value, index) => {
           return <GenericIcon
-            imageUrl={joinUrls(apiUrl, value?.thumbnail)}
+            imageUrl={joinUrls(apiUrl, value?.href) + "?width=100&height=100"}
             index={index}
             popOverElement={
               <div className={s.popOver}>
                 <p className={s.popOver__text}>{value?.tag}</p>
-                <p className={s.popOver__link}>View: <a href={value.href}>here</a></p>
+                <p className={s.popOver__link}>View: <a href={joinUrls(apiUrl, value?.href) + "?width=600&height=600"}>here</a></p>
               </div>
             }
           />
@@ -172,6 +195,28 @@ export function RawLinks() {
               </div>
             }
           />
+        })}
+      </div>
+    )
+  }
+
+  /**
+   *
+   * @returns the references tab content
+   */
+   function referenceContent() {
+    return (
+      <div className={s.content}>
+        {refs.map((value, index) => {
+          return (
+            <div className={s.ref}>
+              <p className={s.ref__reference}>{value?.reference}</p>
+              <p className={s.ref__desc}>{value?.description}</p>
+              {value?.doi &&
+                <a classname={s.ref__doi} href={value.doi}>DOI link</a>
+              }
+            </div>
+          )
         })}
       </div>
     )
@@ -199,6 +244,7 @@ export function RawLinks() {
         <h2 className={currentTab(currTab === 'units')} id="units" onClick={handleChange}>Units</h2>
         <h2 className={currentTab(currTab === 'finds')} id="finds" onClick={handleChange}>Finds</h2>
         <h2 className={currentTab(currTab === 'archive')} id="archive" onClick={handleChange}>Archival data</h2>
+        <h2 className={currentTab(currTab === 'references')} id="references" onClick={handleChange}>References</h2>
       </div>
       <GetContent val={currTab}/>
     </div>

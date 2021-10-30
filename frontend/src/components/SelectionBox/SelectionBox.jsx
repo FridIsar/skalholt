@@ -5,16 +5,21 @@ import { FindsIcon } from '../FindsIcon/FindsIcon';
 import { joinUrls } from '../../Utils/utils';
 import { useEffect } from 'react';
 
+// backend root url
+const apiUrl = process.env.REACT_APP_API_URL;
+
 /**
  *
  * @param {*} param0
  * @returns
  */
 export function SelectionBox({ title, items, current, setCurrent, setOnClick }) {
-
+  // list of data for finds icons if relevant
   const [iconData, setIconData] = useState(null);
+  // if error while loading
   const [error, setError] = useState(null);
 
+  // callback for when hovering, different depending on if findsicons or buildings
   function onEnter(event) {
     let object;
     if(event?.target?.attributes?.id?.value) {
@@ -25,27 +30,17 @@ export function SelectionBox({ title, items, current, setCurrent, setOnClick }) 
     setCurrent(object)
   }
 
+  // callback for when you stop hovering
   function onLeave(event) {
     setCurrent(null);
   }
 
+  // callback for onclisk if buildings
   function onClick(event) {
-    console.log(event);
-    if (event?.target?.attributes?.id?.value) {
-      setOnClick(event.target.attributes.id.value);
-    } else {
-      setOnClick(event?.target?.innerText.split(' ')[0]);
-    }
+    setOnClick(event?.target?.attributes?.id?.value);
   }
 
-  // function onIconClick(event) {
-  //   console.log(event);
-  //   const clicked = event?.target?.attributes?.id?.value
-  //   if (clicked) {
-  //     console.log(clicked)
-  //   }
-  // }
-
+  // used to get relevant information from IconData state if its for finds
   function getIconDataOf(_fgroup) {
     for (let i = 0; i < iconData?.length; i++) {
       if ((iconData[i]?.tag).split('.')[0] === _fgroup) {
@@ -55,10 +50,12 @@ export function SelectionBox({ title, items, current, setCurrent, setOnClick }) 
     return null;
   }
 
+  // runs when page loads
+  // gets finds information from backend and stores it in the iconData state
   useEffect(() => {
     async function fetchDownloadData() {
       let data;
-      const url = joinUrls(process.env.REACT_APP_API_URL+"files");
+      const url = joinUrls(apiUrl, "csv");
 
       try {
         const result = await fetch(url);
@@ -76,7 +73,9 @@ export function SelectionBox({ title, items, current, setCurrent, setOnClick }) 
     fetchDownloadData();
   }, []);
 
+  // if items where provided
   if (items) {
+    // if finds is a property of items (means we will be redering the findsIcons)
     if (items?.finds) {
       return (
         <div className={s.selectionBox}>
@@ -94,7 +93,7 @@ export function SelectionBox({ title, items, current, setCurrent, setOnClick }) 
           </div>
         </div>
       )
-    } else {
+    } else {  // else (render buildings)
       return (
         <div className={s.selectionBox}>
           <h2 className={s.title}>{title}</h2>
@@ -130,5 +129,6 @@ export function SelectionBox({ title, items, current, setCurrent, setOnClick }) 
       )
     }
   }
+  // else (render nothing)
   return null;
 }
