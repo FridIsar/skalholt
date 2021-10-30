@@ -5,6 +5,11 @@ import { FindsIcon } from '../FindsIcon/FindsIcon';
 import { joinUrls } from '../../Utils/utils';
 import { useEffect } from 'react';
 
+/**
+ *
+ * @param {*} param0
+ * @returns
+ */
 export function SelectionBox({ title, items, current, setCurrent, setOnClick }) {
 
   const [iconData, setIconData] = useState(null);

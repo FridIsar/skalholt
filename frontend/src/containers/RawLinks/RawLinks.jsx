@@ -1,26 +1,30 @@
 import s from "./rawLinks.module.scss";
 
-import { Link } from "../../components/Link/Link";
 import { useEffect } from "react";
 import { useState } from "react";
 import { joinUrls } from "../../Utils/utils";
-import { GeneralList } from "../../components/GeneralList/GeneralList";
-import { List } from "@material-ui/core";
 import { GenericIcon } from "../../components/GenericIcon/GenericIcon";
 
-
+// backend root url
 const apiUrl = process.env.REACT_APP_API_URL;
 
+/**
+ * container for the 'project data' page
+ * @returns the project data page view
+ */
 export function RawLinks() {
+  // one state for each type of backend fetch to be done
   const [groups, setGroups] = useState([]);
   const [images, setImages] = useState([]);
   const [pdfs, setPdfs] = useState([]);
-
+  // to keep track of the manually built tabs on this page
   const [currTab, setCurrTab] = useState('units');
 
+  // runs when page loads
+  // will fetch all relevant info from the backend and save it in the corresponnding state
   useEffect(() => {
     async function fetchLinks() {
-      const url = apiUrl + 'csv';
+      const url = joinUrls(apiUrl, 'csv');
 
       let json;
       try {
@@ -39,7 +43,7 @@ export function RawLinks() {
     }
 
     async function fetchImages() {
-      const url = apiUrl + 'images';
+      const url = joinUrls(apiUrl, 'images');
 
       let json;
       try {
@@ -53,13 +57,12 @@ export function RawLinks() {
       } finally {
 
         setImages(json);
-        console.log(json)
 
       }
     }
 
     async function fetchPDFs() {
-      const url = apiUrl + 'pdf';
+      const url = joinUrls(apiUrl, 'pdf');
 
       let json;
       try {
@@ -73,8 +76,6 @@ export function RawLinks() {
       } finally {
 
         setPdfs(json);
-        console.log(json)
-
 
       }
     }
@@ -84,6 +85,11 @@ export function RawLinks() {
     fetchPDFs();
   }, [])
 
+  /**
+   *
+   * @param {String} String representing currently chosen tab
+   * @returns the current tab content or an empty div if none is found
+   */
   function GetContent({val}) {
     if (val === "units") return unitContent();
 
@@ -94,6 +100,10 @@ export function RawLinks() {
     return <div/>;
   }
 
+  /**
+   *
+   * @returns the units tab content
+   */
   function unitContent() {
     return (
       <div className={s.content}>
@@ -105,11 +115,16 @@ export function RawLinks() {
               </a>
             )
           }
+          return null;
         })}
       </div>
     )
   }
 
+  /**
+   *
+   * @returns the finds tab content
+   */
   function findContent() {
     return (
       <div className={s.content}>
@@ -121,16 +136,20 @@ export function RawLinks() {
               </a>
             )
           }
+          return null;
         })}
       </div>
     )
   }
 
+  /**
+   *
+   * @returns teh archive tab content
+   */
   function archiveContent() {
     return (
       <div className={s.content}>
         {images.map((value, index) => {
-          console.log(value)
           return <GenericIcon
             imageUrl={joinUrls(apiUrl, value?.thumbnail)}
             index={index}
@@ -143,7 +162,6 @@ export function RawLinks() {
           />
         })}
         {pdfs.map((value, index) => {
-          console.log(value)
           return <GenericIcon
             imageUrl={'/util/pdfIcon.ico'}
             index={index}
@@ -159,14 +177,18 @@ export function RawLinks() {
     )
   }
 
+  /**
+   *
+   * @param {Boolean} bool
+   * @returns the class name for the chosen tab if true or for non chosen tabs if false
+   */
   function currentTab(bool) {
     if (bool) return s.tabs__headerText__current
     return s.tabs__headerText;
   }
 
+  // changes the currTab state in response to a event
   const handleChange = (event) => {
-    console.log(event.target.id)
-
     setCurrTab(event.target.id);
   };
 
@@ -177,7 +199,6 @@ export function RawLinks() {
         <h2 className={currentTab(currTab === 'units')} id="units" onClick={handleChange}>Units</h2>
         <h2 className={currentTab(currTab === 'finds')} id="finds" onClick={handleChange}>Finds</h2>
         <h2 className={currentTab(currTab === 'archive')} id="archive" onClick={handleChange}>Archival data</h2>
-
       </div>
       <GetContent val={currTab}/>
     </div>

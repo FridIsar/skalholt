@@ -1,9 +1,9 @@
-import s from "./link.module.scss";
+// import s from "./link.module.scss";
 
 
-export function Link({ href, title, description }) {
+// export function Link({ href, title, description }) {
 
-  return (
-    <p className={s.text}><a href={href} className={s.link}>{title}</a></p>
-  );
-}
+//   return (
+//     <p className={s.text}><a href={href} className={s.link}>{title}</a></p>
+//   );
+// }

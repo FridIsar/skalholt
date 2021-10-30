@@ -3,8 +3,20 @@ import s from './mapSlider.module.scss';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 
+/**
+ * A map slider that interacts with the connected map
+ *
+ * all params are props
+ * @param value Integer that tells what vbalue is chosen currently
+ * @param range [...Integer] says what values are available in the slider
+ * @param changeYear callback that cahnges the value higher up the higherarchy
+ * @param setBackgroundImage callback that sets the image for the connected map
+ * @returns a slider taht interacts with the connected map
+ */
 export function MapSlider({ value, range, changeYear, setBackgroundImage }) {
 
+  // function that takes a list of objects and extracts the year
+  // property of those objects and returns them in a list
   function listValueOf(listOfObjects) {
     let list = []
 
@@ -15,17 +27,21 @@ export function MapSlider({ value, range, changeYear, setBackgroundImage }) {
     return list;
   }
 
+  // extract the year property from range
   const sliderRange = listValueOf(range);
 
+  // changes Integer value to String value
   function valuetext(sliderValue) {
     return `${sliderValue}`;
   }
 
+  // The callback for when the slider value is changed
   const onSliderChange = (event, newValue) => {
     changeYear(newValue);
     setBackgroundImage(range[sliderRange.indexOf(newValue)]?.image);
   }
 
+  // if a value is given then display the slider
   if (value) {
     return (
       <div className={s.slider}>
@@ -52,5 +68,7 @@ export function MapSlider({ value, range, changeYear, setBackgroundImage }) {
       </div>
     );
   }
+
+  // if no value is given then return null
   return null;
 }

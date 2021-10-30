@@ -10,8 +10,6 @@ import { InteractiveMap } from './pages/InteractiveMap/InteractiveMap';
 
 function App() {
   return (
-    //possible layout
-    // /finds/:id is a second route that needs its own switch or similar
     <Switch>
       <Route exact path="/" component={Index}/>
       <Route exact path="/interactive" component={InteractiveMap}/>

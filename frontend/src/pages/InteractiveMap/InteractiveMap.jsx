@@ -6,7 +6,7 @@ import { AllowCookies } from '../../components/AllowCookies/AllowCookies';
 
 
 
-export function InteractiveMap ({}) {
+export function InteractiveMap () {
   return (
     <div className={s.page}>
       <AllowCookies/>

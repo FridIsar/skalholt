@@ -1,10 +1,12 @@
 import s from './indexImage.module.scss';
 
+/**
+ *
+ * @returns The front page main image with an arrow taht lets the user view the content of the page
+ */
 export function IndexImage() {
 
-
   return (
-
     <div className={s.image}>
       <div className={s.image__figContainer}>
         <figure className={s.image__figure}>

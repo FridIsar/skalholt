@@ -2,15 +2,17 @@ import s from './oneBuilding.module.scss';
 
 import { Redirect, useParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { Map } from '../../components/Map/Map';
 import { Description } from '../../components/Description/Description';
-import { MapSidebar } from '../../components/MapSidebar/MapSidebar';
 import { SelectionBox } from '../../components/SelectionBox/SelectionBox';
-
 import { joinUrls } from '../../Utils/utils';
 
+// backend root url
 const apiUrl = process.env.REACT_APP_API_URL;
 
+/**
+ * container for a single building overview.
+ * @returns the view of one building and its relevant data
+ */
 export function OneBuilding() {
   // error state if any
   const [error, setError] = useState(null);
@@ -29,6 +31,8 @@ export function OneBuilding() {
   const buildingId = split[0];
   const year = split[1];
 
+  // runs when page loads
+  // gets building information from backend and sets it in the data state
   useEffect(() => {
     async function fetchBuilding() {
       let json;
@@ -49,12 +53,6 @@ export function OneBuilding() {
     }
     fetchBuilding();
   },[])
-
-  useEffect(() => {
-    // TODO: make redirect to find
-    // TODO: use the same method as in wholesite navigation using history!
-    return <Redirect to="/"/>
-  }, [selectedFind])
 
   return (
     <div className={s.container}>
