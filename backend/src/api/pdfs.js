@@ -74,14 +74,15 @@ export async function getPdf(req, res) {
  */
 export async function createPdf(req, res) {
   const {
+    tag,
     major_group: majorGroup,
   } = req.body;
-  const { file: { path: pdfPath, originalname: pdfName } = {} } = req;
+  const { file: { path: pdfPath } = {} } = req;
 
   if (pdfPath) {
     try {
       const currPath = path.dirname(fileURLToPath(import.meta.url));
-      const newPath = `../../data/files/${pdfName}`;
+      const newPath = `../../data/files/${tag}`;
 
       const alreadyExists = await exists(path.join(currPath, newPath));
 
@@ -94,7 +95,7 @@ export async function createPdf(req, res) {
       const data = readFileSync(pdfPath);
       writeFileSync(path.join(currPath, newPath), data);
 
-      const insertFileResult = await insertPdf({ pdfName, majorGroup });
+      const insertFileResult = await insertPdf({ tag, majorGroup });
 
       if (insertFileResult) {
         return res.status(201).json(insertFileResult);

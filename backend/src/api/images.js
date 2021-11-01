@@ -130,14 +130,15 @@ export async function getImage(req, res) {
  */
 export async function createImage(req, res) {
   const {
+    tag,
     major_group: majorGroup,
   } = req.body;
-  const { file: { path: imagePath, originalname: imageName } = {} } = req;
+  const { file: { path: imagePath } = {} } = req;
 
   if (imagePath) {
     try {
       const currPath = path.dirname(fileURLToPath(import.meta.url));
-      const newPath = `../../data/files/${imageName}`;
+      const newPath = `../../data/files/${tag}`;
 
       const alreadyExists = await exists(path.join(currPath, newPath));
 
@@ -150,7 +151,7 @@ export async function createImage(req, res) {
       const data = fs.readFileSync(imagePath);
       fs.writeFileSync(path.join(currPath, newPath), data);
 
-      const insertFileResult = await insertImage({ imageName, majorGroup });
+      const insertFileResult = await insertImage({ tag, majorGroup });
 
       if (insertFileResult) {
         return res.status(201).json(insertFileResult);

@@ -91,14 +91,15 @@ export async function getCsv(req, res) {
  */
 export async function createCsv(req, res) {
   const {
+    tag,
     major_group: majorGroup,
   } = req.body;
-  const { file: { path: csvPath, originalname: csvName } = {} } = req;
+  const { file: { path: csvPath } = {} } = req;
 
   if (csvPath) {
     try {
       const currPath = path.dirname(fileURLToPath(import.meta.url));
-      const newPath = `../../data/files/${csvName}`;
+      const newPath = `../../data/files/${tag}`;
 
       const alreadyExists = await exists(path.join(currPath, newPath));
 
@@ -111,7 +112,7 @@ export async function createCsv(req, res) {
       const data = readFileSync(csvPath);
       writeFileSync(path.join(currPath, newPath), data);
 
-      const insertFileResult = await insertCsv({ csvName, majorGroup });
+      const insertFileResult = await insertCsv({ tag, majorGroup });
 
       if (insertFileResult) {
         return res.status(201).json(insertFileResult);

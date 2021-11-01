@@ -214,7 +214,7 @@ export async function conditionalUpdate(table, key, id, fields, values) {
 export async function insertCsv(csv) {
   const id = await singleQuery('SELECT curr_csv_id FROM logging', []);
   const newId = id.curr_csv_id + 1;
-  const f = csv.csvName.split('.');
+  const f = csv.tag.split('.');
 
   const q = `
     INSERT INTO
@@ -240,7 +240,7 @@ export async function insertCsv(csv) {
       href`;
 
   const values = [
-    csv.csvName,
+    csv.tag,
     f[0],
     csv.majorGroup.toLowerCase(),
     `${CSV_ROUTE}${newId}`,
@@ -288,7 +288,7 @@ export async function insertPdf(pdf) {
       href`;
 
   const values = [
-    pdf.pdfName,
+    pdf.tag,
     pdf.majorGroup.toLowerCase(),
     `${PDF_ROUTE}${newId}`,
   ];
@@ -335,7 +335,7 @@ export async function insertImage(image) {
       href`;
 
   const values = [
-    image.imageName,
+    image.tag,
     image.majorGroup.toLowerCase(),
     `${IMAGES_ROUTE}${newId}`,
   ];
