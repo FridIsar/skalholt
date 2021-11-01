@@ -19,6 +19,7 @@ describe('csv admin', () => {
     expect(token).toBeTruthy();
 
     const data = {
+      tag: 'bla.csv',
       major_group: 'finds',
     };
 
@@ -58,6 +59,7 @@ describe('csv admin', () => {
     expect(token).toBeTruthy();
 
     const data = {
+      tag: 'bla2.csv',
       major_group: 'finds',
     };
 

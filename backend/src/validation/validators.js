@@ -371,6 +371,10 @@ export const doiOptionalValidator = body('doi')
   .isString({ min: 0 })
   .withMessage('doi must be a string');
 
+export const tagValidator = body('tag')
+  .isString({ min: 1, max: 32 })
+  .withMessage('tag is required, max 32 characters');
+
 export const referenceValidators = [
   referenceOptionalValidator,
   descriptionOptionalValidator,
@@ -379,16 +383,19 @@ export const referenceValidators = [
 
 export const csvValidators = [
   csvValidator,
+  tagValidator,
   majorGroupValidator,
 ];
 
 export const pdfValidators = [
   pdfValidator,
+  tagValidator,
   majorGroupValidator,
 ];
 
 export const imageValidators = [
   imageValidator,
+  tagValidator,
   majorGroupValidator,
 ];
 
