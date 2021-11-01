@@ -62,3 +62,43 @@
 
 }
 
+.background {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, .6);
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: fit-content;
+  padding: 2em;
+  background-color: var(--main-color);
+  border: 5px solid var(--secondary-color);
+  border-radius: 15px;
+
+  &__header {
+    margin: 0 0 1em 0;
+
+  }
+
+  &__options {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  &__button {
+    font-size: 1.2em;
+    border: 3px solid var(--secondary-color);
+    border-radius: 5px;
+    cursor: pointer;
+  }
+}
+
+
+

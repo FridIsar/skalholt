@@ -2,11 +2,18 @@ import s from './navigation.module.scss';
 
 import Cookies from 'universal-cookie';
 
+/**
+ * The navigation bar
+ * @param {*} onHome Boolean lets know if already on the home page
+ * @returns navigation bar with logo and links to other pages
+ */
 export function Navigation({ onHome }) {
 
+  // cookies are used to tell if the user is admin or not
   const cookies = new Cookies();
   const admin = cookies.get('admin');
 
+  // removes the admin cookie and therefore logs admin out
   const logout = () => {
     cookies.remove('admin');
   }

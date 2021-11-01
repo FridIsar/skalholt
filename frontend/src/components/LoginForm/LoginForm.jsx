@@ -6,25 +6,38 @@ import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Cookies from 'universal-cookie';
 
+// backend root url
 const apiUrl = process.env.REACT_APP_API_URL;
 
+/**
+ * the login form
+ * @returns the view for the login form
+ */
 export function LoginForm() {
+  // login details
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  // submission details
   const [submited, setSubmited] = useState(false)
+  // submission error
   const [error, setError] = useState(null)
 
+  // use history to navigate pages
   const history = useHistory();
 
+  // cannot submit untill at least one char in eash textarea
   function validateForm() {
     return userName?.length > 0 && password?.length > 0;
   }
 
+  // callback for submissions
   function handleSubmit(event) {
     event.preventDefault();
     setSubmited(true);
   }
 
+  // runs in many instances, but only does something if submitted is true
+  // makes a post request to backend to login and saves the relevant cookie if the request is successful
   useEffect(() => {
     const requestOptions = {
       method: 'POST',
@@ -39,11 +52,11 @@ export function LoginForm() {
           throw new Error('result not ok');
         }
         json = await result.json();
-        console.log(json);
 
-        const cookies = new Cookies();
         var exDate = new Date()
         exDate.setTime(exDate.getTime() + (json?.expiresIn * 1000));
+
+        const cookies = new Cookies();
         cookies.set('admin', `${json?.token}`, { path: '/', expires: exDate });
 
         history.push('/');

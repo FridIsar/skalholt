@@ -3,35 +3,35 @@ import s from './map.module.scss';
 import { VectorMap } from '@south-paw/react-vector-maps';
 import { joinUrls } from '../../Utils/utils';
 
-
+// backend root url
 const apiUrl = process.env.REACT_APP_API_URL;
 
+// takes JSON and returns new JSON that the vectormap component can use
 function makeMapJson(data) {
-  if (data?.finds) {
-    //TODO: when finds is finalised in backend
-    let layers = [];
-    const viewBox = "0 0 111.985 71.657"; // unknown using previous for now
-    let finds = data.finds;
-    for(let i = 0; i < finds?.length; i++) {
-      for(let j = 0; j < finds[i]; j++) {
-        layers[i]['id'] = finds[i]['id'];
-        layers[i]['name'] = finds[i]['id'];
-        layers[i]['d'] = finds[i]['path']; // unknown
-        // can change if backend changes
-      }
-    }
-    const JSONmap = {"id":"map", "name":"map", "viewBox":viewBox, "layers":layers};
-    return JSONmap;
-  } else {
     const viewBox = "0 0 111.985 71.657";
     for(let i = 0; i < data.length; i++) {
       data[i]['name'] = data[i]['id'];
     }
     const JSONmap = {"id":"map", "name":"map", "viewBox":viewBox, "layers":data};
     return JSONmap;
-  }
 }
 
+/**
+ * Interactable map
+ *
+ * all params are props
+ * @param data JSON with the map tracings
+ * @param background String url for the backgroun image
+ * @param year Integer the current year
+ * @param expanded Boolean is the map expanded
+ * @param setExpanded callback taht changes the expanded prop in parent
+ * @param current currently hovered path in the map
+ * @param setCurrent callback to set the hovered path in parent
+ * @param setOnClick callback that handles what happends when path is clicked
+ * @param loading Boolean taht lets know if the map info has been loaded
+ * @param error error that lets know if a error happend while loading the map info
+ * @returns an interactable map
+ */
 export function Map({ data,
                       background,
                       year=null,
@@ -43,32 +43,33 @@ export function Map({ data,
                       loading,
                       error }) {
 
+  // props to be passed to the vectormap component
   const layerProps = {
     onClick: ({ target }) => setOnClick(target.attributes.id.value),
     onMouseEnter: ({ target }) => setCurrent(target.attributes.id.value),
     onMouseLeave: ({ target }) => setCurrent('None'),
   };
 
-  function expand_() {
-    setExpanded(true);
+  // expand and shrink functions
+  function expandNshrink() {
+    setExpanded(!expanded);
   }
 
-  function shrink_() {
-    setExpanded(false);
-  }
-
+  // if an error happend
   if (error) {
     return (
       <p className={s.error}>Error: {error}</p>
     );
   }
 
+  // if loading
   if (loading) {
     return (
       <p className={s.loading}>Loading...</p>
     );
   }
 
+  // if all ok
   return (
     <div className={s.mapContainer}>
       {year &&
@@ -76,13 +77,13 @@ export function Map({ data,
           <h5 className={s.mapHeader__year}>{year}</h5>
           {!expanded &&
             <button className={s.mapHeader__expandShrink}
-            onClick={expand_}>
+            onClick={expandNshrink}>
               Expand
             </button>
           }
           {expanded &&
             <button className={s.mapHeader__expandShrink}
-            onClick={shrink_}>
+            onClick={expandNshrink}>
               Shrink
             </button>
           }
@@ -91,9 +92,6 @@ export function Map({ data,
       <div className={s.map}>
       {background &&
         <img alt='map details' src={joinUrls(apiUrl, background)} className={s.image}/>
-      }
-      {!background &&
-        <img alt='map details' src={joinUrls(apiUrl, data.image)} className={s.image}/>
       }
         <div>
           <VectorMap {...makeMapJson(data)} layerProps={layerProps} currentLayers={[parseInt(current)]} />

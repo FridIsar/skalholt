@@ -4,13 +4,17 @@ import { useHistory } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { Map } from '../../components/Map/Map';
 import { Description } from '../../components/Description/Description';
-import { MapSidebar } from '../../components/MapSidebar/MapSidebar';
 import { MapSlider } from '../../components/MapSlider/MapSlider';
 import { SelectionBox } from '../../components/SelectionBox/SelectionBox';
 import { joinUrls } from '../../Utils/utils';
 
+// backend root url
 const apiUrl = process.env.REACT_APP_API_URL;
 
+/**
+ * container for the whole site overview.
+ * @returns the view of the whole excavation site
+ */
 export function WholeSite() {
   // error state if any
   const [error, setError] = useState(null);
@@ -27,13 +31,23 @@ export function WholeSite() {
   // is the description limited
   const [limited, setLimited] = useState(true);
 
+  // React component that is used to navigate between pages/url's
   const history = useHistory();
 
+  /**
+   * sets the year state to the year parameter and the limited state to true
+   * @param {Integer} year
+   */
   function changeYear(year) {
     setYear(year);
     setLimited(true);
   }
 
+  /**
+   * goes through the years state object and sets the background image
+   * according to the _year parameter
+   * @param {Integer} _year
+   */
   function setBGImageByYear(_year) {
     for (var i = 0; i < years?.length; i++) {
       if (years[i].year === _year) {
@@ -42,10 +56,12 @@ export function WholeSite() {
     }
   }
 
+  // Runs when the page loads
+  // asks the backend for all possible years and sets the years and background states appropriatly
   useEffect(() => {
     async function fetchYears() {
       let json;
-      const url = apiUrl+"years/";
+      const url = joinUrls(apiUrl, "years");
 
       try {
         const result = await fetch(url);
@@ -64,10 +80,13 @@ export function WholeSite() {
     fetchYears();
   }, []);
 
+  // runs every time the years state changes
+  // fetches the building information in ragards to the year state from the backend
+  // and sets the data state accordingly
   useEffect(() => {
     async function fetchBuildings() {
       let json;
-      const url = apiUrl+"years/"+year+"/buildings/";
+      const url = joinUrls(apiUrl, "/years/", ""+year, "/buildings");
 
       try {
         const result = await fetch(url);
@@ -85,12 +104,17 @@ export function WholeSite() {
     fetchBuildings();
   }, [year]);
 
+  // runs if the selectedBuilding state changes
+  // will redirect the user to the '/building/selectedBuilding-year' url,
+  // which teakes them to the selected builfing
   useEffect(() => {
     if(selectedBuilding) {
       history.push(`/building/${selectedBuilding}-${year}`);
     }
   }, [selectedBuilding, history, year]);
 
+  // runs when the years state changes
+  // in order to put the state of the page back to a previous time if the state was saved.
   useEffect(() => {
     let _year = JSON.parse(window.sessionStorage.getItem('currYear'));
     if (_year) {
@@ -99,10 +123,16 @@ export function WholeSite() {
     }
   }, [years]);
 
+  // runs every time the year state is changed
+  // saves the state of the page with regards to the year currently chosen
   useEffect(() => {
     window.sessionStorage.setItem('currYear', year);
   }, [year]);
 
+  // runs every time the years state changes
+  // only if the years state has been populated will this preload all years background images
+  // in production this shortened time waiting for images to load when the year state changed from
+  // approx .5sec to .1sec
   useEffect(() => {
     async function preLoadMapImages() {
       for (var i = 0; i < years.length; i++) {
