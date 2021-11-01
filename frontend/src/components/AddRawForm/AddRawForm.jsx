@@ -1,11 +1,13 @@
 import s from "./addRawForm.module.scss";
 
+import fs from 'fs';
 import { Form } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import Button from "react-bootstrap/Button";
 import { useHistory } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { joinUrls } from "../../Utils/utils";
+import FormData from 'form-data';
 
 // backend root url
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -17,6 +19,7 @@ export function AddRawForm() {
   const [type, setType] = useState('');
   // tracks file if a file is being uploaded
   const [file, setFile] = useState(null);
+  const [filePath, setFilePath] = useState('');
   // tracks reference info if reference is being uploaded
   const [ref, setRef] = useState(['','','']);
   const [validRef, setValidRef] = useState(false);
@@ -36,20 +39,35 @@ export function AddRawForm() {
   useEffect(() => {
     const requestOptions = {
       method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${admin}` }
+      headers: {/*'Content-Type': 'multipart/form-data',*/ 'Authorization': `Bearer ${admin}` }
     };
     async function request() {
       let json;
       try {
         let url = '';
 
+        const body = new FormData();
+
         if (type === 'File') {
           let _type = file.type.split('/')[1];  // get the type of the file (pdf/webp/tiff/jpeg/vnd.ms-excel)
           console.log(_type)
-          if (_type === 'pdf') url = joinUrls(apiUrl, 'pdf');   // pdf files
-          if (_type === 'webp' || _type === 'jpeg' || _type === 'tiff') url = joinUrls(apiUrl, 'images');   // 3 types of images
-          if (_type === 'vnd.ms-excel') url = joinUrls(apiUrl, 'csv');  // excel files (.csv)
-          requestOptions['body'] = JSON.stringify({ file: file });
+          if (_type === 'pdf') {
+            url = joinUrls(apiUrl, 'pdf');   // pdf files
+            body.append('major_group', 'units');
+            body.append('tag', file.name)
+
+            let size = file.size;
+            // let stream = fs.createReadStream(filePath);
+            body.append('file', file, {knownLength: size});
+            console.log(body)
+          }
+          if (_type === 'webp' || _type === 'jpeg' || _type === 'tiff') {
+            url = joinUrls(apiUrl, 'images');   // 3 types of images
+          }
+          if (_type === 'vnd.ms-excel') {
+            url = joinUrls(apiUrl, 'csv');  // excel files (.csv)
+          }
+          requestOptions['body'] = body;
         }
         if (type === 'Reference') {
           url = joinUrls(apiUrl, 'references')
@@ -66,6 +84,7 @@ export function AddRawForm() {
 
         const result = await fetch(url, requestOptions);
         if (!result.ok) {
+          console.log(result)
           throw new Error(result.statusText);
         }
 
@@ -97,7 +116,10 @@ export function AddRawForm() {
   }
 
   function fileUpload(event) {
+    console.log(event)
     setFile(event?.target?.files[0]);
+    setFilePath(event?.target?.value)
+    console.log(file)
   }
 
   function refRefUpload(event) {
