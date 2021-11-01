@@ -26,7 +26,8 @@ export async function listPdfs(_req, res) {
     `SELECT
       id,
       tag,
-      href
+      href,
+      major_group
     FROM
       pdfs
     ORDER BY id ASC`,

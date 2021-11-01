@@ -29,7 +29,8 @@ export async function listImages(_req, res) {
     `SELECT
       id,
       tag,
-      href
+      href,
+      major_group
     FROM
       images
     ORDER BY id ASC`,
