@@ -19,7 +19,7 @@ describe('csv', () => {
     expect(status).toBe(200);
   });
 
-  test('GET /files/9999 does not exist', async () => {
+  test('GET /csv/9999 does not exist', async () => {
     const { status } = await fetchAndParse('/csv/9999');
 
     expect(status).toBe(404);
