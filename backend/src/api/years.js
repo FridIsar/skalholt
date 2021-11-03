@@ -58,16 +58,18 @@ export async function listYears(_req, res) {
 export async function listYear(req, res) {
   const { yearId: id } = req.params;
 
-  const parts = id.split('.');
+  if (id.includes('.')) {
+    const parts = id.split('.');
 
-  // Block anything that doesn't fit the format
-  if (parts.length === 2 && isInt(parts[0]) && parts[1] === 'svg') {
-    const path = dirname(fileURLToPath(import.meta.url));
-    const svgExists = await exists(join(path, `../../data/svg/years/${id}`));
+    // Block anything that doesn't fit the format
+    if (parts.length === 2 && isInt(parts[0]) && parts[1] && parts[1] === 'svg') {
+      const path = dirname(fileURLToPath(import.meta.url));
+      const svgExists = await exists(join(path, `../../data/svg/years/${id}`));
 
-    if (svgExists) {
-      res.setHeader('Content-Type', 'image/svg+xml');
-      return res.sendFile(join(path, `../../data/svg/years/${id}`));
+      if (svgExists) {
+        res.setHeader('Content-Type', 'image/svg+xml');
+        return res.sendFile(join(path, `../../data/svg/years/${id}`));
+      }
     }
   }
 
