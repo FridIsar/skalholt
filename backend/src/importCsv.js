@@ -53,7 +53,7 @@ async function importCsv(fileName) {
 
   // The filenames need to match the routing system for this to work
   const f = fileName.split('.');
-  const mg = validateFileGroup(f[0]) ? 'units' : 'finds';
+  const mg = validateFileGroup(f[0]) ? 'field data' : 'finds';
   const values = [
     fileName,
     f[0],
