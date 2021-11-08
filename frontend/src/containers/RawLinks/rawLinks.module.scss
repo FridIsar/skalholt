@@ -1,13 +1,5 @@
 @import '../../base.module.scss';
 
-.links {
-  width: 100%;
-  max-width: var(--max-width);
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
 .tabs {
   width: 100%;
   max-width: var(--max-width);
@@ -26,16 +18,14 @@
   &__headerText {
     width: fit-content;
     margin: 0 1.5em 1em 1.5em;
-    border-bottom: 2px solid var(--main-color);
+    border-bottom: 3px solid var(--main-color);
     cursor: pointer;
 
     &__current {
       width: fit-content;
       margin: 0 1.5em 1em 1.5em;
-      border-bottom: 3px solid var(--main-color);
+      border-bottom: 5px solid var(--main-color);
       cursor: pointer;
-
-
       font-weight: 900;
     }
   }
@@ -46,13 +36,17 @@
   width: 100%;
   display: grid;
 
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   grid-template-rows: auto;
   gap: 10px;
 
   &__link {
     margin: 0.5em;
     width: fit-content;
+  }
+
+  &__admin {
+    grid-column: span 2;
   }
 }
 
@@ -65,8 +59,6 @@
   gap: 10px;
 }
 
-
-
 .contentRef {
   width: 100%;
   display: flex;
@@ -77,7 +69,11 @@
   margin: 1em 1em 1em 1em;
 
   &__reference {
-    font-size: 1.25em;
+    font-size: 1.15em;
+  }
+
+  &__desc {
+    font-size: 0.9em;
   }
 }
 
