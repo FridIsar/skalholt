@@ -23,6 +23,8 @@ export function AddRawForm() {
   // tracks reference info if reference is being uploaded
   const [ref, setRef] = useState(['','','']);
   const [validRef, setValidRef] = useState(false);
+  // what major group is being added
+  const [majorGroup, setMajorGroup] = useState('');
   // errors
   const [error, setError] = useState(null);
 
@@ -39,7 +41,7 @@ export function AddRawForm() {
   useEffect(() => {
     const requestOptions = {
       method: 'POST',
-      headers: {/*'Content-Type': 'multipart/form-data',*/ 'Authorization': `Bearer ${admin}` }
+      headers: {'Authorization': `Bearer ${admin}` }
     };
     async function request() {
       let json;
@@ -49,23 +51,31 @@ export function AddRawForm() {
         const body = new FormData();
 
         if (type === 'File') {
+          debugger;
           let _type = file.type.split('/')[1];  // get the type of the file (pdf/webp/tiff/jpeg/vnd.ms-excel)
-          console.log(_type)
           if (_type === 'pdf') {
             url = joinUrls(apiUrl, 'pdf');   // pdf files
-            body.append('major_group', 'units');
-            body.append('tag', file.name)
+            body.append('major_group', majorGroup);
+            body.append('tag', `${file.name}`)
 
             let size = file.size;
-            // let stream = fs.createReadStream(filePath);
             body.append('file', file, {knownLength: size});
-            console.log(body)
           }
           if (_type === 'webp' || _type === 'jpeg' || _type === 'tiff') {
             url = joinUrls(apiUrl, 'images');   // 3 types of images
+            body.append('major_group', majorGroup);
+            body.append('tag', `${file.name}`)
+
+            let size = file.size;
+            body.append('image', file, {knownLength: size});
           }
           if (_type === 'vnd.ms-excel') {
             url = joinUrls(apiUrl, 'csv');  // excel files (.csv)
+            body.append('major_group', majorGroup);
+            body.append('tag', `${file.name}`)
+
+            let size = file.size;
+            body.append('file', file, {knownLength: size});
           }
           requestOptions['body'] = body;
         }
@@ -146,6 +156,10 @@ export function AddRawForm() {
     setValidRef(ref[0] !== '' && ref[1] !== '');
   }
 
+  function majorGroupChange(event) {
+    setMajorGroup(event?.target?.value);
+  }
+
   function validateForm() {
     if (type === "File" && file !== null) return true;
     if (type === "Reference" && validRef) return true;
@@ -176,12 +190,23 @@ export function AddRawForm() {
             onClick={radioClick}
           />
         </div>
-        {type === "File" &&
+
+        <Form.Group className={s.majorGroup}
+          controlId="majorGroup">
+          <Form.Label>Major group</Form.Label>
+          <Form.Control as="textarea"
+            placeholder="majorGroup"
+            className={s.majorGroup__text}
+            onChange={majorGroupChange}>
+          </Form.Control>
+        </Form.Group>
+
+        {(type === "File" && majorGroup !== '') &&
           <Form.Group controlId="formFile" className={s.fileUpload}>
             <Form.Control type="file" onChange={fileUpload}/>
           </Form.Group>
         }
-        {type === "Reference" &&
+        {(type === "Reference" && majorGroup !== '') &&
           <div className={s.reference}>
             <Form.Group className={s.reference__group}
             controlId="refReference">
@@ -212,7 +237,7 @@ export function AddRawForm() {
             </Form.Group>
           </div>
         }
-        {type === "File" && file !== null &&
+        {(type === "File" && file !== null && majorGroup !== '') &&
           <Button block size="lg"
             type="submit"
             className={s.submitBtn}
@@ -220,7 +245,7 @@ export function AddRawForm() {
             Submit
           </Button>
         }
-        {type === "Reference" && validRef &&
+        {(type === "Reference" && validRef && majorGroup !== '') &&
           <Button block size="lg"
             type="submit"
             className={s.submitBtn}

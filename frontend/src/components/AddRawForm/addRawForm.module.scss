@@ -46,6 +46,22 @@
   }
 }
 
+.majorGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5em;
+  padding: 0 1em 0 1em;
+  width: 20vw;
+
+  &__text {
+    width: 100%;
+    height: 2em;
+
+    overflow-wrap: break-word;
+    resize: none;
+  }
+}
+
 .submitBtn {
   margin: 1em;
 }
