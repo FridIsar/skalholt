@@ -86,14 +86,14 @@ async function buildingDetails(id, year) {
 export async function listBuilding(req, res) {
   const { yearId, buildingId: buildingNumber } = req.params;
 
-  if (isInt(buildingNumber)) {
+  if (!buildingNumber.includes('.') && isInt(buildingNumber)) {
     const data = await buildingDetails(buildingNumber, yearId);
     if (data) return res.json(data);
   }
 
   const parts = buildingNumber.split('.');
 
-  if (parts.length === 2 && isInt(parts[0]) && parts[1] === 'svg') {
+  if (parts.length === 2 && isInt(parts[0]) && parts[1] && parts[1] === 'svg') {
     const path = dirname(fileURLToPath(import.meta.url));
     const svgExists = await exists(join(path, `../../data/svg/buildings/${buildingNumber}`));
 
