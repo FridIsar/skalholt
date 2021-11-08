@@ -1,8 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+}
 
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+$max-width: 1200px;
+
+$font-size: 16px;
+$font-family-base: 'Inter', Helvetica, Arial, sans-serif;
+$font-family-heading: 'Playfair Display', Georgia, serif;
 
 :root {
   --main-color: #637330;
   --secondary-color: #274029;
   --background-color: #D7D5D6;
-  --max-width: 1200px;
+  --link-color: #069;
+
+  --max-width: #{$max-width};
+
+  --font-size: #{$font-size};
+  --font-family-base: #{$font-family-base};
+  --font-family-heading: #{$font-family-heading};
 }

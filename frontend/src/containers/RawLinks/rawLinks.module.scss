@@ -20,6 +20,7 @@
     flex-direction: row;
     justify-content: center;
     width: 100%;
+    margin-bottom: 3em;
   }
 
   &__headerText {
@@ -41,14 +42,42 @@
 
 }
 
-.content {
+.contentGroup {
   width: 100%;
   display: grid;
-  //TODO: all of this
+
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: auto;
+  gap: 10px;
 
   &__link {
     margin: 0.5em;
     width: fit-content;
+  }
+}
+
+.contentIcon {
+  width: 100%;
+  display: grid;
+
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: auto;
+  gap: 10px;
+}
+
+
+
+.contentRef {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.ref {
+  margin: 1em 1em 1em 1em;
+
+  &__reference {
+    font-size: 1.25em;
   }
 }
 
@@ -58,8 +87,6 @@
   &__text {
     font-weight: 600;
   }
-
-
 }
 
 .background {

@@ -2,7 +2,7 @@ import s from "./rawLinks.module.scss";
 
 import { useEffect } from "react";
 import { useState } from "react";
-import { joinUrls } from "../../Utils/utils";
+import { joinUrls, beautify } from "../../Utils/utils";
 import { GenericIcon } from "../../components/GenericIcon/GenericIcon";
 import Cookies from 'universal-cookie';
 import { useHistory } from 'react-router-dom';
@@ -16,12 +16,14 @@ const apiUrl = process.env.REACT_APP_API_URL;
  */
 export function RawLinks() {
   // one state for each type of backend fetch to be done
-  const [groups, setGroups] = useState([]);
+  const [groups, setGroups] = useState([]);   // csvs
   const [images, setImages] = useState([]);
   const [pdfs, setPdfs] = useState([]);
   const [refs, setRefs] = useState([]);
+  // keeps tabs on what tabs are available
+  const [majorGroups, setMajorGroups] = useState([]);
   // to keep track of the manually built tabs on this page
-  const [currTab, setCurrTab] = useState('units');
+  const [currTab, setCurrTab] = useState('');
   // keeps track of what item is goind to be deleted
   const [deleting, setDeleting] = useState(null);
   // check if user is sure
@@ -38,7 +40,7 @@ export function RawLinks() {
   // runs when page loads
   // will fetch all relevant info from the backend and save it in the corresponnding state
   useEffect(() => {
-    async function fetchLinks() {
+    async function fetchCsvs() {
       const url = joinUrls(apiUrl, 'csv');
 
       let json;
@@ -114,7 +116,7 @@ export function RawLinks() {
       }
     }
 
-    fetchLinks();
+    fetchCsvs();
     fetchImages();
     fetchPDFs();
     fetchRefs();
@@ -156,42 +158,72 @@ export function RawLinks() {
     }
   }, [userIsSure, deleting, history])
 
+  useEffect(() => {
+    getMajorGroups();
+  }, [groups, pdfs, images])
+
+  function getMajorGroups() {
+    const theGroups = [];
+
+    for (var i = 0; i < groups.length; i++) {
+      if (!theGroups.includes(groups[i].major_group)) {
+        theGroups.push(groups[i].major_group);
+      }
+    }
+
+    for (var i = 0; i < images.length; i++) {
+      if (!theGroups.includes(images[i].major_group)) {
+        theGroups.push(images[i].major_group);
+      }
+    }
+
+    for (var i = 0; i < pdfs.length; i++) {
+      if (!theGroups.includes(pdfs[i].major_group)) {
+        theGroups.push(pdfs[i].major_group);
+      }
+    }
+
+    setMajorGroups(theGroups.sort());
+    setCurrTab(theGroups[0]);
+  }
+
   /**
    *
    * @param {String} String representing currently chosen tab
    * @returns the current tab content or an empty div if none is found
    */
-  function GetContent({val}) {
-    if (val === "units") return unitContent();
+  function GetContent({ val }) {
+    if (val === 'references') {
+      return referenceContent();
+    }
 
-    if (val === "finds") return findContent();
-
-    if (val === "archive") return archiveContent();
-
-    if (val === "references") return referenceContent();
-
-    return <div/>;
+    return (
+      <div className={s.content}>
+        <GroupContent mGroup={val}/>
+        <IconContent mGroup={val}/>
+      </div>
+    )
   }
 
   /**
    *
-   * @returns the units tab content
+   * @returns the groups (links) tab content
    */
-  function unitContent() {
+  function GroupContent({ mGroup }) {
     return (
-      <div className={s.content}>
+      <div className={s.contentGroup}>
         {groups.map((value, index) => {
-          if (value?.major_group === "units") {
+          if (value?.major_group === mGroup) {
             if (!admin) {
               return (
-                <a className={s.content__link} href={joinUrls(apiUrl, value?.href)}>
+                <a className={s.contentGroup__link} href={joinUrls(apiUrl, value?.href)}>
                   {value?.tag}
                 </a>
               )
             }
             return (
-              <div className={s.content__admin}>
-                <a className={s.content__link} href={joinUrls(apiUrl, value?.href)}>
+              <div className={s.contentGroup__admin}>
+                <a className={s.contentGroup__link} href={joinUrls(apiUrl, value?.href)}>
                   {value?.tag}
                 </a>
                 <button id={value?.tag} className={s.button} onClick={onDelete}>Delete</button>
@@ -204,89 +236,13 @@ export function RawLinks() {
     )
   }
 
-  /**
-   *
-   * @returns the finds tab content
-   */
-  function findContent() {
+  function IconContent({ mGroup }) {
     return (
-      <div className={s.content}>
-        {groups.map((value, index) => {
-          if (value?.major_group === "finds") {
-            if (!admin) {
-              return (
-                <a className={s.content__link} href={joinUrls(apiUrl, value?.href)}>
-                  {value?.tag}
-                </a>
-              )
-            }
-            return (
-              <div className={s.content__admin}>
-                <a className={s.content__link} href={joinUrls(apiUrl, value?.href)}>
-                  {value?.tag}
-                </a>
-                <button id={value?.tag} className={s.button} onClick={onDelete}>Delete</button>
-              </div>
-            )
-          }
-          return null;
-        })}
-      </div>
-    )
-  }
-
-  /**
-   *
-   * @returns teh archive tab content
-   */
-  function archiveContent() {
-    return (
-      <div className={s.content}>
-        {images.map((value, index) => {
-          if (!admin) {
-            return <GenericIcon
-              imageUrl={joinUrls(apiUrl, value?.href) + "?width=100&height=100"}
-              index={value?.tag}
-              popOverElement={
-                <div className={s.popOver}>
-                  <p className={s.popOver__text}>{value?.tag}</p>
-                  <p className={s.popOver__link}>View: <a href={joinUrls(apiUrl, value?.href) + "?width=600&height=600"}>here</a></p>
-                </div>
-              }
-            />
-          }
-          return (
-            <div className={s.content__admin}>
-              <GenericIcon
-                imageUrl={joinUrls(apiUrl, value?.href) + "?width=100&height=100"}
-                index={value?.tag}
-                popOverElement={
-                  <div className={s.popOver}>
-                    <p className={s.popOver__text}>{value?.tag}</p>
-                    <p className={s.popOver__link}>View: <a href={joinUrls(apiUrl, value?.href) + "?width=600&height=600"}>here</a></p>
-                  </div>
-                }
-              />
-              <button id={value?.tag} className={s.button} onClick={onDelete}>Delete</button>
-            </div>
-          )
-        })}
+      <div className={s.contentIcon}>
         {pdfs.map((value, index) => {
-          if (!admin) {
-            return <GenericIcon
-              imageUrl={'util/pdfIcon.ico'}
-              index={value?.tag}
-              popOverElement={
-                <div className={s.popOver}>
-                  <p className={s.popOver__text}>{value?.tag}</p>
-                  <p className={s.popOver__link}>View: <a href={joinUrls(apiUrl, value?.href) + "?width=600&height=600"}>here</a></p>
-                </div>
-              }
-            />
-          }
-          return (
-            <div className={s.content__admin}>
-              <GenericIcon
+          if (value?.major_group === mGroup) {
+            if (!admin) {
+              return <GenericIcon
                 imageUrl={'util/pdfIcon.ico'}
                 index={value?.tag}
                 popOverElement={
@@ -296,9 +252,54 @@ export function RawLinks() {
                   </div>
                 }
               />
-              <button id={value?.tag} className={s.button} onClick={onDelete}>Delete</button>
-            </div>
-          )
+            }
+            return (
+              <div className={s.contentIcon__admin}>
+                <GenericIcon
+                  imageUrl={'util/pdfIcon.ico'}
+                  index={value?.tag}
+                  popOverElement={
+                    <div className={s.popOver}>
+                      <p className={s.popOver__text}>{value?.tag}</p>
+                      <p className={s.popOver__link}>View: <a href={joinUrls(apiUrl, value?.href) + "?width=600&height=600"}>here</a></p>
+                    </div>
+                  }
+                />
+                <button id={value?.tag} className={s.button} onClick={onDelete}>Delete</button>
+              </div>
+            )
+          }
+        })}
+        {images.map((value, index) => {
+          if (value?.major_group === mGroup) {
+            if (!admin) {
+              return <GenericIcon
+                imageUrl={joinUrls(apiUrl, value?.href) + "?width=100&height=100"}
+                index={value?.tag}
+                popOverElement={
+                  <div className={s.popOver}>
+                    <p className={s.popOver__text}>{value?.tag}</p>
+                    <p className={s.popOver__link}>View: <a href={joinUrls(apiUrl, value?.href) + "?width=600&height=600"}>here</a></p>
+                  </div>
+                }
+              />
+            }
+            return (
+              <div className={s.contentIcon__admin}>
+                <GenericIcon
+                  imageUrl={joinUrls(apiUrl, value?.href) + "?width=100&height=100"}
+                  index={value?.tag}
+                  popOverElement={
+                    <div className={s.popOver}>
+                      <p className={s.popOver__text}>{value?.tag}</p>
+                      <p className={s.popOver__link}>View: <a href={joinUrls(apiUrl, value?.href) + "?width=600&height=600"}>here</a></p>
+                    </div>
+                  }
+                />
+                <button id={value?.tag} className={s.button} onClick={onDelete}>Delete</button>
+              </div>
+            )
+          }
         })}
       </div>
     )
@@ -310,7 +311,7 @@ export function RawLinks() {
    */
    function referenceContent() {
     return (
-      <div className={s.content}>
+      <div className={s.contentRef}>
         {refs.map((value, index) => {
           if (!admin) {
             return (
@@ -324,7 +325,7 @@ export function RawLinks() {
             )
           }
           return (
-            <div className={s.content__admin}>
+            <div className={s.contentRef__admin}>
               <div className={s.ref}>
                 <p className={s.ref__reference}>{value?.reference}</p>
                 <p className={s.ref__desc}>{value?.description}</p>
@@ -435,9 +436,9 @@ export function RawLinks() {
         <p>Add files/images/references <a href='/raw/edit'>here</a></p>
       }
       <div className={s.tabs__header}>
-        <h2 className={currentTab(currTab === 'units')} id="units" onClick={handleChange}>Units</h2>
-        <h2 className={currentTab(currTab === 'finds')} id="finds" onClick={handleChange}>Finds</h2>
-        <h2 className={currentTab(currTab === 'archive')} id="archive" onClick={handleChange}>Archival data</h2>
+        {majorGroups.map((value, index) => {
+          return <h2 className={currentTab(currTab === value)} id={value} onClick={handleChange}>{beautify(value)}</h2>
+        })}
         <h2 className={currentTab(currTab === 'references')} id="references" onClick={handleChange}>References</h2>
       </div>
       <GetContent val={currTab}/>

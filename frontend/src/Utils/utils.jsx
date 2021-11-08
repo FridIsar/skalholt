@@ -18,3 +18,28 @@ export function joinUrls(...urls) {
   }
   return finalUrl;
 }
+
+
+export function beautify(text) {
+  // uppercase first letter
+  let firstChar = text.charAt(0);
+  let upperFirstLetter = firstChar.toUpperCase();
+  //replace _ with whitespace
+  let checkSplit = text.split("_");
+  let combinedText = '';
+  if(checkSplit.length > 1) {
+    for (var i = 0; i < checkSplit.length; i++) {
+      if (i > 0) {
+        combinedText = combinedText + ' ' + checkSplit[i];
+      } else {
+        combinedText = checkSplit[i];
+      }
+    }
+  } else {
+    combinedText = checkSplit[0];
+  }
+
+  // final string
+  const final = upperFirstLetter + combinedText.slice(1);
+  return final;
+}
