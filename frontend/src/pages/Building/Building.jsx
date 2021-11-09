@@ -9,9 +9,7 @@ export function Building() {
   return (
     <div className={s.page}>
       <AllowCookies/>
-      <div className={s.page__header}>
-        <Navigation/>
-      </div>
+      <Navigation/>
       <div className={s.page__content}>
         <OneBuilding/>
       </div>

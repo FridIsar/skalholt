@@ -81,7 +81,7 @@ export function SelectionBox({ title, items, current, setCurrent, setOnClick }) 
         <div className={s.selectionBox}>
           <div className={s.selectionBox__sections}>
             <h2 className={s.title}>Finds</h2>
-            <div className={s.selectionBox__buttons}>
+            <div className={s.selectionBox__buttons__icons}>
               {items.finds.map((value, index) => {
                 return <FindsIcon fGroup={value?.f_group}
                   fragments={value?.fragments}
@@ -97,7 +97,7 @@ export function SelectionBox({ title, items, current, setCurrent, setOnClick }) 
       return (
         <div className={s.selectionBox}>
           <h2 className={s.title}>{title}</h2>
-          <div className={s.selectionBox__buttons}>
+          <div className={s.selectionBox__buttons__buildings}>
             {items.map((value, index) => {
               if (String(current) === String(value.id)) {
                 return (

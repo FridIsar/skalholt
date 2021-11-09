@@ -8,7 +8,14 @@
 
   &__text {
     margin: 1em;
-    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    &__more {
+      white-space: pre-wrap;
+
+    }
   }
 
   &__link {

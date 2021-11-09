@@ -124,7 +124,7 @@ export function Description({ description, limit, year, buildingId, limited, set
         }
         {!limited &&
           split.map((value, index) => {
-            return <pre className={s.description__text} >{value}</pre>
+            return <pre className={s.description__text__more} >{value}</pre>
           })
         }
         {(limited && limit) &&

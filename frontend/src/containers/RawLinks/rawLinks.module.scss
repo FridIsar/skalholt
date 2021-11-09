@@ -6,24 +6,26 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 1rem;
 
   &__header {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
     width: 100%;
-    margin-bottom: 3em;
+    margin-bottom: 3rem;
+
+    @media (max-width: 700px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   &__headerText {
-    width: fit-content;
-    margin: 0 1.5em 1em 1.5em;
     border-bottom: 3px solid var(--main-color);
     cursor: pointer;
 
     &__current {
-      width: fit-content;
-      margin: 0 1.5em 1em 1.5em;
       border-bottom: 5px solid var(--main-color);
       cursor: pointer;
       font-weight: 900;
@@ -48,6 +50,10 @@
   &__admin {
     grid-column: span 2;
   }
+
+  @media (max-width: 700px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .contentIcon {
@@ -57,6 +63,10 @@
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: auto;
   gap: 10px;
+
+  @media (max-width: 700px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .contentRef {
@@ -93,6 +103,15 @@
   &__text {
     font-weight: 600;
   }
+}
+
+.button {
+  margin: 0 1rem 0 1rem;
+  border: 0;
+  background-color: green;
+  color: white;
+  padding: 0.2rem;
+  border-radius: 5px;
 }
 
 .background {
