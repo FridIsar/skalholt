@@ -1,6 +1,6 @@
 import s from './oneBuilding.module.scss';
 
-import { Redirect, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { Description } from '../../components/Description/Description';
 import { SelectionBox } from '../../components/SelectionBox/SelectionBox';
@@ -56,7 +56,7 @@ export function OneBuilding() {
 
   return (
     <div className={s.container}>
-      <h2>{data?.en + '/' + data?.is + ' - ' + year}</h2>
+      <h2 className={s.building__header}>{data?.en + '/' + data?.is + ' - ' + year}</h2>
       <a href={'/interactive'}>Back to interactive map</a>
       <Description description={data?.description}
         year={year}

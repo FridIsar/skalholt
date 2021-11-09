@@ -316,11 +316,15 @@ export function RawLinks() {
           if (!admin) {
             return (
               <div className={s.ref}>
-                <p className={s.ref__reference}>{value?.reference}</p>
-                <p className={s.ref__desc}>{value?.description}</p>
                 {value?.doi &&
-                  <a classname={s.ref__doi} href={value.doi}>DOI link</a>
+                <p className={s.ref__reference}>{value?.reference + " "}
+                  <a classname={s.ref__doi} href={value.doi}>Doi</a>
+                </p>
                 }
+                {!value?.doi &&
+                <p className={s.ref__reference}>{value?.reference}</p>
+                }
+                <p className={s.ref__desc}>{value?.description}</p>
               </div>
             )
           }

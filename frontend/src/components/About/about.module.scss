@@ -5,31 +5,41 @@
   max-width: var(--max-width);
   z-index: -10;
   background-color: #fff;
-  margin: 3em;
+  margin: 3rem;
   border-radius: 10px;
-  padding: 1em;
+  padding: 1rem;
+
+  @media (max-width: 700px) {
+    margin: 1rem;
+    border-radius: 0;
+    padding: 0;
+  }
 }
 
 .title {
   margin-top: 0;
-  font-size: 3em;
+  font-size: 3rem;
 }
 
 .section {
   display: flex;
   flex-direction: row;
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .text {
   margin: 0;
   text-align: justify;
-  font-size: 1.5em;
+  font-size: 1.5rem;
+
+  @media (max-width: 700px) {
+    font-size: 1rem;
+  }
 
 }
 
 .image {
   max-width: 30%;
-  margin-right: 1em;
+  margin-right: 1rem;
 }

@@ -70,9 +70,19 @@
 
   &__reference {
     font-size: 1.15em;
+
+    & > a {
+      font-size: 0.8em;
+      text-decoration: underline;
+      font-weight: 700;
+    }
   }
 
   &__desc {
+    font-size: 0.9em;
+  }
+
+  &__doi {
     font-size: 0.9em;
   }
 }

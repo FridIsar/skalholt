@@ -7,6 +7,12 @@
   padding: 0em 1em 0em 1em;
 }
 
+.building {
+  &__header {
+    font-family: var(--font-family-heading);
+  }
+}
+
 .mapContainer {
   width: 100%;
 }

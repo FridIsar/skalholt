@@ -10,10 +10,10 @@ $background-color: #D7D5D6;
   flex-direction: column;
 
   &__image {
-    width: 100vw;
+    width: 100%;
     height: 90vh;
     margin: 0;
-    margin-bottom: 2em;
+    margin-bottom: 2rem;
   }
 
   &__about {
@@ -30,6 +30,12 @@ $background-color: #D7D5D6;
       opacity: 0.5;
       height: 100%;
       object-fit: cover;
+
+      @media (max-width: 700px) {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+      }
     }
   }
 

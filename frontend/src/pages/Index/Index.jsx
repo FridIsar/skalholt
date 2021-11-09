@@ -9,9 +9,7 @@ export function Index() {
   return (
     <div className={s.page}>
       <AllowCookies/>
-      <div className={s.page__header}>
-        <Navigation onHome={true}/>
-      </div>
+      <Navigation onHome={true}/>
       <div className={s.page__image}>
         <IndexImage/>
       </div>
