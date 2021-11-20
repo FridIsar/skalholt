@@ -85,7 +85,7 @@ async function importPdf(fileName) {
 
   const values = [
     fileName,
-    'field records',
+    'archival data',
     `${PDF_ROUTE}${currentPdf}`,
   ];
 
@@ -111,7 +111,7 @@ async function importImage(fileName) {
 
   const values = [
     fileName,
-    'field records',
+    'archival data',
     `${IMAGE_ROUTE}${currentImage}`,
   ];
 
