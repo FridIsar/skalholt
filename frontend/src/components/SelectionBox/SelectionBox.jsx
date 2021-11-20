@@ -64,7 +64,7 @@ export function SelectionBox({ title, items, current, setCurrent, setOnClick }) 
         }
         data = await result.json();
       } catch (e) {
-        setError("could not get icon data")
+        setError("could not get icon data", e.toString());
         return;
       } finally {
         setIconData(data);
@@ -72,6 +72,12 @@ export function SelectionBox({ title, items, current, setCurrent, setOnClick }) 
     }
     fetchDownloadData();
   }, []);
+
+  if (error) {
+    return (
+      <p>{error}</p>
+    )
+  }
 
   // if items where provided
   if (items) {

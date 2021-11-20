@@ -165,26 +165,27 @@ export function RawLinks() {
     if(userIsSure) {
       requestDelete()
     }
-  }, [userIsSure, deleting, history])
+  }, [userIsSure, deleting, history, admin])
 
   // runs when the page is loaded and goes through the relevant states to find what major groups there are (what tabs to make)
   useEffect(() => {
     function getMajorGroups() {
       const theGroups = [];
 
-      for (var i = 0; i < groups.length; i++) {
+      var i;
+      for (i = 0; i < groups.length; i++) {
         if (!theGroups.includes(groups[i].major_group)) {
           theGroups.push(groups[i].major_group);
         }
       }
 
-      for (var i = 0; i < images.length; i++) {
+      for (i = 0; i < images.length; i++) {
         if (!theGroups.includes(images[i].major_group)) {
           theGroups.push(images[i].major_group);
         }
       }
 
-      for (var i = 0; i < pdfs.length; i++) {
+      for (i = 0; i < pdfs.length; i++) {
         if (!theGroups.includes(pdfs[i].major_group)) {
           theGroups.push(pdfs[i].major_group);
         }
@@ -288,6 +289,7 @@ export function RawLinks() {
               </div>
             )
           }
+          return null;
         })}
         {images.map((value, index) => {
           if (value?.major_group === mGroup) {
@@ -296,7 +298,7 @@ export function RawLinks() {
                 imageUrl={joinUrls(apiUrl, value?.href) + "?width=100&height=100"}
                 index={value?.tag}
                 popOverElement={
-                  <div className={s.popOver}>
+                  <div className={s.popOver} key={index}>
                     <p className={s.popOver__text}>{value?.tag}</p>
                     <p className={s.popOver__link}>View: <a href={joinUrls(apiUrl, value?.href) + "?width=600&height=600"}>here</a></p>
                   </div>
@@ -319,6 +321,7 @@ export function RawLinks() {
               </div>
             )
           }
+          return null;
         })}
       </div>
     )

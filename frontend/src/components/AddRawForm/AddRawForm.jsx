@@ -1,6 +1,5 @@
 import s from "./addRawForm.module.scss";
 
-import fs from 'fs';
 import { Form } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import Button from "react-bootstrap/Button";
@@ -45,7 +44,6 @@ export function AddRawForm() {
       headers: {'Authorization': `Bearer ${admin}` }
     };
     async function request() {
-      let json;
       try {
         let url = '';
 

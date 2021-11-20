@@ -22,8 +22,6 @@ export function OneBuilding() {
   const [current, setCurrent] = useState(null);
   // data for this building
   const [data, setData] = useState(null);
-  // somr indication of what was chosen from the map or sidebar
-  const [selectedFind, setSelectedFind] = useState(null);
   // is the description limited
   const [limited, setLimited] = useState(true);
 
@@ -65,9 +63,7 @@ export function OneBuilding() {
 
   if (loading) {
     return (
-      <div className={s.container}>
-        <img src='/util/loading.webp' alt='loading gif'/>
-      </div>
+      <img src='/util/loading.webp' alt='loading gif'/>
     )
   }
 
@@ -91,7 +87,7 @@ export function OneBuilding() {
       <SelectionBox items={data}
         current={current}
         setCurrent={setCurrent}
-        setOnClick={setSelectedFind}/>
+        setOnClick={(string) => (string)}/>
       <a href={'/interactive'}>Back to interactive map</a>
     </div>
   );

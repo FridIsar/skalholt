@@ -29,14 +29,6 @@ export function Navigation({ onHome }) {
     console.log("burger pressed")
   }
 
-  // if clicked of the popover when it is open then close
-  // const closePopOverClick = () => {
-  //   setAnchorEl(null);
-  // }
-
-  // general manipulation for the popover
-  const openClick = Boolean(anchorEl);
-
   return (
     <nav className={s.navigation}>
       <div className={s.navigation__bar}>

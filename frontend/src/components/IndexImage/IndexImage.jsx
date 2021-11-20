@@ -10,7 +10,7 @@ export function IndexImage() {
     <div className={s.image}>
       <div className={s.image__figContainer}>
         <figure className={s.image__figure}>
-          <img src='/frontpageImg/overview.JPG' className={s.image__pic}/>
+          <img src='/frontpageImg/overview.JPG' className={s.image__pic} alt="Overview of skálholt"/>
           <figcaption className={s.image__figcaption}>
             The Skálholt site like it is today.
           </figcaption>
