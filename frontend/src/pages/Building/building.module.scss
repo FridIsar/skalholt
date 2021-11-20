@@ -6,8 +6,9 @@
   flex-direction: column;
 
   &__content {
-    margin-top: 3em;
     width: 100%;
-    height: 1005;
+    display: flex;
+    justify-content: center;
+    margin-top: 3em;
   }
 }
