@@ -31,8 +31,6 @@ export function AllowCookies() {
 
   if(!allowed) {
     return (
-      <div className={s.page}>
-        <div className={s.cover}/>
         <div className={s.cookieRequest}>
           <div className={s.textBox}>
             <p className={s.text}>This site uses cookies to provide necessary website functionality.</p>
@@ -41,7 +39,6 @@ export function AllowCookies() {
           </div>
           <button className={s.button} onClick={onClick}>I understand</button>
         </div>
-      </div>
     );
   }
 
