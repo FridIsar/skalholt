@@ -192,7 +192,9 @@ export function RawLinks() {
 
       setMajorGroups(theGroups.sort());
       setCurrTab(theGroups[0]);
-      setLoading(false);
+      if (theGroups !== []) {
+        setLoading(false);
+      }
     }
 
     getMajorGroups();
