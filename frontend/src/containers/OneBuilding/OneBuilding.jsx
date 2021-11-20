@@ -51,7 +51,7 @@ export function OneBuilding() {
         return;
       } finally {
         setData(json);
-        // setLoading(false);
+        setLoading(false);
       }
     }
     fetchBuilding();
@@ -65,7 +65,9 @@ export function OneBuilding() {
 
   if (loading) {
     return (
-      <img src='/util/loading.webp' alt='loading gif'/>
+      <div className={s.container}>
+        <img src='/util/loading.webp' alt='loading gif'/>
+      </div>
     )
   }
 
