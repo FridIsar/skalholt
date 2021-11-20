@@ -18,6 +18,8 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export function WholeSite() {
   // error state if any
   const [error, setError] = useState(null);
+  // loading state
+  const [loading, setLoading] = useState(true);
   // currently selected interactable
   const [current, setCurrent] = useState(null);
   // data for this map
@@ -70,11 +72,12 @@ export function WholeSite() {
         }
         json = await result.json();
       } catch (e) {
-        setError(e);
+        setError(e.toString());
         return;
       } finally {
         setYears(json);
         setBackgroundImage(json[0]?.image);
+        setLoading(false);
       }
     }
     fetchYears();
@@ -95,7 +98,7 @@ export function WholeSite() {
         }
         json = await result.json();
       } catch (e) {
-        setError(e);
+        setError(e.toString());
         return;
       } finally {
         setData(json);
@@ -147,6 +150,18 @@ export function WholeSite() {
       preLoadMapImages();
     }
   }, [years])
+
+  if (error) {
+    return (
+      <p>{error}</p>
+    )
+  }
+
+  if (loading) {
+    return (
+      <img src='/util/loading.webp' alt='loading gif'/>
+    )
+  }
 
   return (
     <div className={s.container}>

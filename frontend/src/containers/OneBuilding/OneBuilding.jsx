@@ -16,6 +16,8 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export function OneBuilding() {
   // error state if any
   const [error, setError] = useState(null);
+  // loading state
+  const [loading, setLoading] = useState(true);
   // currently selected interactable
   const [current, setCurrent] = useState(null);
   // data for this building
@@ -45,14 +47,27 @@ export function OneBuilding() {
         }
         json = await result.json();
       } catch (e) {
-        setError("could not get building information")
+        setError("could not get building information", e.toString())
         return;
       } finally {
         setData(json);
+        // setLoading(false);
       }
     }
     fetchBuilding();
   },[])
+
+  if (error) {
+    return (
+      <p>{error}</p>
+    )
+  }
+
+  if (loading) {
+    return (
+      <img src='/util/loading.webp' alt='loading gif'/>
+    )
+  }
 
   return (
     <div className={s.container}>

@@ -29,6 +29,10 @@ export function RawLinks() {
   // check if user is sure
   const [areYouSure, setAreYouSure] = useState(false);
   const [userIsSure, setUserIsSure] = useState(false);
+  // loading state
+  const [loading, setLoading] = useState(true);
+  // error state
+  const [error, setError] = useState(null);
 
   // get the admin cookie in order to check if the user is a admin
   const cookies = new Cookies();
@@ -51,6 +55,7 @@ export function RawLinks() {
         }
         json = await result.json();
       } catch (e) {
+        setError(e.toString());
         return;
       } finally {
 
@@ -70,6 +75,7 @@ export function RawLinks() {
         }
         json = await result.json();
       } catch (e) {
+        setError(e.toString());
         return;
       } finally {
 
@@ -89,6 +95,7 @@ export function RawLinks() {
         }
         json = await result.json();
       } catch (e) {
+        setError(e.toString());
         return;
       } finally {
 
@@ -108,6 +115,7 @@ export function RawLinks() {
         }
         json = await result.json();
       } catch (e) {
+        setError(e.toString());
         return;
       } finally {
 
@@ -149,6 +157,7 @@ export function RawLinks() {
         await result.json();
         history.go(0);
       } catch (e) {
+        setError(e.toString());
         return;
       }
     }
@@ -158,38 +167,42 @@ export function RawLinks() {
     }
   }, [userIsSure, deleting, history])
 
+  // runs when the page is loaded and goes through the relevant states to find what major groups there are (what tabs to make)
   useEffect(() => {
+    function getMajorGroups() {
+      const theGroups = [];
+
+      for (var i = 0; i < groups.length; i++) {
+        if (!theGroups.includes(groups[i].major_group)) {
+          theGroups.push(groups[i].major_group);
+        }
+      }
+
+      for (var i = 0; i < images.length; i++) {
+        if (!theGroups.includes(images[i].major_group)) {
+          theGroups.push(images[i].major_group);
+        }
+      }
+
+      for (var i = 0; i < pdfs.length; i++) {
+        if (!theGroups.includes(pdfs[i].major_group)) {
+          theGroups.push(pdfs[i].major_group);
+        }
+      }
+
+      setMajorGroups(theGroups.sort());
+      setCurrTab(theGroups[0]);
+      setLoading(false);
+    }
+
     getMajorGroups();
   }, [groups, pdfs, images])
 
-  function getMajorGroups() {
-    const theGroups = [];
 
-    for (var i = 0; i < groups.length; i++) {
-      if (!theGroups.includes(groups[i].major_group)) {
-        theGroups.push(groups[i].major_group);
-      }
-    }
-
-    for (var i = 0; i < images.length; i++) {
-      if (!theGroups.includes(images[i].major_group)) {
-        theGroups.push(images[i].major_group);
-      }
-    }
-
-    for (var i = 0; i < pdfs.length; i++) {
-      if (!theGroups.includes(pdfs[i].major_group)) {
-        theGroups.push(pdfs[i].major_group);
-      }
-    }
-
-    setMajorGroups(theGroups.sort());
-    setCurrTab(theGroups[0]);
-  }
 
   /**
    *
-   * @param {String} String representing currently chosen tab
+   * @param {String} val representing currently chosen tab
    * @returns the current tab content or an empty div if none is found
    */
   function GetContent({ val }) {
@@ -236,6 +249,10 @@ export function RawLinks() {
     )
   }
 
+  /**
+   *
+   * @returns the images and pdfs icon tab content
+   */
   function IconContent({ mGroup }) {
     return (
       <div className={s.contentIcon}>
@@ -432,6 +449,18 @@ export function RawLinks() {
   const handleChange = (event) => {
     setCurrTab(event.target.id);
   };
+
+  if (error) {
+    return (
+      <p>{error}</p>
+    )
+  }
+
+  if (loading) {
+    return (
+      <img src='/util/loading.webp' alt='loading gif'/>
+    )
+  }
 
   return (
 

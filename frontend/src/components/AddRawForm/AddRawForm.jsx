@@ -19,7 +19,6 @@ export function AddRawForm() {
   const [type, setType] = useState('');
   // tracks file if a file is being uploaded
   const [file, setFile] = useState(null);
-  const [filePath, setFilePath] = useState('');
   // tracks reference info if reference is being uploaded
   const [ref, setRef] = useState(['','','']);
   const [validRef, setValidRef] = useState(false);
@@ -38,6 +37,8 @@ export function AddRawForm() {
   // if not admin kick to regular project data page
   if (!admin) history.push('/raw');
 
+  // runs when the user clicks the submit button
+  // gets all relevant data and saves it accordingly, send a post request to the backend and responds to the result
   useEffect(() => {
     const requestOptions = {
       method: 'POST',
@@ -88,17 +89,12 @@ export function AddRawForm() {
           });
         }
 
-        console.log(file)
-        console.log(url)
-        console.log(requestOptions)
-
+        // send to backend
         const result = await fetch(url, requestOptions);
         if (!result.ok) {
           console.log(result)
           throw new Error(result.statusText);
         }
-
-        console.log(result)
 
       } catch (e) {
         setError(e.toString());
@@ -110,11 +106,13 @@ export function AddRawForm() {
     }
   }, [submited, history]);
 
+  // callback for when submission is done
   function handleSubmit(event) {
     event.preventDefault();
     setSubmited(true);
   }
 
+  // keeps track of the radio buttons
   function radioClick(event) {
     const _type = event?.target?.id;
     setType(_type);
@@ -125,13 +123,13 @@ export function AddRawForm() {
     if(_type === 'Reference') setFile(null);
   }
 
+  // Gets the file when it is uploaded
   function fileUpload(event) {
     console.log(event)
     setFile(event?.target?.files[0]);
-    setFilePath(event?.target?.value)
-    console.log(file)
   }
 
+  // keeps track of the reference
   function refRefUpload(event) {
     let newRef = ref;
     newRef[0] = event?.target?.value;
@@ -140,6 +138,7 @@ export function AddRawForm() {
     setValidRef(ref[0] !== '' && ref[1] !== '');
   }
 
+  // keeps track of the reference description
   function refDescUpload(event) {
     let newRef = ref;
     newRef[1] = event?.target?.value;
@@ -148,6 +147,7 @@ export function AddRawForm() {
     setValidRef(ref[0] !== '' && ref[1] !== '');
   }
 
+  // keeps track of the reference DOI
   function refDoiUpload(event) {
     let newRef = ref;
     newRef[2] = event?.target?.value;
@@ -156,10 +156,12 @@ export function AddRawForm() {
     setValidRef(ref[0] !== '' && ref[1] !== '');
   }
 
+  // keeps track of what major group it should be saved under
   function majorGroupChange(event) {
     setMajorGroup(event?.target?.value);
   }
 
+  // lets caller know if form is valid for submission
   function validateForm() {
     if (type === "File" && file !== null) return true;
     if (type === "Reference" && validRef) return true;
