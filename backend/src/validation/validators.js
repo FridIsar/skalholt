@@ -155,9 +155,41 @@ export const yearIdValidator = param('yearId')
   .isInt({ min: 1670 })
   .withMessage('yearId must be an integer of at least 1670');
 
+export const yearIdForkValidator = param('yearId')
+  .custom(async (id, { req = {} }) => {
+    const { yearId } = req.params;
+
+    if (yearId.includes('.')) {
+      const parts = id.split('.');
+      if (parts.length === 2 && isInt(parts[0]) && parts[1] && parts[1] === 'svg') {
+        return Promise.resolve();
+      }
+    }
+
+    return Promise.reject(new Error('yearId must be in the in the format: {year}.svg'));
+  });
+
 export const buildingIdValidator = param('buildingId')
   .isInt({ min: 1 })
   .withMessage('buildingId must be an integer larger than 0');
+
+export const buildingIdForkValidator = param('buildingId')
+  .custom(async (id, { req = {} }) => {
+    const { buildingId } = req.params;
+
+    if (!buildingId.includes('.') && isInt(buildingId)) {
+      return Promise.resolve();
+    }
+
+    if (buildingId.includes('.')) {
+      const parts = buildingId.split('.');
+      if (parts.length === 2 && isInt(parts[0]) && parts[1] && parts[1] === 'svg') {
+        return Promise.resolve();
+      }
+    }
+
+    return Promise.reject(new Error('buildingId must be in the in the format: {id}.svg or {id}'));
+  });
 
 export const phaseValidator = body('phase')
   .if(isPatchingAllowAsOptional)

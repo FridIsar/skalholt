@@ -22,8 +22,10 @@ import {
   validateResourceExists,
   yearValidators,
   yearIdValidator,
+  yearIdForkValidator,
   buildingValidators,
   buildingIdValidator,
+  buildingIdForkValidator,
   csvIdValidator,
   csvValidators,
   pdfIdValidator,
@@ -127,6 +129,7 @@ router.post(
 
 router.get(
   '/years/:yearId',
+  yearIdForkValidator,
   validationCheck,
   catchErrors(listYear),
 );
@@ -135,6 +138,7 @@ router.patch(
   '/years/:yearId',
   requireAdmin,
   imageWithMulter,
+  yearIdValidator,
   yearValidators,
   validationCheck,
   catchErrors(updateYear),
@@ -150,6 +154,7 @@ router.delete(
 
 router.get(
   '/years/:yearId/buildings',
+  yearIdValidator,
   validationCheck,
   catchErrors(listBuildings),
 );
@@ -158,13 +163,15 @@ router.post(
   '/years/:yearId/buildings/',
   requireAdmin,
   imageWithMulter,
-  buildingValidators,
+  buildingValidators, // This includes yearIdValidator
   validationCheck,
   catchErrors(createBuilding),
 );
 
 router.get(
   '/years/:yearId/buildings/:buildingId',
+  yearIdValidator,
+  buildingIdForkValidator,
   validationCheck,
   catchErrors(listBuilding),
 );
@@ -173,6 +180,7 @@ router.patch(
   '/years/:yearId/buildings/:buildingId',
   requireAdmin,
   imageWithMulter,
+  yearIdValidator,
   buildingIdValidator,
   buildingValidators,
   validationCheck,
@@ -191,6 +199,7 @@ router.delete(
 router.post(
   '/years/:yearId/buildings/:buildingId/features/',
   requireAdmin,
+  yearIdValidator,
   featureValidators,
   validationCheck,
   catchErrors(createFeature),
@@ -198,6 +207,8 @@ router.post(
 
 router.get(
   '/years/:yearId/buildings/:buildingId/features',
+  yearIdValidator,
+  buildingIdValidator,
   validationCheck,
   catchErrors(listFeatures),
 );
@@ -205,6 +216,7 @@ router.get(
 router.patch(
   '/years/:yearId/buildings/:buildingId/features/:featureId',
   requireAdmin,
+  yearIdValidator,
   featureIdValidator,
   featureValidators,
   validationCheck,
@@ -214,6 +226,7 @@ router.patch(
 router.delete(
   '/years/:yearId/buildings/:buildingId/features/:featureId',
   requireAdmin,
+  yearIdValidator,
   featureIdValidator,
   validationCheck,
   catchErrors(deleteFeature),
@@ -222,6 +235,7 @@ router.delete(
 router.post(
   '/years/:yearId/buildings/:buildingId/finds/',
   requireAdmin,
+  yearIdValidator,
   findValidators,
   validationCheck,
   catchErrors(createFind),
@@ -229,6 +243,8 @@ router.post(
 
 router.get(
   '/years/:yearId/buildings/:buildingId/finds',
+  yearIdValidator,
+  buildingIdValidator,
   validationCheck,
   catchErrors(listFinds),
 );
@@ -236,6 +252,7 @@ router.get(
 router.patch(
   '/years/:yearId/buildings/:buildingId/finds/:findId',
   requireAdmin,
+  yearIdValidator,
   findIdValidator,
   findValidators,
   validationCheck,
@@ -245,6 +262,8 @@ router.patch(
 router.delete(
   '/years/:yearId/buildings/:buildingId/finds/:findId',
   requireAdmin,
+  yearIdValidator,
+  buildingIdValidator,
   findIdValidator,
   validationCheck,
   catchErrors(deleteFind),

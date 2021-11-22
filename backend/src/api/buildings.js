@@ -86,21 +86,17 @@ async function buildingDetails(id, year) {
 export async function listBuilding(req, res) {
   const { yearId, buildingId: buildingNumber } = req.params;
 
-  if (!buildingNumber.includes('.') && isInt(buildingNumber)) {
+  if (!buildingNumber.includes('.')) {
     const data = await buildingDetails(buildingNumber, yearId);
     if (data) return res.json(data);
   }
 
-  const parts = buildingNumber.split('.');
+  const path = dirname(fileURLToPath(import.meta.url));
+  const svgExists = await exists(join(path, `../../data/svg/buildings/${buildingNumber}`));
 
-  if (parts.length === 2 && isInt(parts[0]) && parts[1] && parts[1] === 'svg') {
-    const path = dirname(fileURLToPath(import.meta.url));
-    const svgExists = await exists(join(path, `../../data/svg/buildings/${buildingNumber}`));
-
-    if (svgExists) {
-      res.setHeader('Content-Type', 'image/svg+xml');
-      return res.sendFile(join(path, `../../data/svg/buildings/${buildingNumber}`));
-    }
+  if (svgExists) {
+    res.setHeader('Content-Type', 'image/svg+xml');
+    return res.sendFile(join(path, `../../data/svg/buildings/${buildingNumber}`));
   }
 
   return res.status(404).json(null);
