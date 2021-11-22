@@ -1,7 +1,7 @@
 // Contains all the validation that is done before a request is routed to its handler function
 // Most of these should be relatively easy to understand from the given message
 
-import { body, param } from 'express-validator';
+import { body, param, query } from 'express-validator';
 
 import { resourceExists } from './helpers.js';
 import { comparePasswords, findByEmail, findByUsername } from '../auth/users.js';
@@ -375,6 +375,38 @@ export const tagValidator = body('tag')
   .isString({ min: 1, max: 32 })
   .withMessage('tag is required, max 32 characters');
 
+export const widthValidator = query('width')
+  .optional()
+  .isInt({ min: 1, max: 4000 })
+  .withMessage('width must be a positive integer');
+
+export const heightValidator = query('height')
+  .optional()
+  .isInt({ min: 1, max: 4000 })
+  .withMessage('height must be a positive integer');
+
+export const qualityValidator = query('quality')
+  .optional()
+  .isInt({ min: 1, max: 100 })
+  .withMessage('quality must be a positive integer between 1 and 100');
+
+const CROPS = ['cover', 'contain', 'fill', 'inside', 'outside'];
+
+function validateCrop(crop) {
+  return CROPS.indexOf(crop.toLowerCase()) >= 0;
+}
+
+export const cropValidator = query('crop')
+  .optional()
+  .custom(async (crop) => {
+    if (!validateCrop(crop)) {
+      const error = `Cropping with ${crop} is not allowed. Only ${CROPS.join(',')} are accepted ways to crop`;
+      return Promise.reject(new Error(error));
+    }
+
+    return Promise.resolve();
+  });
+
 export const referenceValidators = [
   referenceOptionalValidator,
   descriptionOptionalValidator,
@@ -391,6 +423,13 @@ export const pdfValidators = [
   pdfValidator,
   tagValidator,
   majorGroupValidator,
+];
+
+export const imageResizeValidators = [
+  widthValidator,
+  heightValidator,
+  qualityValidator,
+  cropValidator,
 ];
 
 export const imageValidators = [

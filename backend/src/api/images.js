@@ -69,7 +69,9 @@ export async function getImage(req, res) {
     );
 
     if (imageExists) {
-      // If alterations are requested we pipe through a Sharp transform stream
+      // Note most of these are checked in validation as well aside from combination width/height
+      // Could solve one missing dimension in a different way
+      // Currently we just return the original image if a sensible attempt cannot be made
       if (w && h && isInt(w) && isInt(h)) {
         const fits = ['cover', 'contain', 'fill', 'inside', 'outside'];
 

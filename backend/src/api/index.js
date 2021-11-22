@@ -30,6 +30,7 @@ import {
   pdfValidators,
   imageIdValidator,
   imageValidators,
+  imageResizeValidators,
   findIdValidator,
   findValidators,
   featureIdValidator,
@@ -351,6 +352,7 @@ router.post(
 router.get(
   '/images/:imageId',
   imageIdValidator,
+  imageResizeValidators,
   validationCheck,
   catchErrors(getImage),
 );
