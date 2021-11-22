@@ -161,7 +161,7 @@ export const yearIdForkValidator = param('yearId')
 
     if (yearId.includes('.')) {
       const parts = id.split('.');
-      if (parts.length === 2 && isInt(parts[0]) && parts[1] && parts[1] === 'svg') {
+      if (parts.length === 2 && isInt(parts[0]) && parts[0] > 0 && parts[1] && parts[1] === 'svg') {
         return Promise.resolve();
       }
     }
@@ -177,13 +177,13 @@ export const buildingIdForkValidator = param('buildingId')
   .custom(async (id, { req = {} }) => {
     const { buildingId } = req.params;
 
-    if (!buildingId.includes('.') && isInt(buildingId)) {
+    if (!buildingId.includes('.') && isInt(buildingId) && buildingId > 0) {
       return Promise.resolve();
     }
 
     if (buildingId.includes('.')) {
       const parts = buildingId.split('.');
-      if (parts.length === 2 && isInt(parts[0]) && parts[1] && parts[1] === 'svg') {
+      if (parts.length === 2 && isInt(parts[0]) && parts[0] > 0 && parts[1] && parts[1] === 'svg') {
         return Promise.resolve();
       }
     }
