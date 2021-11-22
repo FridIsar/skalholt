@@ -8,6 +8,7 @@ import { comparePasswords, findByEmail, findByUsername } from '../auth/users.js'
 import { LoginError } from '../errors.js';
 import { logger } from '../utils/logger.js';
 import { MAX_FILE_SIZE } from '../utils/withMulter.js';
+import { isInt } from '../utils/typeChecking.js';
 
 export function validateResourceExists(fetchResource) {
   return [
@@ -377,13 +378,35 @@ export const tagValidator = body('tag')
 
 export const widthValidator = query('width')
   .optional()
-  .isInt({ min: 1, max: 4000 })
-  .withMessage('width must be a positive integer');
+  .custom(async (value, { req = {} }) => { // Note, value is required to inject req...
+    const { width, height } = req.query;
+
+    if (!height) {
+      return Promise.reject(new Error('height is also required'));
+    }
+
+    if (!(isInt(width) && width > 0)) {
+      return Promise.reject(new Error('width must be a positive integer'));
+    }
+
+    return Promise.resolve();
+  });
 
 export const heightValidator = query('height')
   .optional()
-  .isInt({ min: 1, max: 4000 })
-  .withMessage('height must be a positive integer');
+  .custom(async (value, { req = {} }) => { // Note, value is required to inject req...
+    const { width, height } = req.query;
+
+    if (!width) {
+      return Promise.reject(new Error('width is also required'));
+    }
+
+    if (!(isInt(height) && height > 0)) {
+      return Promise.reject(new Error('height must be a positive integer'));
+    }
+
+    return Promise.resolve();
+  });
 
 export const qualityValidator = query('quality')
   .optional()
