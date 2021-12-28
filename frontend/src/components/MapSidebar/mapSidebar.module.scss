@@ -1,0 +1,18 @@
+$main-color: #279AF1;
+$secondary-color: #3D7068;
+$background-color: #D7D5D6;
+
+
+.sidebar {
+  list-style-type: none;
+  padding: 0;
+
+  &__contents {
+    border-bottom: 1px solid black;
+
+
+    &:hover {
+      background-color: $secondary-color;
+    }
+  }
+}

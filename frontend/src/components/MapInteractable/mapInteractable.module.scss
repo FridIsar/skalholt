@@ -1,0 +1,54 @@
+$main-color: #279AF1;
+$secondary-color: #3D7068;
+$background-color: #D7D5D6;
+
+.slider {
+  width: 50%;
+  margin-left: 5em;
+  align-self: center;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+}
+
+.mapNDescContainer {
+  max-width: 1000px;
+  width: 100%;
+  margin-left: 180px;
+  margin-top: 2em;
+}
+
+.mapContainer {
+  width: 100%;
+}
+
+.sidebar {
+  width: 180px;
+  height: 100vh;
+  position: fixed;
+  margin-top: 2em;
+  background-color: $main-color;
+}
+
+.description {
+  width: 95%;
+  margin-top: 0.5em;
+  margin-left: 2em;
+  margin-right: 2em;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+
+  &__text {
+    margin: 0;
+  }
+
+  &__link {
+    align-self: flex-end;
+  }
+
+}
