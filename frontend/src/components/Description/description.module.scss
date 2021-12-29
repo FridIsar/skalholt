@@ -8,13 +8,18 @@
 
   &__text {
     margin: 1em;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
 
-    &__more {
-      white-space: pre-wrap;
+    &__bold {
+      font-weight: bold;
+    }
 
+    &__italic {
+      font-style: italic;
+    }
+
+    &__boldNItalic {
+      font-weight: bold;
+      font-style: italic;
     }
   }
 
@@ -40,4 +45,18 @@
 
 .adminInstructions {
   margin-left: 1em;
+  margin-bottom: 1em;
+
+  &__bold {
+    font-weight: bold;
+  }
+
+  &__italic {
+    font-style: italic;
+  }
+
+  &__boldNitalic {
+    font-weight: bold;
+    font-style: italic;
+  }
 }

@@ -115,16 +115,56 @@ export function Description({ description, limit, year, buildingId, limited, set
     var split;
     if (description) {
       split = description.split(/\s\s\s*/);   // seperate by 2 or more spaces
+
+
     }
 
+    const regEx = /<b>|<\/b>|<i>|<\/i>/ig;
     return (
       <div className={s.description}>
         {limited &&
-          <pre className={s.description__text} >{description?.substring(0, limit)+"..."}</pre>
+          <p className={s.description__text} >{description?.replaceAll(regEx, '').substring(0, limit)+"..."}</p>
         }
         {!limited &&
           split.map((value, index) => {
-            return <pre className={s.description__text__more} >{value}</pre>
+            var valueSplit = [];
+            var currentCut = 0;
+
+            for (var i = 0; i < value.length; i++) {
+              if (value.substring(i,i+3) === "<b>" || value.substring(i,i+3) === "<i>") {
+                valueSplit.push(value.slice(currentCut,i));
+                if (value[i+-1] !== ">") {
+                  currentCut = i;
+                }
+              }
+
+              if (value.substring(i,i+4) === "</b>" || value.substring(i,i+4) === "</i>") {
+                valueSplit.push(value.slice(currentCut,i));
+                currentCut = i+4;
+              }
+
+              if (i + 1 === value.length) {
+                valueSplit.push(value.slice(currentCut));
+              }
+            }
+
+            var valueCombined = valueSplit.map((val, ind) => {
+              if (val.substring(0,3) === "<b>") {
+                if (val.substring(3,6) === "<i>") {
+                  return <span className={s.description__text__boldNItalic}>{val.substring(6)}</span>
+                }
+                return <span className={s.description__text__bold}>{val.substring(3)}</span>
+              }
+              if (val.substring(0,3) === "<i>") {
+                if (val.substring(3,6) === "<b>") {
+                  return <span className={s.description__text__boldNItalic}>{val.substring(6)}</span>
+                }
+                return <span className={s.description__text__italic}>{val.substring(3)}</span>
+              }
+              return val
+            })
+
+            return <p className={s.description__text} >{valueCombined}</p>
           })
         }
         {(limited && limit) &&
@@ -138,6 +178,9 @@ export function Description({ description, limit, year, buildingId, limited, set
   }
 
   // if the user is teh admin then display a form to be edited
+  const adminBoldInfo = "<b>Bold words</b> = ";
+  const adminItalicInfo = "<i>Italic words</i> = ";
+  const adminBoldItalicInfo = "<b><i>Italic words</i></b> or <i><b>Italic words</b></i> = ";
   return (
     <div className={s.description}>
       <Form onSubmit={handleSubmit}>
@@ -155,6 +198,9 @@ export function Description({ description, limit, year, buildingId, limited, set
         </Button>
       </Form>
       <p className={s.adminInstructions}>Linebreaks are done by putting 2 or more spaces.</p>
+      <p className={s.adminInstructions}>{adminBoldInfo}<span className={s.adminInstructions__bold}>Bold words</span></p>
+      <p className={s.adminInstructions}>{adminItalicInfo}<span className={s.adminInstructions__italic}>Italic words</span></p>
+      <p className={s.adminInstructions}>{adminBoldItalicInfo}<span className={s.adminInstructions__boldNitalic}>Bold and italic words</span></p>
     </div>
   )
 }
