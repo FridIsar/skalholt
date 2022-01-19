@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  overflow: scroll;
 }
 
 code {
@@ -15,3 +17,7 @@ code {
 html {
   scroll-behavior: smooth;
 }
+
+/* ::-webkit-scrollbar {
+  display: block;
+} */
