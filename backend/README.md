@@ -1,13 +1,46 @@
 # Skalhólt web-portal backend
 
 ## To run the backend:
-```
-createdb skalholt
-# Update .env, see .env.environment
-npm run setup # This updates the database with the information present in /data
-npm run dev   # This spins up the dev environment
-npm run test  # This runs integration tests ( as well as setup and teardown )
-```
+
+The main things to keep in mind when deploying or developing the project are the following:
+
+* A local `PostgreSQL` database is required - this can have any name
+* Environment variables must be set through `.env` or the platform equivalent
+  - An example of what variables are required can be seen in the `.env.example` file
+  - The value of the DATABASE_URL obviously depends on what the name of the local database is
+* Dependencies need to be installed with `npm install`
+* The database needs to be set up using `npm run setup`
+
+### Additional tools
+
+* A verbose dev version can be started using `npm run dev`
+* A standard version can be started using `npm run start`
+* Test cases can be run using `npm run test`
+  - Note: This requires dev dependencies and will not work on an explicit production setup
+* Database and shared file reset is available through `npm run teardown`
+
+Since the project is not built around an overarching framework no explicit build script is required.
+
+### The admin account
+
+The development build has a hard-coded admin user that is quite a severe security risk. This account should either not be inserted into the database or removed from the database before the back-end is officially deployed.
+
+A more suitable replacement should be used instead.
+
+### Limitation of scope
+
+The current development build has some routes that are either unused or not entirely finished.
+
+**Out of scope routes:**
+
+* `DELETE: /years/:yearId`
+* `DELETE: /years/:yearId/buildings/:buildingId`
+* `POST: /users/register`
+
+**Unfinished routes:**
+
+* `POST: /years`
+* `POST: /years/:yearId/buildings`
 
 ## Format:
 

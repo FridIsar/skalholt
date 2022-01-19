@@ -16,7 +16,6 @@ import {
   deleteQuery,
   insertImage,
 } from '../db.js';
-import { isInt } from '../utils/typeChecking.js';
 
 /**
  * Routing function used for GET on /images
@@ -69,18 +68,11 @@ export async function getImage(req, res) {
     );
 
     if (imageExists) {
-      // If alterations are requested we pipe through a Sharp transform stream
-      if (w && h && isInt(w) && isInt(h)) {
-        const fits = ['cover', 'contain', 'fill', 'inside', 'outside'];
-
+      if (w && h) {
         const width = parseInt(w, 10);
         const height = parseInt(h, 10);
-        const quality = q && isInt(q) ? parseInt(q, 10) : 100;
-        let fit = 'cover';
-
-        if (c) {
-          fit = fits.includes(c.toLowerCase()) ? c.toLowerCase() : 'cover';
-        }
+        const quality = q ? parseInt(q, 10) : 100;
+        const fit = c ? c.toLowerCase() : 'cover';
 
         const stream = fs.createReadStream(path.join(currPath, `../../data/files/${actualFile.tag}`));
         const transform = Sharp().resize(width, height, {

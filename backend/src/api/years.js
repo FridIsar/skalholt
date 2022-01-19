@@ -6,7 +6,7 @@ import xss from 'xss';
 
 import { exists } from '../utils/fileSystem.js';
 import { logger } from '../utils/logger.js';
-import { isString, isInt } from '../utils/typeChecking.js';
+import { isString } from '../utils/typeChecking.js';
 import configureSvg from '../utils/configureSvg.js';
 import {
   query,
@@ -58,19 +58,12 @@ export async function listYears(_req, res) {
 export async function listYear(req, res) {
   const { yearId: id } = req.params;
 
-  if (id.includes('.')) {
-    const parts = id.split('.');
+  const path = dirname(fileURLToPath(import.meta.url));
+  const svgExists = await exists(join(path, `../../data/svg/years/${id}`));
 
-    // Block anything that doesn't fit the format
-    if (parts.length === 2 && isInt(parts[0]) && parts[1] && parts[1] === 'svg') {
-      const path = dirname(fileURLToPath(import.meta.url));
-      const svgExists = await exists(join(path, `../../data/svg/years/${id}`));
-
-      if (svgExists) {
-        res.setHeader('Content-Type', 'image/svg+xml');
-        return res.sendFile(join(path, `../../data/svg/years/${id}`));
-      }
-    }
+  if (svgExists) {
+    res.setHeader('Content-Type', 'image/svg+xml');
+    return res.sendFile(join(path, `../../data/svg/years/${id}`));
   }
 
   return res.status(404).json(null);

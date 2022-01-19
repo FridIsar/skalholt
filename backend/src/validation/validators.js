@@ -1,13 +1,14 @@
 // Contains all the validation that is done before a request is routed to its handler function
 // Most of these should be relatively easy to understand from the given message
 
-import { body, param } from 'express-validator';
+import { body, param, query } from 'express-validator';
 
 import { resourceExists } from './helpers.js';
 import { comparePasswords, findByEmail, findByUsername } from '../auth/users.js';
 import { LoginError } from '../errors.js';
 import { logger } from '../utils/logger.js';
 import { MAX_FILE_SIZE } from '../utils/withMulter.js';
+import { isInt } from '../utils/typeChecking.js';
 
 export function validateResourceExists(fetchResource) {
   return [
@@ -154,9 +155,41 @@ export const yearIdValidator = param('yearId')
   .isInt({ min: 1670 })
   .withMessage('yearId must be an integer of at least 1670');
 
+export const yearIdForkValidator = param('yearId')
+  .custom(async (id, { req = {} }) => {
+    const { yearId } = req.params;
+
+    if (yearId.includes('.')) {
+      const parts = yearId.split('.');
+      if (parts.length === 2 && isInt(parts[0]) && parts[0] > 0 && parts[1] && parts[1] === 'svg') {
+        return Promise.resolve();
+      }
+    }
+
+    return Promise.reject(new Error('yearId must be in the in the format: {year}.svg'));
+  });
+
 export const buildingIdValidator = param('buildingId')
   .isInt({ min: 1 })
   .withMessage('buildingId must be an integer larger than 0');
+
+export const buildingIdForkValidator = param('buildingId')
+  .custom(async (id, { req = {} }) => {
+    const { buildingId } = req.params;
+
+    if (!buildingId.includes('.') && isInt(buildingId) && buildingId > 0) {
+      return Promise.resolve();
+    }
+
+    if (buildingId.includes('.')) {
+      const parts = buildingId.split('.');
+      if (parts.length === 2 && isInt(parts[0]) && parts[0] > 0 && parts[1] && parts[1] === 'svg') {
+        return Promise.resolve();
+      }
+    }
+
+    return Promise.reject(new Error('buildingId must be in the in the format: {id}.svg or {id}'));
+  });
 
 export const phaseValidator = body('phase')
   .if(isPatchingAllowAsOptional)
@@ -375,6 +408,60 @@ export const tagValidator = body('tag')
   .isString({ min: 1, max: 32 })
   .withMessage('tag is required, max 32 characters');
 
+export const widthValidator = query('width')
+  .optional()
+  .custom(async (value, { req = {} }) => { // Note, value is required to inject req...
+    const { width, height } = req.query;
+
+    if (!height) {
+      return Promise.reject(new Error('height is also required'));
+    }
+
+    if (!(isInt(width) && width > 0)) {
+      return Promise.reject(new Error('width must be a positive integer'));
+    }
+
+    return Promise.resolve();
+  });
+
+export const heightValidator = query('height')
+  .optional()
+  .custom(async (value, { req = {} }) => { // Note, value is required to inject req...
+    const { width, height } = req.query;
+
+    if (!width) {
+      return Promise.reject(new Error('width is also required'));
+    }
+
+    if (!(isInt(height) && height > 0)) {
+      return Promise.reject(new Error('height must be a positive integer'));
+    }
+
+    return Promise.resolve();
+  });
+
+export const qualityValidator = query('quality')
+  .optional()
+  .isInt({ min: 1, max: 100 })
+  .withMessage('quality must be a positive integer between 1 and 100');
+
+const CROPS = ['cover', 'contain', 'fill', 'inside', 'outside'];
+
+function validateCrop(crop) {
+  return CROPS.indexOf(crop.toLowerCase()) >= 0;
+}
+
+export const cropValidator = query('crop')
+  .optional()
+  .custom(async (crop) => {
+    if (!validateCrop(crop)) {
+      const error = `Cropping with ${crop} is not allowed. Only ${CROPS.join(',')} are accepted ways to crop`;
+      return Promise.reject(new Error(error));
+    }
+
+    return Promise.resolve();
+  });
+
 export const referenceValidators = [
   referenceOptionalValidator,
   descriptionOptionalValidator,
@@ -391,6 +478,13 @@ export const pdfValidators = [
   pdfValidator,
   tagValidator,
   majorGroupValidator,
+];
+
+export const imageResizeValidators = [
+  widthValidator,
+  heightValidator,
+  qualityValidator,
+  cropValidator,
 ];
 
 export const imageValidators = [
