@@ -12,7 +12,7 @@
 // These files are all on the local filesystem and should be safe
 // If local files are compromised we have bigger problems than csv setup
 
-import { query, singleQuery } from './db.js';
+import { query } from './db.js';
 import { readStream, readDir } from './utils/fileSystem.js';
 import { yearToPreviousDecade, yearToNextDecade } from './utils/decadeHelpers.js';
 import validateFileGroup from './utils/fileNames.js';
@@ -254,7 +254,7 @@ async function importFeatures(feature) {
         $3
       )`;
 
-  const buildingId = await singleQuery(
+  const buildingId = await query(
     `SELECT
       id
     FROM
@@ -268,13 +268,15 @@ async function importFeatures(feature) {
     return;
   }
 
-  const values = [
-    feature['Unit type'] || null,
-    feature.Description || null,
-    buildingId.id || null,
-  ];
+  for (let i = 0; i < buildingId.rows.length; i += 1) {
+    const values = [
+      feature['Unit type'] || null,
+      feature.Description || null,
+      buildingId.rows[i].id,
+    ];
 
-  await query(q, values);
+    await query(q, values);
+  }
 }
 
 /**
@@ -302,7 +304,7 @@ async function importFinds(find) {
         $5
       )`;
 
-  const buildingId = await singleQuery(
+  const buildingId = await query(
     `SELECT
       id
     FROM
@@ -316,15 +318,17 @@ async function importFinds(find) {
     return;
   }
 
-  const values = [
-    find.obj_type || null,
-    find.material_type || null,
-    find.datafile || null,
-    find.fragments ? find.fragments : 1,
-    buildingId.id,
-  ];
+  for (let i = 0; i < buildingId.rows.length; i += 1) {
+    const values = [
+      find.obj_type || null,
+      find.material_type || null,
+      find.datafile || null,
+      find.fragments ? find.fragments : 1,
+      buildingId.rows[i].id,
+    ];
 
-  await query(q, values);
+    await query(q, values);
+  }
 }
 
 /**

@@ -53,7 +53,7 @@ CREATE TABLE years (
 -- Current assumption is that buildings and features only use one file group
 CREATE TABLE buildings (
   id SERIAL PRIMARY KEY,
-  phase VARCHAR(32) NOT NULL UNIQUE,
+  phase VARCHAR(32) NOT NULL,
   start_year SMALLINT,
   end_year SMALLINT,
   path VARCHAR(8192),
