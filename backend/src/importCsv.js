@@ -323,7 +323,7 @@ async function importFinds(find) {
       find.obj_type || null,
       find.material_type || null,
       find.datafile || null,
-      find.fragments ? find.fragments : 1,
+      find.fragments ? Math.round(find.fragments) : 1,
       buildingId.rows[i].id,
     ];
 
