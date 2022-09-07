@@ -115,17 +115,17 @@ export function Description({ description, limit, year, buildingId, limited, set
     var split;
     if (description) {
       split = description.split(/\s\s\s*/);   // seperate by 2 or more spaces
-
-
     }
 
     const regEx = /<b>|<\/b>|<i>|<\/i>/ig;
     return (
       <div className={s.description}>
-        {limited &&
+        {/* <h1>About the site</h1> */}
+        {/* {limited &&
           <p className={s.description__text} >{description?.replaceAll(regEx, '').substring(0, limit)+"..."}</p>
-        }
-        {!limited &&
+        } */}
+        {/* {!limited && */}
+        {
           split.map((value, index) => {
             var valueSplit = [];
             var currentCut = 0;
@@ -167,12 +167,12 @@ export function Description({ description, limit, year, buildingId, limited, set
             return <p className={s.description__text} >{valueCombined}</p>
           })
         }
-        {(limited && limit) &&
-          <button className={s.description__link} onClick={onSeeMoreOrLess}>See more.</button>
+        {/* {(limited && limit) &&
+          <button className={s.description__link} onClick={onSeeMoreOrLess}>See more</button>
         }
         {(!limited && limit) &&
-          <button className={s.description__link} onClick={onSeeMoreOrLess}>See less.</button>
-        }
+          <button className={s.description__link} onClick={onSeeMoreOrLess}>See less</button>
+        } */}
       </div>
     )
   }

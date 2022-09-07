@@ -69,26 +69,33 @@ export function OneBuilding() {
 
   return (
     <div className={s.container}>
-      <h2 className={s.building__header}>{data?.en + '/' + data?.is + ' - ' + year}</h2>
-      <a href={'/interactive'}>Back to interactive map</a>
-      <Description description={data?.description}
-        year={year}
-        buildingId={buildingId}
-        limit={300}
-        limited={limited}
-        setLimited={setLimited}/>
-      {!(data?.image === null) &&
-        <div className={s.mapContainer}>
-          <img src={joinUrls(apiUrl, data?.image)}
-            alt={'Topdown map of ' + data?.en + '/' + data?.is}
-            className={s.mapImage}/>
-        </div>
-      }
-      <SelectionBox items={data}
-        current={current}
-        setCurrent={setCurrent}
-        setOnClick={(string) => (string)}/>
-      <a href={'/interactive'}>Back to interactive map</a>
+      {/* LEFST SIDE */}
+      <div className={s.leftSide}>
+        <h2 className={s.building__header}>{data?.en + '/' + data?.is + ' - ' + year}</h2>
+        <a href={'/interactive'}>Back to interactive map</a>
+        <Description description={data?.description}
+          year={year}
+          buildingId={buildingId}
+          limit={300}
+          limited={limited}
+          setLimited={setLimited}/>
+      </div>
+
+      {/* RIGHT SIDE */}
+      <div className={s.rightSide}>
+        {!(data?.image === null) &&
+          <div className={s.mapContainer}>
+            <img src={joinUrls(apiUrl, data?.image)}
+              alt={'Topdown map of ' + data?.en + '/' + data?.is}
+              className={s.mapImage}/>
+          </div>
+        }
+        <SelectionBox items={data}
+          current={current}
+          setCurrent={setCurrent}
+          setOnClick={(string) => (string)}/>
+        <a href={'/interactive'} className={s.back_btn}>Back to interactive map</a>
+      </div>
     </div>
   );
 }

@@ -2,10 +2,41 @@
 
 .container {
   display: flex;
-  flex-direction: column;
-  max-width: var(--max-width);
-  padding: 0em 1em 0em 1em;
-  width: 90%;
+  //flex-direction: column;
+  //max-width: var(--max-width);
+
+  hr {
+    margin-bottom: 2em;
+    border: 0.1px solid #e5e5e5;
+  }
+
+  h1 {
+    font-family: var(--font-family-heading);
+  }
+  
+}
+
+.leftSide {
+  width: 50%;
+  margin-top: 3rem;
+  padding: 0px 70px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.rightSide {
+  width: 50%;
+  background-color: white;
+  height: 100vh;
+  z-index: 10;
+  position: sticky;
+  top: 0;
+  right: 0;
+  position: absolute;
+  padding: 0px 70px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  overflow-x: auto;
 }
 
 .mapContainer {

@@ -10,13 +10,11 @@ export function IndexImage() {
     <div className={s.image}>
       <div className={s.image__figContainer}>
         <figure className={s.image__figure}>
-          <img src='/frontpageImg/overview.JPG' className={s.image__pic} alt="Overview of skálholt"/>
-          <figcaption className={s.image__figcaption}>
-            The Skálholt site like it is today.
-          </figcaption>
+          <img src='/frontpageImg/frontPageImg.jpeg' className={s.image__pic} alt="Overview of skálholt"/>
         </figure>
-        <div className={s.image__blur} style={{backgroundImage: "url(/frontpageImg/overview.JPG)"}}/>
-        <a href="#content"><button className={s.image__button} style={{backgroundImage: "url(/util/down-arrow.svg)"}}/></a>
+        <img src='/logo-skalholt-hvitt.svg' className={s.image__logo} alt="Skálholt"/>
+        <div className={s.image__blur} style={{backgroundImage: "url(/frontpageImg/overview.jpeg)"}}/>
+        {/* <a href="#content"><button className={s.image__button} style={{backgroundImage: "url(/util/down-arrow.svg)"}}/></a> */}
       </div>
     </div>
   );

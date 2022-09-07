@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&family=Rosarivo&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -12,14 +14,14 @@ a {
 $max-width: 1200px;
 
 $font-size: 16px;
-$font-family-base: 'Inter', Helvetica, Arial, sans-serif;
-$font-family-heading: 'Playfair Display', Georgia, serif;
+$font-family-base: 'Roboto', sans-serif;
+$font-family-heading: 'Rosarivo', serif;
 
 :root {
   --main-color: #637330;
-  --secondary-color: #274029;
+  --secondary-color: #CCDA8C;
   --background-color: #D7D5D6;
-  --link-color: #069;
+  --link-color: #21221C;
 
   --max-width: #{$max-width};
 

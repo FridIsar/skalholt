@@ -1,12 +1,13 @@
 @import '../../base.module.scss';
 
 .page {
-  height: 100%;
+  height: 100vh;
   width: 100%;
+  background-color: #CCDA8C;
 
   &__links {
     display: flex;
-    justify-content: center;
+    //justify-content: center;
     margin-top: 3rem;
   }
 }

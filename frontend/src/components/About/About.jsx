@@ -40,20 +40,23 @@ export function About() {
   if (paragraphs) {
     return (
       <div className={s.about}>
-
         <h2 className={s.title}>{"About the project"}</h2>
         <div className={s.section}>
           <p className={s.text}>{paragraphs[0]}</p>
         </div>
+        <hr></hr>
         <div className={s.section}>
           <p className={s.text}>{paragraphs[1]}</p>
         </div>
+        <hr></hr>
         <div className={s.section}>
           <p className={s.text}>{paragraphs[2]}</p>
         </div>
+        <hr></hr>
         <div className={s.section}>
           <p className={s.text}>{paragraphs[3]}</p>
         </div>
+        <hr></hr>
         <div className={s.section}>
           <p className={s.text}>{paragraphs[4]}</p>
         </div>

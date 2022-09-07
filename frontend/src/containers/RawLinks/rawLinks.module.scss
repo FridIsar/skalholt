@@ -9,12 +9,11 @@
   margin: 1rem;
 
   &__header {
-
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 0.5fr);
     gap: 10px;
     width: 100%;
-    margin-bottom: 3rem;
+    margin-bottom: 5rem;
 
     @media (max-width: 700px) {
       grid-template-columns: repeat(2, 1fr);
@@ -22,21 +21,27 @@
   }
 
   &__headerText {
-    border-bottom: 3px solid var(--main-color);
+   //border-bottom: 3px solid var(--main-color);
     cursor: pointer;
+    font-family: var(--font-family-base);
+    font-weight: 400;
+    font-size: 20px;
 
     &__current {
-      border-bottom: 5px solid var(--main-color);
+      //border-bottom: 2px solid black;
+      font-family: var(--font-family-base);
+      text-decoration: underline;
       cursor: pointer;
-      font-weight: 900;
+      font-weight: 400;
+      font-size: 20px;
     }
   }
-
 }
 
 .contentGroup {
   width: 100%;
   display: grid;
+  border: 4pt solid green;
 
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: auto;
@@ -58,21 +63,34 @@
 
 .contentIcon {
   width: 100%;
-  display: grid;
 
-  grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: auto;
-  gap: 10px;
-
-  @media (max-width: 700px) {
-    grid-template-columns: repeat(3, 1fr);
+  h1 {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
   }
+  // display: grid;
+  // border: 4pt solid red;
+
+  // grid-template-columns: repeat(8, 1fr);
+  // grid-template-rows: auto;
+  // gap: 10px;
+
+  // @media (max-width: 700px) {
+  //   grid-template-columns: repeat(3, 1fr);
+  // }
 }
 
 .contentRef {
   width: 100%;
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  overflow: scroll;
+
+  h1 {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
 }
 
 .ref {
@@ -90,6 +108,7 @@
 
   &__desc {
     font-size: 0.9em;
+    font-style: italic;
   }
 
   &__doi {
@@ -153,4 +172,70 @@
 }
 
 
+// NÝTT
+.divided_layout {
+  display: flex;
+}
 
+.left_column {
+  width: 50%;
+  margin-top: 3rem;
+  padding: 0px 70px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.right_column {
+  width: 50%;
+  background-color: white;
+  height: 100vh;
+  z-index: 10;
+  position: sticky; 
+  top: 0; 
+  right: 0;
+  position: absolute;
+  padding: 0px 70px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.bigText {
+  margin-bottom: 30px;
+  font-family: var(--font-family-heading);
+  font-weight: 400;
+  font-size: 24px;
+}
+.smallText {
+  font-family: var(--font-family-base);
+}
+
+.data_table {
+  max-height: calc(100vh - 236px);
+  height: 100%;
+  overflow-y: scroll;
+  tr:first-child{
+    border-top: 0px;
+  }
+  td {
+    a {
+      font-weight: normal;
+    }
+  }
+  thead{
+    th {
+      font-weight: bold;
+    }
+  }
+}
+
+.data_table_header {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(to bottom, white 98%, gray 100% );
+}
+
+.cover_img {
+  margin-top: 3rem;
+}

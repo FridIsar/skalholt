@@ -2,11 +2,48 @@
 
 .container {
   display: flex;
-  flex-direction: column;
-  max-width: var(--max-width);
-  width:90%;
-  padding: 0em 1em 0em 1em;
+  // flex-direction: column;
+  // max-width: var(--max-width);
+  // width:90%;
+  //padding: 0em 1em 0em 1em;
   margin-bottom: 3rem;
+
+  h2 {
+    margin-bottom: 1em;
+  }
+  a {
+    font-weight: 400;
+    text-decoration: underline;
+  }
+
+  hr {
+    margin-bottom: 2em;
+    border: 0.1px solid #e5e5e5;
+  }
+}
+
+.leftSide {
+  width: 50%;
+  margin-top: 3rem;
+  padding: 0px 70px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.rightSide {
+  width: 50%;
+  background-color: white;
+  height: 100vh;
+  z-index: 10;
+  position: sticky;
+  top: 0;
+  right: 0;
+  position: absolute;
+  padding: 0px 70px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  overflow-x: auto;
+  padding-top: 3rem;
 }
 
 .building {
@@ -21,4 +58,8 @@
 
 .mapImage {
   width: 100%;
+}
+
+.back_btn {
+  padding-bottom: 40px;
 }

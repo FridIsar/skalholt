@@ -165,13 +165,21 @@ export function WholeSite() {
 
   return (
     <div className={s.container}>
-      <Description description={years?.filter(y => y.year === year)[0].description}
-        year={year}
-        buildingId={null}
-        limit={150}
-        limited={limited}
-        setLimited={setLimited}/>
-      {!expanded &&
+
+      {/* LEFST SIDE */}
+      <div className={s.leftSide}>
+        <h1>About the site</h1>
+        <Description description={years?.filter(y => y.year === year)[0].description}
+          year={year}
+          buildingId={null}
+          limit={300}
+          limited={limited}
+          setLimited={setLimited}/>
+      </div>
+      
+      {/* RIGHT SIDE */}
+      <div className={s.rightSide}>
+        {!expanded &&
         <div className={s.mapContainer}>
           <div className={s.map}>
             <Map data={data}
@@ -192,30 +200,31 @@ export function WholeSite() {
               setBackgroundImage={setBackgroundImage}/>
           </div>
         </div>
-      }
-      {expanded &&
-        <div className={s.mapContainer}>
-          <div className={s.map__expanded}>
-            <Map data={data}
-              background={backgroundImage}
-              current={current}
-              year={year}
-              expanded={expanded}
-              setExpanded={setExpanded}
-              setCurrent={setCurrent}
-              setOnClick={setSelectedBuilding}
-              loading={!data}
-              error={error}/>
+        }
+        {expanded &&
+          <div className={s.mapContainer}>
+            <div className={s.map__expanded}>
+              <Map data={data}
+                background={backgroundImage}
+                current={current}
+                year={year}
+                expanded={expanded}
+                setExpanded={setExpanded}
+                setCurrent={setCurrent}
+                setOnClick={setSelectedBuilding}
+                loading={!data}
+                error={error}/>
+            </div>
+
           </div>
-
+        }
+        <SelectionBox items={data}
+          title="Buildings"
+          current={current}
+          setCurrent={setCurrent}
+          setOnClick={setSelectedBuilding}/>
         </div>
-      }
-      <SelectionBox items={data}
-        title="Buildings"
-        current={current}
-        setCurrent={setCurrent}
-        setOnClick={setSelectedBuilding}/>
-
     </div>
+      
   );
 }
