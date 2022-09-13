@@ -11,7 +11,7 @@
   &__buttons {
     &__buildings {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 10px;
 
       @media (max-width: 700px) {
