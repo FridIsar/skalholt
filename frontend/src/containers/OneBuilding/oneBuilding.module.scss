@@ -2,11 +2,15 @@
 
 .container {
   display: flex;
-  // flex-direction: column;
-  // max-width: var(--max-width);
-  // width:90%;
-  //padding: 0em 1em 0em 1em;
   margin-bottom: 3rem;
+
+  // Mobile
+  @media (max-width: 700px) {
+    display: flex;
+    padding-top: 90px;
+    background: white;
+    flex-flow: column-reverse;
+  }
 
   h2 {
     margin-bottom: 1em;
@@ -28,6 +32,13 @@
   padding: 0px 70px;
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
+
+  // Mobile
+  @media (max-width: 700px) {
+    width: 100%;
+    padding: 0px 15px;
+    margin-top: 1rem;
+  }
 }
 
 .rightSide {
@@ -44,6 +55,25 @@
   -webkit-box-sizing: border-box;
   overflow-x: auto;
   padding-top: 3rem;
+
+  // Mobile
+  @media (max-width: 700px) {
+    width: 100%;
+    height: auto;
+    z-index: 0;
+    position: static;
+    padding: 0px 15px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    overflow-x: initial;
+    display: flex;
+    flex-wrap: wrap;
+
+    a {
+      order: -1;
+    }
+  }
+
 }
 
 .building {

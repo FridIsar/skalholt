@@ -51,9 +51,11 @@ svg {
     fill: var(--secondary-color);
     fill-opacity: 0.1;
 
-    // &:hover {
-    //   fill: $secondary-color;
-    // }
+  // Mobile
+  @media (max-width: 700px) {
+    fill-opacity: 0.8;
+  }
+
 
     &[aria-current='true'] {
       fill: var(--secondary-color);

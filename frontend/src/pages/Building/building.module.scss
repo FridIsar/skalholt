@@ -6,6 +6,11 @@
   flex-direction: column;
   background-color: #CCDA8C;
 
+  // Mobile
+  @media (max-width: 700px) {
+    display: block;
+    height: auto;
+  }
 
   &__content {
     width: 100%;
