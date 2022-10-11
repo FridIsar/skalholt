@@ -14,7 +14,6 @@ export function IndexImage() {
         </figure>
         <img src='/logo-skalholt-hvitt.svg' className={s.image__logo} alt="Skálholt"/>
         <div className={s.image__blur} style={{backgroundImage: "url(/frontpageImg/overview.jpeg)"}}/>
-        {/* <a href="#content"><button className={s.image__button} style={{backgroundImage: "url(/util/down-arrow.svg)"}}/></a> */}
       </div>
     </div>
   );

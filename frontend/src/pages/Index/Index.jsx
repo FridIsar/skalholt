@@ -65,7 +65,6 @@ export function Index() {
                     <h2 className={s.bigText}>{bigText} </h2>
                     <p className={s.smallText}>{smallText}</p>
                   </div>
-                  
                 </div>
                 <img className={s.about__image} src={imgSrc} alt="Overview of skálholt"/>
               </div>

@@ -16,7 +16,8 @@
     margin-bottom: 5rem;
 
     @media (max-width: 700px) {
-      grid-template-columns: repeat(2, 1fr);
+      display: block;
+      padding-top: 30px;
     }
   }
 
@@ -75,9 +76,9 @@
   // grid-template-rows: auto;
   // gap: 10px;
 
-  // @media (max-width: 700px) {
-  //   grid-template-columns: repeat(3, 1fr);
-  // }
+  @media (max-width: 700px) {
+    padding-top: 2rem;
+  }
 }
 
 .contentRef {
@@ -175,6 +176,11 @@
 // NÝTT
 .divided_layout {
   display: flex;
+
+  // Mobile
+  @media (max-width: 700px) {
+    display: block;
+  }
 }
 
 .left_column {
@@ -184,6 +190,13 @@
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
+
+  // Mobile
+  @media (max-width: 700px) {
+    width: 100%;
+    padding: 0px 15px;
+    padding-bottom: 3rem;
+  }
 }
 
 .right_column {
@@ -199,6 +212,15 @@
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
+
+  // Mobile
+  @media (max-width: 700px) {
+    width: 100%;
+    height: auto;
+    position: static; 
+    padding: 0px 15px;
+    padding-bottom: 3rem;
+  }
 }
 
 .bigText {
@@ -215,6 +237,12 @@
   max-height: calc(100vh - 236px);
   height: 100%;
   overflow-y: scroll;
+
+  // Mobile
+  @media (max-width: 700px) {
+    max-height: none;
+  }
+
   tr:first-child{
     border-top: 0px;
   }

@@ -2,7 +2,8 @@
 
 .image {
   width: 100%;
-  height: 100%;
+  height: 90vh;
+  background-color: black;
 
   &__figContainer {
     position: relative;
@@ -15,8 +16,15 @@
     flex-direction: column;
     height: 100%;
     margin: 0;
+
     img {
       object-fit: cover;
+    }
+
+    @media (max-width: 700px) {
+      height: 90vh;
+      width: 100vw;
+      opacity: 0.8;
     }
   }
 
@@ -29,6 +37,11 @@
     left: 0;
     right: 0;
     text-align: center;
+
+    @media (max-width: 700px) {
+      width: 20em;
+      bottom: 25%;
+    }
   }
 
   &__pic {
