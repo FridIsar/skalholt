@@ -1,6 +1,8 @@
 import passport from 'passport';
 import dotenv from 'dotenv';
 import { Strategy, ExtractJwt } from 'passport-jwt';
+//import pkg from 'passport-jwt';
+//const { Strategy, ExtractJwt } = pkg;
 
 import { findById } from './users.js';
 import requireEnv from '../utils/requireEnv.js';

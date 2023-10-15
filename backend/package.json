@@ -17,14 +17,18 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "cjs-to-es6": "^2.0.1",
     "csv-parser": "^3.0.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-validator": "^6.11.1",
+    "fs": "0.0.1-security",
+    "https": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.2",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
+    "path": "^0.12.7",
     "pg": "^8.6.0",
     "sharp": "^0.29.2",
     "svgo": "^2.3.1",
@@ -32,16 +36,24 @@
     "xss": "^1.0.9"
   },
   "devDependencies": {
+    "@babel/core": "^7.23.2",
+    "@babel/node": "^7.22.19",
+    "@babel/plugin-transform-modules-commonjs": "^7.23.0",
+    "@babel/preset-env": "^7.23.2",
     "@jest/globals": "^27.0.3",
     "concurrently": "^6.2.0",
     "eslint": "^7.28.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.4",
     "form-data": "^4.0.0",
+    "fs-extra": "^11.1.1",
     "jest": "^27.0.4",
     "jest-progress-bar-reporter": "^1.0.21",
     "jest-slow-test-reporter": "^1.0.0",
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.7"
+  },
+  "browser": {
+    "fs": false
   }
 }

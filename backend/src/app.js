@@ -3,6 +3,9 @@
 // Binds to a port and defines the routing service and user validation service to be used
 // The document also defines the cross origin header settings
 
+import fs from 'fs';
+import path from 'path';
+import https from 'https';
 import express from 'express';
 import dotenv from 'dotenv';
 
@@ -18,6 +21,8 @@ requireEnv(['DATABASE_URL', 'JWT_SECRET']);
 
 const {
   PORT: port = 3000,
+SSL_KEY_PATH: sslKeyPath,
+  SSL_CERT_PATH: sslCertPath,
 } = process.env;
 
 const app = express();
@@ -53,7 +58,7 @@ app.use((_req, res, next) => {
   next();
 });
 app.use(authRouter);
-app.use(apiRouter);
+app.use('/api', apiRouter); // added prefix for deployment
 
 // Generic error catchers if a specific error was not thrown
 
@@ -72,7 +77,21 @@ app.use((err, req, res, next) => { // eslint-disable-line
 });
 
 // Initialization statement
+//HTTP
+//app.listen(port, () => {
+ // console.info(`Server running at http://localhost:${port}/`);
+//});
+//HTTPS
+// Load SSL certificates
+const options = {
+  key: fs.readFileSync(path.resolve(sslKeyPath)),
+  cert: fs.readFileSync(path.resolve(sslCertPath)),
+};
 
-app.listen(port, () => {
-  console.info(`Server running at http://localhost:${port}/`);
+// Create HTTPS server
+const httpsServer = https.createServer(options, app);
+
+// Listen for HTTPS requests
+httpsServer.listen(port, () => {
+  console.info(`Server running at https://localhost:${port}/`);
 });
